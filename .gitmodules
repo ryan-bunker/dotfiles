@@ -5,3 +5,6 @@
 	path = config/alacritty/catppuccin
 	url = https://github.com/catppuccin/alacritty.git
 	shallow = true
+[submodule "config/hypr/catppuccin"]
+	path = config/hypr/catppuccin
+	url = https://github.com/catppuccin/hyprland.git

@@ -6,7 +6,9 @@
 
 - link:
     ~/.zshrc:
+    ~/wallpapers:
     ~/.config/alacritty: config/alacritty
+    ~/.config/hypr: config/hypr
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
