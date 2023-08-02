@@ -5,7 +5,8 @@
 - clean: ['~']
 
 - link:
-    ~/.zshrc: zshrc
+    ~/.zshrc:
+    ~/.config/alacritty: config/alacritty
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
