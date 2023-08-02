@@ -9,6 +9,8 @@
     ~/wallpapers:
     ~/.config/alacritty: config/alacritty
     ~/.config/hypr: config/hypr
+    ~/.config/rofi: config/rofi
+    ~/.local/share/rofi: local/share/rofi
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
