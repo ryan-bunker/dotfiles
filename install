@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Attempt to find an existing ansible installation and if one isn't found install it
+if ! ansible_loc="$(type -p ansible-playbook)" || [[ -z $ansible_loc ]]; then
+	echo "ansible-playbook not found, attempting to install..."
+	if pacman_loc="$(type -p pacman)" && [[ ! -z $pacman_loc ]]; then
+		sudo pacman -S ansible
+	else
+		echo "Unable to automatically install ansible. Unrecognized distribution. Ansible must be installed manually."
+		exit 1
+	fi
+else
+	echo "ansible-playbook found at $ansible_loc"
+fi
+
+echo "Updating git submodules..."
+git submodule update --init --recursive
+
+echo "Bootstrapping local computer..."
+ansible-playbook -i hosts bootstrap.yml

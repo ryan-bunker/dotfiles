@@ -6,3 +6,6 @@
 	path = config/hypr/catppuccin
 	url = https://github.com/catppuccin/hyprland.git
   shallow = true
+[submodule "ansible-yay"]
+	path = ansible-yay
+	url = https://github.com/mnussbaum/ansible-yay.git

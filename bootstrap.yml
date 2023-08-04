@@ -1,0 +1,74 @@
+---
+
+- name: Bootstrap dotfiles
+  hosts: localhost
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: [base-devel, git, alacritty]
+
+    - name: Check if yay is installed
+      command: which yay
+      changed_when: false
+      failed_when: yay_installed.rc not in [0, 1]
+      register: yay_installed
+
+    - name: Install yay
+      block:
+        - name: Create tempory build directory
+          ansible.builtin.tempfile:
+            state: directory
+            suffix: yay
+          register: yay_temp_dir
+
+        - name: Clone yay
+          git:
+            repo: https://aur.archlinux.org/yay-bin.git
+            dest: "{{ yay_temp_dir.path }}"
+
+        - name: Build and install yay
+          command:
+            chdir: "{{ yay_temp_dir.path }}"
+            cmd: makepkg -sfi --noconfirm
+      when: yay_installed.rc not in [ 0 ]
+
+    - name: Install AUR packages
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop: [rofi-lbonn-wayland]
+
+    - name: Link .zshrc
+      ansible.builtin.file:
+        state: link
+        src: "{{ (playbook_dir, 'zshrc') | path_join }}"
+        path: "{{ (ansible_env.HOME, '.zshrc') | path_join }}"
+
+    - name: List config directories to install
+      ansible.builtin.find:
+        paths: config
+        file_type: directory
+        recurse: false
+      register: config_dirs
+
+    - name: Link config directories
+      ansible.builtin.file:
+        state: link
+        src: "{{ (playbook_dir, item) | path_join }}"
+        dest: "{{ (ansible_env.HOME, '.config', item | basename) | path_join }}"
+      loop: "{{ config_dirs.files | map(attribute='path') }}"
+
+    - name: Link rofi themes
+      ansible.builtin.file:
+        state: link
+        src: "{{ (playbook_dir, 'local/share/rofi') | path_join }}"
+        dest: "{{ (ansible_env.HOME, '.local/share/rofi') | path_join }}"
+
+    - name: Link wallpapers
+      ansible.builtin.file:
+        state: link
+        src: "{{ (playbook_dir, 'wallpapers') | path_join }}"
+        dest: "{{ (ansible_env.HOME, 'wallpapers') | path_join }}"
