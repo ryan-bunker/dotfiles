@@ -9,3 +9,6 @@
 [submodule "ansible-yay"]
 	path = ansible-yay
 	url = https://github.com/mnussbaum/ansible-yay.git
+[submodule "sddm/themes/sugar-dark"]
+	path = sddm/themes/sugar-dark
+	url = https://github.com/MarianArlt/sddm-sugar-dark.git

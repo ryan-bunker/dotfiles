@@ -5,6 +5,7 @@
 
   tasks:
     - name: Install packages
+      become: true
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
@@ -72,3 +73,32 @@
         state: link
         src: "{{ (playbook_dir, 'wallpapers') | path_join }}"
         dest: "{{ (ansible_env.HOME, 'wallpapers') | path_join }}"
+
+    - name: Install SDDM
+      become: true
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: [sddm, qt5, qt5-quickcontrols2, qt5-svg]
+
+    - name: Switch SDDM to wayland
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/sddm.conf.d/wayland.conf
+        content: |
+          [General]
+          DisplayServer=wayland
+
+    - name: Switch SDDM to use sugar-dark theme
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/sddm.conf.d/theme.conf
+        content: |
+          [Theme]
+          Current=sugar-dark
+
+    - name: Install sugar-dark SDDM theme
+      become: true
+      ansible.builtin.copy:
+        src: sddm/themes/sugar-dark
+        dest: /usr/share/sddm/themes/
