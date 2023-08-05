@@ -17,4 +17,4 @@ echo "Updating git submodules..."
 git submodule update --init --recursive
 
 echo "Bootstrapping local computer..."
-ansible-playbook -i hosts bootstrap.yml
+ansible-playbook -i hosts bootstrap.yml --ask-become-pass
