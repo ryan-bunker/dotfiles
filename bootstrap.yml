@@ -40,13 +40,14 @@
       yay:
         name: "{{ item }}"
         state: present
-      loop: [rofi-lbonn-wayland, eww-wayland, spotify]
+      loop: [rofi-lbonn-wayland, eww-wayland-git, spotify]
 
-    - name: Link .zshrc
+    - name: Link home configuration files
       ansible.builtin.file:
         state: link
-        src: "{{ (playbook_dir, 'zshrc') | path_join }}"
-        path: "{{ (ansible_env.HOME, '.zshrc') | path_join }}"
+        src: "{{ (playbook_dir, item) | path_join }}"
+        path: "{{ (ansible_env.HOME, '.' + item) | path_join }}"
+      loop: [zshrc, p10k.zsh]
 
     - name: List config directories to install
       ansible.builtin.find:
