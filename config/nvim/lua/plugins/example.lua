@@ -158,6 +158,7 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
+        "yuck",
       })
     end,
   },
@@ -251,5 +252,10 @@ return {
         end, { "i", "s" }),
       })
     end,
+  },
+  {
+    "theRealCarneiro/hyprland-vim-syntax",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = "hypr",
   },
 }

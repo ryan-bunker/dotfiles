@@ -9,7 +9,7 @@
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
-      loop: [base-devel, git, alacritty]
+      loop: [base-devel, git, alacritty, dunst, pipewire, wireplumber, qpwgraph, jq, socat]
 
     - name: Check if yay is installed
       command: which yay
@@ -40,7 +40,7 @@
       yay:
         name: "{{ item }}"
         state: present
-      loop: [rofi-lbonn-wayland]
+      loop: [rofi-lbonn-wayland, eww-wayland, spotify]
 
     - name: Link .zshrc
       ansible.builtin.file:
@@ -102,3 +102,8 @@
       ansible.builtin.copy:
         src: sddm/themes/sugar-dark
         dest: /usr/share/sddm/themes/
+
+    # TODO: set default applications
+        # xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+        # Setup audio
+        #   Install pipewire, pipewire-audio, pipewire-alsa, pipewire-pulse, wireplumber, qpwgraph, alsa-utils
