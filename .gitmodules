@@ -10,9 +10,6 @@
 	path = ansible-yay
 	url = https://github.com/mnussbaum/ansible-yay.git
   shallow = true
-[submodule "sddm/themes/sugar-dark"]
-	path = sddm/themes/sugar-dark
-	url = https://github.com/MarianArlt/sddm-sugar-dark.git
 [submodule "oh-my-zsh/themes/powerlevel10k"]
 	path = oh-my-zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
