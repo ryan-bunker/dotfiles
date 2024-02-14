@@ -5,12 +5,12 @@
 [submodule "config/hypr/catppuccin"]
 	path = config/hypr/catppuccin
 	url = https://github.com/catppuccin/hyprland.git
-  shallow = true
+	shallow = true
 [submodule "ansible-yay"]
 	path = ansible-yay
 	url = https://github.com/mnussbaum/ansible-yay.git
-  shallow = true
+	shallow = true
 [submodule "oh-my-zsh/themes/powerlevel10k"]
 	path = oh-my-zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
-  shallow = true
+	shallow = true
