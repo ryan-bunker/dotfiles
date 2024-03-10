@@ -1,0 +1,11 @@
+[Unit]
+Description=Hyprland window manager
+PartOf=hypr-session.target
+Wants=hypr-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/true
+Restart=on-failure
+

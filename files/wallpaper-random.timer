@@ -1,0 +1,10 @@
+[Unit]
+Description=changes the desktop wallpaper to a random image
+Requires=wallpaper-random.service
+
+[Timer]
+Unit=wallpaper-random.service
+OnCalendar=*:0/5
+
+[Install]
+WantedBy=hypr-session.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=A solution to your Wayland wallpaper woes.
+PartOf=hypr-session.target
+After=hypr-session.target
+
+[Service]
+Type=forking
+ExecStart=swww init
+ExecStop=swww kill
+Restart=on-failure
+
+[Install]
+WantedBy=hypr-session.target
+

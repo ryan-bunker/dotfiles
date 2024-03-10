@@ -1,0 +1,19 @@
+- name: Install hyprland config
+  ansible.builtin.file:
+    state: link
+    src: "{{ (src_config_dir, 'hypr') | path_join }}"
+    dest: "{{ (dotconfig_dir, 'hypr') | path_join }}"
+
+- name: Install systemd units
+  ansible.builtin.file:
+    state: link
+    src: "{{ (src_files_dir, item) | path_join }}"
+    dest: "{{ (dotconfig_dir, 'systemd', 'user', item) | path_join }}"
+  loop: [hyprland.service, hypr-session.target]
+
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    name: hyprland.service
+    daemon_reload: true
+    # enabled: false
+    scope: user
