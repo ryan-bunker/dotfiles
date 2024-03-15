@@ -1,0 +1,21 @@
+- name: Setup dotfiles
+  hosts: localhost
+  vars:
+    src_files_dir: "{{ (playbook_dir, '../files') | path_join }}"
+    src_config_dir: "{{ (playbook_dir, '../config') | path_join }}"
+    dotconfig_dir: "{{ (ansible_env.HOME, '.config') | path_join }}"
+
+  tasks:
+    - name: Load universal variables
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/global.yaml
+        - vars/{{ ansible_distribution | lower }}.yaml
+
+    - debug: var=override
+
+    - import_tasks: hyprland.yml
+      when: ansible_distribution == 'Archlinux'
+    - import_tasks: wallpapers.yml
+      when: ansible_distribution == 'Archlinux'

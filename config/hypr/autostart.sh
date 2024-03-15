@@ -1,4 +1,8 @@
 #!/bin/sh
 
-mpvpaper -o "no-audio --loop=inf" '*' ~/wallpapers/active &
+# Start the dummy hyprland service so the hypr-session
+# target is also started, triggering any dependent
+# systemd services.
+systemctl start --user hyprland.service
+
 discord &
