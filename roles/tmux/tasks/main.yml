@@ -1,0 +1,12 @@
+---
+- name: Install tmux
+  become: "{{ ansible_distribution != 'MacOSX' }}"
+  ansible.builtin.package:
+    name: tmux
+    state: present
+
+- name: Configure tmux
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'tmux') | path_join }}"
+    dest: "{{ (config_dir, 'tmux') | path_join }}"
+    state: link

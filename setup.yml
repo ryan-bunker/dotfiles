@@ -13,5 +13,7 @@
       tags: kitty
     - role: zsh
       tags: zsh
+    - role: tmux
+      tags: tmux
     - role: neovim
       tags: neovim
