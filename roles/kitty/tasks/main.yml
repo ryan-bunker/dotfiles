@@ -1,0 +1,12 @@
+---
+- name: Install kitty (MacOS)
+  community.general.homebrew_cask:
+    name: kitty
+    state: present
+  when: ansible_distribution == 'MacOSX'
+
+- name: Configure kitty
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'kitty') | path_join }}"
+    dest: "{{ (config_dir, 'kitty') | path_join }}"
+    state: link

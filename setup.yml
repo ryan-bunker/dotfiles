@@ -9,6 +9,8 @@
       tags: always
 
   roles:
+    - role: kitty
+      tags: kitty
     - role: zsh
       tags: zsh
     - role: neovim
