@@ -1,0 +1,13 @@
+---
+- name: Setup system
+  hosts: localhost
+
+  pre_tasks:
+    - name: Setup variables
+      ansible.builtin.set_fact:
+        config_dir: "{{ (ansible_user_dir, '.config') | path_join }}"
+      tags: always
+
+  roles:
+    - role: neovim
+      tags: neovim

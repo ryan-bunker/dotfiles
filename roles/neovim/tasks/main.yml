@@ -1,0 +1,13 @@
+---
+- name: Install neovim
+  become: "{{ ansible_distribution != 'MacOSX' }}"
+  ansible.builtin.package:
+    name: neovim
+    state: present
+
+- name: Configure neovim
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'nvim') | path_join }}"
+    dest: "{{ (config_dir, 'nvim') | path_join }}"
+    state: link
+
