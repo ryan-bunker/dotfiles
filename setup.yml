@@ -1,12 +1,17 @@
 ---
 - name: Setup system
   hosts: localhost
+  vars:
+    config_dir: "{{ (ansible_user_dir, '.config') | path_join }}"
 
   pre_tasks:
-    - name: Setup variables
-      ansible.builtin.set_fact:
-        config_dir: "{{ (ansible_user_dir, '.config') | path_join }}"
+    - name: Load variables
       tags: always
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - vars/default.yml
+        - vars/{{ ansible_distribution | lower }}.yml
 
   roles:
     - role: hyprland
@@ -28,3 +33,18 @@
       tags: neovim
     - role: nvm
       tags: nvm
+
+  tasks:
+    - name: Install packages
+      tags: packages
+      become: "{{ package_install_requires_elevation }}"
+      ansible.builtin.package:
+        name: "{{ base_packages | union(dist_packages | default([])) }}"
+        state: present
+
+    - name: Install casks
+      tags: packages
+      community.general.homebrew_cask:
+        name: "{{ casks }}"
+        state: present
+      when: ansible_distribution == "MacOSX"

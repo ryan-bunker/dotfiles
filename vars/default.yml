@@ -1,0 +1,10 @@
+---
+package_install_requires_elevation: true
+casks:
+  - font-jetbrains-mono-nerd-font
+  - powershell
+  - qutebrowser
+  - scroll-reverser
+  - sf-symbols
+  - slack
+  - spotify

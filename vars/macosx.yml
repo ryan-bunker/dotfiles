@@ -1,0 +1,14 @@
+---
+package_install_requires_elevation: false
+base_packages:
+  - bat
+  - curl
+  - eza
+  - fzf
+  - jq
+  - lazygit
+  - ripgrep
+  - tree
+  - watch
+  - zoxide
+
