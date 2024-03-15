@@ -15,7 +15,5 @@
 
     - debug: var=override
 
-    - import_tasks: hyprland.yml
-      when: ansible_distribution == 'Archlinux'
     - import_tasks: wallpapers.yml
       when: ansible_distribution == 'Archlinux'

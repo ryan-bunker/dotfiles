@@ -9,6 +9,9 @@
       tags: always
 
   roles:
+    - role: hyprland
+      tags: hyprland
+      when: ansible_distribution == "Archlinux"
     - role: kitty
       tags: kitty
     - role: zsh

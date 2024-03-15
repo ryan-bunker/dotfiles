@@ -1,5 +1,5 @@
 [submodule "config/hypr/catppuccin"]
-	path = config/hypr/catppuccin
+	path = roles/hyprland/files/hypr/catppuccin
 	url = https://github.com/catppuccin/hyprland.git
 	shallow = true
 [submodule "ansible-yay"]
