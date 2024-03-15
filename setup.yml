@@ -15,6 +15,9 @@
     - role: aerospace
       tags: [aerospace, wm]
       when: ansible_distribution == "MacOSX"
+    - role: sketchybar
+      tags: [statusbar, sketchybar]
+      when: ansible_distribution == "MacOSX"
     - role: kitty
       tags: kitty
     - role: zsh

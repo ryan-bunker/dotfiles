@@ -14,3 +14,7 @@
 	path = roles/kitty/files/kitty/catppuccin
 	url = https://github.com/catppuccin/kitty.git
 	shallow = true
+[submodule "library/ansible-homebrew-services"]
+	path = library/homebrew-services
+	url = https://github.com/luizribeiro/ansible-homebrew-services.git
+	shallow = true

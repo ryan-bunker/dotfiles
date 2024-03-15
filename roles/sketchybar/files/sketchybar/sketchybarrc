@@ -1,0 +1,39 @@
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+
+# Load global styles, colors and icons
+source "$CONFIG_DIR/globalstyles.sh"
+
+POPUP_CLICK_SCRIPT="sketchybar --set \$NAME popup.drawing=toggle"
+POPUP_OFF="sketchybar --set \$NAME popup.drawing=off"
+
+sketchybar --bar "${bar[@]}" 
+sketchybar --default "${item_defaults[@]}"
+
+# Left
+source "$ITEM_DIR/workspaces.sh"
+
+# Right
+source "$ITEM_DIR/datetime.sh"
+source "$ITEM_DIR/wifi.sh"
+source "$ITEM_DIR/battery.sh"
+source "$ITEM_DIR/volume.sh"
+sketchybar --add item spacer1 right
+source "$ITEM_DIR/messages.sh" teams
+source "$ITEM_DIR/messages.sh" outlook
+source "$ITEM_DIR/messages.sh" discord
+source "$ITEM_DIR/messages.sh" slack
+
+
+# Brackets '/space\..*/'
+sketchybar \
+  --add bracket left_side '/space\..*/' \
+  --set left_side "${bracket_defaults[@]}" \
+  --add bracket messages '/messages\..*/' \
+  --set messages "${bracket_defaults[@]}" \
+  --add bracket status_icons volume_icon volume battery wifi clock \
+  --set status_icons "${bracket_defaults[@]}"
+
+sketchybar --hotload on
+sketchybar --update
+
