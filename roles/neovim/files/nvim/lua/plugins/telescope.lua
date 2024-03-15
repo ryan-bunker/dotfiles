@@ -17,6 +17,25 @@ return {
 		},
 		config = function()
 			require("telescope").setup({
+				defaults = {
+					mappings = {
+						i = {
+							["<C-h>"] = "which_key",
+						},
+					},
+				},
+				pickers = {
+					buffers = {
+						mappings = {
+							n = {
+								["<C-d>"] = require("telescope.actions").delete_buffer,
+							},
+							i = {
+								["<C-d>"] = require("telescope.actions").delete_buffer,
+							},
+						},
+					},
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
