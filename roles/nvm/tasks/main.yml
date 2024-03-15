@@ -1,0 +1,9 @@
+---
+- name: Install nvm
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    creates: "{{ (ansible_user_dir, '.nvm', 'nvm.sh') | path_join }}"
+  environment:
+    PROFILE: /dev/null

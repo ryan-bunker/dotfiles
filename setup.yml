@@ -26,3 +26,5 @@
       tags: tmux
     - role: neovim
       tags: neovim
+    - role: nvm
+      tags: nvm
