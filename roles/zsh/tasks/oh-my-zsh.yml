@@ -1,0 +1,17 @@
+---
+- name: Initialize oh-my-zsh repo
+  ansible.builtin.command:
+    cmd: git init --quiet --initial-branch=master "{{ zsh_dir }}" # noqa: command-instead-of-module
+    creates: "{{ (zsh_dir, '.git', 'HEAD') | path_join }}"
+
+- name: Config oh-my-zsh repo
+  ansible.builtin.copy:
+    src: git_config
+    dest: "{{ (zsh_dir, '.git', 'config') | path_join }}"
+    mode: u=rw,g=r,o=r
+
+- name: Fetch and checkout oh-my-zsh
+  ansible.builtin.git: # noqa: latest[git]
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ zsh_dir }}"
+    depth: 1

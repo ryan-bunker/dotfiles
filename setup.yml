@@ -9,5 +9,7 @@
       tags: always
 
   roles:
+    - role: zsh
+      tags: zsh
     - role: neovim
       tags: neovim

@@ -1,0 +1,11 @@
+---
+- name: Link .zshrc
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'zshrc') | path_join }}"
+    dest: "{{ (ansible_user_dir, '.zshrc') | path_join }}"
+    state: link
+
+- name: Install oh-my-zsh
+  ansible.builtin.import_tasks: oh-my-zsh.yml
+  vars:
+    zsh_dir: "{{ (ansible_user_dir, '.oh-my-zsh') | path_join }}"
