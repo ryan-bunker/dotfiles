@@ -1,0 +1,11 @@
+---
+- name: Install aerospace
+  community.general.homebrew_cask:
+    name: aerospace
+    state: present
+
+- name: Configure aerospace
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'aerospace') | path_join }}"
+    dest: "{{ (config_dir, 'aerospace') | path_join }}"
+    state: link
