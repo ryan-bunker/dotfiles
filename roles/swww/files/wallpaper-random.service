@@ -5,5 +5,5 @@ Wants=wallpaper-random.timer
 
 [Service]
 Type=oneshot
-ExecStart=%h/dotfiles/wallpapers/random.sh %h/wallpapers/
+ExecStart=%h/dotfiles/wallpapers/random.sh %h/dotfiles/wallpapers/
 

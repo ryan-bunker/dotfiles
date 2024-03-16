@@ -15,7 +15,7 @@ shift
 # export SWWW_TRANSITION_FPS=60
 # export SWWW_TRANSITION_STEP=2
 
-most_recent=$(find "$workdir" -type f -iregex '.*\.\(png\|gif\|jpg\|jpeg\)\|.*/cache.txt' -printf '%T+ %p\n' | sort -r | head -n1 | awk '{print $2}')
+most_recent=$(find "$workdir" -type f -iregex '.*\.\(png\|gif\|jpg\|jpeg\)\|.*/feh_cache.txt' -printf '%T+ %p\n' | sort -r | head -n1 | awk '{print $2}')
 if [[ $(basename "$most_recent") != "feh_cache.txt" ]]; then
   # at least one image is newer than our cache file so we need to update it
   feh -l "$(realpath "$workdir")" 2> /dev/null | tail -n +2 > "$workdir/feh_cache.txt"
