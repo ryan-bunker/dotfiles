@@ -5,3 +5,5 @@ dist_packages:
   - git
   - ttf-jetbrains-mono-nerd
 
+yay_force_build: false
+yay_repo: yay # yay or yay-bin
