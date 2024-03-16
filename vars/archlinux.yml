@@ -1,0 +1,5 @@
+---
+# ArchLinux specific variables
+dist_packages:
+  - base-devel
+  - git

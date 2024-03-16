@@ -1,14 +1,13 @@
 ---
+# MacOSX specific variables
 package_install_requires_elevation: false
-base_packages:
-  - bat
-  - curl
-  - eza
-  - fzf
-  - jq
-  - lazygit
-  - ripgrep
-  - tree
+dist_packages:
   - watch
-  - zoxide
-
+casks:
+  - font-jetbrains-mono-nerd-font
+  - powershell
+  - qutebrowser
+  - scroll-reverser
+  - sf-symbols
+  - slack
+  - spotify

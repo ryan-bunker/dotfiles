@@ -1,12 +1,15 @@
 ---
+# default variables
 package_install_requires_elevation: true
-casks:
-  - font-jetbrains-mono-nerd-font
-  - powershell
-  - qutebrowser
-  - scroll-reverser
-  - sf-symbols
-  - slack
-  - spotify
+base_packages:
+  - bat
+  - curl
+  - eza
+  - fzf
+  - jq
+  - lazygit
+  - ripgrep
+  - tree
+  - zoxide
 
 neovim_force_build: false
