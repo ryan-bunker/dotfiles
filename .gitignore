@@ -1,2 +1,3 @@
 wallpapers/feh_cache.txt
 roles/tmux/files/tmux/plugins/
+roles/neovim/files/nvim/lazy-lock.json
