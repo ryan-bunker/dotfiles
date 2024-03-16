@@ -1,0 +1,15 @@
+---
+- name: Link systemd units for wallpapers
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', item) | path_join }}"
+    dest: "{{ (config_dir, 'systemd', 'user', item) | path_join }}"
+    state: link
+  loop: [swww.service, wallpaper-random.service, wallpaper-random.timer]
+
+- name: Start wallpaper services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    daemon_reload: true
+    enabled: true
+    scope: user
+  loop: [swww.service, wallpaper-random.timer]

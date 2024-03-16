@@ -32,6 +32,9 @@
     - role: aerospace
       tags: [aerospace, wm]
       when: ansible_distribution == "MacOSX"
+    - role: swww
+      tags: [wallpaper, swww]
+      when: ansible_distribution == "Archlinux"
     - role: sketchybar
       tags: [statusbar, sketchybar]
       when: ansible_distribution == "MacOSX"
