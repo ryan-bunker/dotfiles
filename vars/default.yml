@@ -8,3 +8,5 @@ casks:
   - sf-symbols
   - slack
   - spotify
+
+neovim_force_build: false

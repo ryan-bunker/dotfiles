@@ -3,8 +3,17 @@
   hosts: localhost
   vars:
     config_dir: "{{ (ansible_user_dir, '.config') | path_join }}"
+    source_dir: "{{ (ansible_user_dir, '.local', 'source') | path_join }}"
 
   pre_tasks:
+    - name: Ensure directories exist
+      ansible.builtin.file:
+        dest: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ config_dir }}"
+        - "{{ source_dir }}"
+
     - name: Load variables
       tags: always
       ansible.builtin.include_vars:
