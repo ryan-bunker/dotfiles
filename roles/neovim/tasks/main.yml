@@ -15,7 +15,7 @@
   ansible.builtin.git:
     repo: https://github.com/neovim/neovim
     dest: "{{ neovim_source_dir }}"
-    version: stable
+    version: "{{ neovim_version | default('stable') }}"
     depth: 1
     single_branch: true
   register: nvim_clone
@@ -30,7 +30,7 @@
   community.general.make:
     chdir: "{{ neovim_source_dir }}"
     params:
-      CMAKE_BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: "{{ neovim_build_type | default('Release') }}"
   when: nvim_clone.changed or neovim_force_build
 
 - name: Install neovim

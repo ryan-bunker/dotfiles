@@ -13,3 +13,5 @@ base_packages:
   - zoxide
 
 neovim_force_build: false
+neovim_version: nightly
+neovim_build_type: Release
