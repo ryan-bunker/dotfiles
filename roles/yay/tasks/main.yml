@@ -1,0 +1,22 @@
+---
+- name: Setup vars
+  ansible.builtin.set_fact:
+    yay_source_dir: "{{ (source_dir, 'yay') | path_join }}"
+
+- name: Install prerequisites
+  become: true
+  ansible.builtin.package:
+    name: [git, base-devel]
+    state: present
+
+- name: Clone yay repo
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/{{ yay_repo | default('yay') }}.git
+    dest: "{{ yay_source_dir }}"
+  register: yay_clone
+
+- name: Install yay
+  ansible.builtin.command:
+    cmd: makepkg --syncdeps --noconfirm --noprogressbar --clean --install
+    chdir: "{{ yay_source_dir }}"
+  when: yay_clone.changed or (yay_force_build | default(false))

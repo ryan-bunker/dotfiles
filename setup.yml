@@ -23,6 +23,9 @@
         - vars/{{ ansible_distribution | lower }}.yml
 
   roles:
+    - role: yay
+      tags: yay
+      when: ansible_distribution == "Archlinux"
     - role: hyprland
       tags: [hyprland, wm]
       when: ansible_distribution == "Archlinux"
