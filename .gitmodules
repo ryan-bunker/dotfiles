@@ -18,3 +18,7 @@
 	path = library/homebrew-services
 	url = https://github.com/luizribeiro/ansible-homebrew-services.git
 	shallow = true
+[submodule "roles/tmux/files/tmux/plugins/tpm"]
+	path = roles/tmux/files/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+	shallow = true
