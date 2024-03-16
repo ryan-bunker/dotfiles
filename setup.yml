@@ -48,6 +48,9 @@
       tags: neovim
     - role: nvm
       tags: nvm
+    - role: fuzzel
+      tags: [launcher, fuzzel]
+      when: ansible_distribution == "Archlinux"
 
   tasks:
     - name: Install packages

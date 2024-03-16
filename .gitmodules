@@ -3,7 +3,7 @@
 	url = https://github.com/catppuccin/hyprland.git
 	shallow = true
 [submodule "ansible-yay"]
-	path = ansible-yay
+	path = library/ansible-yay
 	url = https://github.com/mnussbaum/ansible-yay.git
 	shallow = true
 [submodule "oh-my-zsh/themes/powerlevel10k"]

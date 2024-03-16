@@ -1,0 +1,11 @@
+---
+- name: Install fuzzel
+  yay:
+    name: fuzzel-git
+    state: present
+
+- name: Configure fuzzel
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'fuzzel') | path_join }}"
+    dest: "{{ (config_dir, 'fuzzel') | path_join }}"
+    state: link
