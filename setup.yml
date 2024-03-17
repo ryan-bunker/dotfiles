@@ -51,6 +51,9 @@
     - role: fuzzel
       tags: [launcher, fuzzel]
       when: ansible_distribution == "Archlinux"
+    - role: avizo
+      tags: avizo
+      when: ansible_distribution == "Archlinux"
 
   tasks:
     - name: Install packages

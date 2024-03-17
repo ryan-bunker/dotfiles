@@ -1,0 +1,17 @@
+---
+- name: Install prerequisites
+  become: true
+  ansible.builtin.package:
+    name: pamixer
+    state: present
+
+- name: Install avizo
+  yay:
+    name: avizo
+    state: present
+
+- name: Configure avizo
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'avizo') | path_join }}"
+    dest: "{{ (config_dir, 'avizo') | path_join }}"
+    state: link
