@@ -94,6 +94,10 @@ return {
 			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			capabilities.textDocument.foldingRange = {
+				dynamicRegistration = false,
+				lineFoldingOnly = true,
+			}
 
 			-- Enable the following language servers
 			--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -121,6 +125,12 @@ return {
 					},
 				},
 				ansiblels = {},
+				powershell_es = {},
+				bufls = {
+					cmd = { "bufls", "serve" },
+					filetypes = { "proto" },
+					root_dir = require("lspconfig/util").root_pattern("buf.work.yaml", ".git"),
+				},
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -140,6 +150,8 @@ return {
 				"goimports-reviser",
 				"prettierd",
 				"ansible-lint",
+				"editorconfig-checker",
+				"buf",
 			})
 			require("mason-tool-installer").setup({
 				ensure_installed = ensure_installed,
@@ -152,8 +164,10 @@ return {
 				-- ensure_installed = ensure_installed,
 				handlers = {
 					function(server_name)
+						-- print("Setting up LSP " .. server_name)
 						local server = servers[server_name] or {}
 						server.on_attach = function(client, bufnr)
+							-- print("Attaching LSP " .. server_name .. " to " .. bufnr)
 							require("lsp_signature").on_attach({
 								bind = true,
 								handler_opts = {
@@ -165,6 +179,7 @@ return {
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						-- print("LSP " .. server_name .. "  " .. vim.inspect(server))
 						require("lspconfig")[server_name].setup(server)
 					end,
 				},
@@ -224,5 +239,50 @@ return {
 			-- optional, but required for fuzzy finder support
 			"nvim-telescope/telescope-fzf-native.nvim",
 		},
+	},
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = {
+			"kevinhwang91/promise-async",
+		},
+		config = function()
+			vim.o.foldcolumn = "1"
+			vim.o.fillchars = [[eob: ,fold: ,foldopen:󰅂,foldsep: ,foldclose:󰅀]]
+			vim.o.foldlevel = 99
+			vim.o.foldlevelstart = 99
+			vim.o.foldenable = true
+
+			local handler = function(virtText, lnum, endLnum, width, truncate)
+				local newVirtText = {}
+				local suffix = (" 󰁂 %d "):format(endLnum - lnum)
+				local sufWidth = vim.fn.strdisplaywidth(suffix)
+				local targetWidth = width - sufWidth
+				local curWidth = 0
+				for _, chunk in ipairs(virtText) do
+					local chunkText = chunk[1]
+					local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+					if targetWidth > curWidth + chunkWidth then
+						table.insert(newVirtText, chunk)
+					else
+						chunkText = truncate(chunkText, targetWidth - curWidth)
+						local hlGroup = chunk[2]
+						table.insert(newVirtText, { chunkText, hlGroup })
+						chunkWidth = vim.fn.strdisplaywidth(chunkText)
+						-- str width returned from truncate() may less than 2nd argument, need padding
+						if curWidth + chunkWidth < targetWidth then
+							suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+						end
+						break
+					end
+					curWidth = curWidth + chunkWidth
+				end
+				table.insert(newVirtText, { suffix, "MoreMsg" })
+				return newVirtText
+			end
+
+			require("ufo").setup({
+				fold_virt_text_handler = handler
+			})
+		end,
 	},
 }
