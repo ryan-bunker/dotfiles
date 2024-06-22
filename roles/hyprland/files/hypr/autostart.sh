@@ -5,6 +5,7 @@
 # systemd services.
 systemctl start --user hyprland.service
 
+udiskie --tray &
 discord &
 avizo-service &
 eww open eww-statusbar

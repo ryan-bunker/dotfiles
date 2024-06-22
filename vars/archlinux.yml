@@ -8,6 +8,7 @@ dist_packages:
 
 aur_packages:
   - bcompare
+  - powershell
 
 yay_force_build: false
 yay_repo: yay # yay or yay-bin
