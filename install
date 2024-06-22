@@ -16,5 +16,9 @@ fi
 echo "Updating git submodules..."
 git submodule update --init --recursive
 
+# even though ansible is supposed to look in this directory by default it
+# doesn't seem to be doing that, so setting this is necessary
+export ANSIBLE_LIBRARY=library
+
 echo "Bootstrapping local computer..."
 ansible-playbook -i hosts setup.yml --ask-become-pass

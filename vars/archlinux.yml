@@ -4,6 +4,10 @@ dist_packages:
   - base-devel
   - git
   - ttf-jetbrains-mono-nerd
+  - udiskie
+
+aur_packages:
+  - bcompare
 
 yay_force_build: false
 yay_repo: yay # yay or yay-bin

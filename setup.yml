@@ -69,3 +69,10 @@
         name: "{{ casks }}"
         state: present
       when: ansible_distribution == "MacOSX"
+
+    - name: Install AUR packages
+      tags: packages
+      yay:
+        name: "{{ aur_packages }}"
+        state: present
+      when: ansible_distribution == "Archlinux"
