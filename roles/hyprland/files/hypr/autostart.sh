@@ -6,3 +6,5 @@
 systemctl start --user hyprland.service
 
 discord &
+avizo-service &
+eww open eww-statusbar
