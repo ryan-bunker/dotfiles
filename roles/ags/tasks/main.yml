@@ -1,0 +1,18 @@
+---
+- name: Install bun (ags typescript prerequisite)
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -fsSL https://bun.sh/install | bash
+    creates: "{{ (ansible_user_dir, '.bun', 'bin', 'bun') | path_join }}"
+
+- name: Install ags
+  yay:
+    name: aylurs-gtk-shell
+    state: present
+
+- name: Configure ags
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files', 'ags') | path_join }}"
+    dest: "{{ (config_dir, 'ags') | path_join }}"
+    state: link

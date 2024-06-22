@@ -1,0 +1,82 @@
+// @use "sass:list";
+@import "./macchiato.scss";
+
+window.bar {
+  font-family: Montserrat, "Font Awesome 5 Free", "JetBrainsMono Nerd Font Mono";
+  background-color: transparent;
+  // color: @theme_fg_color;
+}
+
+button {
+  min-width: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding: 0px 10px;
+  margin: 6px 2px;
+  background-image: none;
+  background-color: transparent;
+  border-radius: 3px;
+  border: 0px solid blue;
+  box-shadow: none;
+  text-shadow: none;
+  /* border-bottom: 3px solid transparent; */
+}
+
+button:active {
+  // background-color: @theme_selected_bg_color;
+}
+
+button:hover {
+  // background-color: @inherit;
+}
+
+label {
+  /* font-weight: bold; */
+}
+
+.workspaces {
+  /* background-color: $base; */
+  background-color: rgba($base, 0.6);
+  /* opacity: 0.5; */
+  margin: 8px 20px;
+  padding: 0px 8px;
+  border-radius: 3px;
+}
+
+$rainbow: $rosewater, $lavender, $sky, $red, $green, $yellow, $blue, $pink, $teal;
+
+@for $i from 1 through 9 {
+  .ws#{$i} {
+    color: nth($rainbow, $i);
+  }
+  .ws#{$i}.focused {
+    background-color: nth($rainbow, $i);
+  }
+}
+
+.focused {
+  color: $crust;
+  transition: background-color 0.5s;
+}
+
+.workspace .label {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.workspace .value {
+  font-size: 16px;
+}
+
+// .client-title {
+//   color: @theme_selected_bg_color;
+// }
+
+.notification {
+  color: yellow;
+}
+
+levelbar block,
+highlight {
+  min-height: 10px;
+}

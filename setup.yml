@@ -35,6 +35,9 @@
     - role: swww
       tags: [wallpaper, swww]
       when: ansible_distribution == "Archlinux"
+    - role: ags
+      tags: [statusbar, ags]
+      when: ansible_distribution == "Archlinux"
     - role: sketchybar
       tags: [statusbar, sketchybar]
       when: ansible_distribution == "MacOSX"

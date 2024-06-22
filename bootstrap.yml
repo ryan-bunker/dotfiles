@@ -9,7 +9,10 @@
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
-      loop: [base-devel, git, alacritty, dunst, pipewire, wireplumber, qpwgraph, jq, socat]
+      loop: [base-devel, git, alacritty, dunst, pipewire, wireplumber, qpwgraph, jq, socat, vulkan-tools]
+    # wine wine-gecko wine-mono
+      # lutris
+      # xdg-desktop-portal-hyprland
 
     - name: Check if yay is installed
       command: which yay
