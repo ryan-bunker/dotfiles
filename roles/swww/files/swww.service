@@ -5,7 +5,7 @@ After=hypr-session.target
 
 [Service]
 Type=forking
-ExecStart=swww init
+ExecStart=swww-daemon
 ExecStop=swww kill
 Restart=on-failure
 

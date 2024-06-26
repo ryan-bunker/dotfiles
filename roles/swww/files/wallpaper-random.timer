@@ -1,5 +1,7 @@
 [Unit]
 Description=changes the desktop wallpaper to a random image
+PartOf=hypr-session.target
+After=hypr-session.target
 Requires=wallpaper-random.service
 
 [Timer]
