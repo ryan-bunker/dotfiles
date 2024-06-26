@@ -1,0 +1,7 @@
+---
+- name: Reload avizo systemd
+  ansible.builtin.systemd:
+    name: avizo.service
+    daemon_reload: true
+    enabled: true
+    scope: user

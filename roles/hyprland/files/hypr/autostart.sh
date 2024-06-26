@@ -7,4 +7,3 @@ systemctl start --user hypr-session.target
 
 # background services
 udiskie --tray &
-avizo-service &

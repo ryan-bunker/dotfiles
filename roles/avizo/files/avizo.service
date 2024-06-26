@@ -1,0 +1,12 @@
+[Unit]
+Description=A simple notification daemon
+PartOf=hypr-session.target
+After=hypr-session.target
+
+[Service]
+ExecStart=avizo-service
+Restart=on-failure
+
+[Install]
+WantedBy=hypr-session.target
+
