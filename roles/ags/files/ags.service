@@ -1,0 +1,13 @@
+[Unit]
+Description=Aylur's GTK Shell
+PartOf=hypr-session.target
+After=hypr-session.target
+
+[Service]
+ExecStart=ags
+ExecStop=ags -q
+Restart=on-failure
+
+[Install]
+WantedBy=hypr-session.target
+

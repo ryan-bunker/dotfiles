@@ -1,0 +1,7 @@
+---
+- name: Reload ags systemd
+  ansible.builtin.systemd:
+    name: ags.service
+    daemon_reload: true
+    enabled: true
+    scope: user

@@ -16,3 +16,11 @@
     src: "{{ (role_path, 'files', 'ags') | path_join }}"
     dest: "{{ (config_dir, 'ags') | path_join }}"
     state: link
+
+- name: Link systemd unit for ags
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files/ags.service') | path_join }}"
+    dest: "{{ (config_dir, 'systemd/user/ags.service') | path_join }}"
+    state: link
+  notify:
+    - Reload ags systemd
