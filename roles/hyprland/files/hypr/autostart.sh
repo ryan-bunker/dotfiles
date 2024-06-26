@@ -5,7 +5,7 @@
 # systemd services.
 systemctl start --user hypr-session.target
 
+# background services
 udiskie --tray &
-discord &
 avizo-service &
-ags &
+ags &> ~/ags.log &
