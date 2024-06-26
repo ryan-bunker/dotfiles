@@ -11,10 +11,9 @@
 
 - name: Install systemd units
   ansible.builtin.file:
-    src: "{{ (role_path, 'files', item) | path_join }}"
-    dest: "{{ (config_dir, 'systemd', 'user', item) | path_join }}"
+    src: "{{ (role_path, 'files/hypr-session.target') | path_join }}"
+    dest: "{{ (config_dir, 'systemd/user/hypr-session.target') | path_join }}"
     state: link
-  loop: [hyprland.service, hypr-session.target]
 
 - name: Reload systemd
   ansible.builtin.systemd:
