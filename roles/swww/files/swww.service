@@ -4,9 +4,7 @@ PartOf=hypr-session.target
 After=hypr-session.target
 
 [Service]
-Type=forking
 ExecStart=swww-daemon
-ExecStop=swww kill
 Restart=on-failure
 
 [Install]
