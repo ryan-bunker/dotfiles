@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task: launch
+
+  build:
+    cmds:
+      - npx vite build
+    sources:
+      - '*.ts'
+      - '*.scss'
+    generates:
+      - dist/config.js
+      - dist/style.css
+
+  launch:
+    deps: [build]
+    cmds:
+      - ags -c ./dist/config.js

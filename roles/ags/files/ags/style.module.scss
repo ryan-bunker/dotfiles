@@ -10,6 +10,7 @@ window.bar {
 button {
   min-width: 0;
   padding: 0;
+  margin: 0;
   background-image: none;
   background-color: transparent;
   border: 0px solid blue;
@@ -20,7 +21,7 @@ button {
 
 button.workspace {
   padding: 0px 10px;
-  margin: 6px 2px;
+  margin: 0;
   border-radius: 3px;
 }
 
@@ -41,7 +42,7 @@ label {
   background-color: rgba($base, 0.6);
   /* opacity: 0.5; */
   margin: 8px 20px;
-  padding: 0px 8px;
+  padding: 6px 16px;
   border-radius: 3px;
 }
 
@@ -84,5 +85,33 @@ $rainbow: $rosewater, $lavender, $sky, $red, $green, $yellow, $blue, $pink, $tea
 }
 
 /***
+system tray
+***/
+.system-tray {
+  margin-right: 20px;
+}
+
+/***
+system icons
+***/
+.icon {
+  color: $lavender;
+}
+
+/***
 clock
 ***/
+.clock {
+  margin-left: 20px;
+}
+
+.date {
+  font-size: 14px;
+  color: $text;
+}
+
+.time {
+  font-size: 16px;
+  font-weight: bold;
+  color: $text;
+}

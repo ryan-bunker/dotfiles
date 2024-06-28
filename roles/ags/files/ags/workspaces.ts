@@ -1,5 +1,6 @@
 import { Variable as Var } from "types/variable";
 import { Client } from "types/service/hyprland";
+import style from "./style.module.scss";
 
 const hyprland = await Service.import("hyprland");
 
@@ -77,7 +78,7 @@ export default function Workspaces() {
         children: [
           Widget.Label({
             label: `${id}`,
-            class_name: "label",
+            class_name: style.label,
           }),
           Widget.Label({
             label: wsClientVars[id]
@@ -87,18 +88,21 @@ export default function Workspaces() {
                   .map((c) => appIcons[c.class] ?? `[${c.title}]`)
                   .join(""),
               ),
-            class_name: "value",
+            class_name: style.value,
           }),
         ],
       }),
-      class_name: activeId.as((i) =>
-        ["workspace", `ws${id}`, `${i === id ? "focused" : ""}`].join(" "),
-      ),
+      class_names: activeId.as((i) => [
+        style.workspace,
+        style[`ws${id}`],
+        `${i === id ? style.focused : ""}`,
+      ]),
     }),
   );
 
   return Widget.Box({
-    class_name: "workspaces grouping",
+    class_names: [style.grouping],
+    spacing: 4,
     children: workspaces,
   });
 }

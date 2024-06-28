@@ -1,7 +1,8 @@
-import Workspaces from "workspaces";
+import style from "./style.module.scss";
+import Workspaces from "./workspaces";
 
-const notifications = await Service.import("notifications");
-const mpris = await Service.import("mpris");
+// const notifications = await Service.import("notifications");
+// const mpris = await Service.import("mpris");
 const audio = await Service.import("audio");
 const battery = await Service.import("battery");
 const systemtray = await Service.import("systemtray");
@@ -16,6 +17,7 @@ const time = Variable("", {
 
 const SystemTray = () =>
   Widget.Box({
+    class_name: style["system-tray"],
     spacing: 8,
     children: systemtray.bind("items").as((items) =>
       items.map((item) =>
@@ -33,7 +35,7 @@ const SystemTray = () =>
 
 const VolumeInfo = () =>
   Widget.EventBox({
-    child: Widget.Icon({ size: 20 }).hook(audio.speaker, (self) => {
+    child: Widget.Icon({ size: 20, class_name: style.icon }).hook(audio.speaker, (self) => {
       const vol = audio.speaker.volume * 100;
       const icon = [
         { t: 101, i: "oversimplified" },
@@ -53,6 +55,7 @@ const VolumeInfo = () =>
 
 const BatteryInfo = () =>
   Widget.Icon({
+    class_name: style.icon,
     icon: battery.bind("icon_name"),
     size: 20,
     visible: battery.bind("available"),
@@ -67,6 +70,7 @@ const BatteryInfo = () =>
 
 const WifiIndicator = () =>
   Widget.Icon({
+    class_name: style.icon,
     icon: network.wifi.bind("icon_name"),
     size: 20,
   }).hook(
@@ -79,6 +83,7 @@ const WifiIndicator = () =>
 
 const WiredIndicator = () =>
   Widget.Icon({
+    class_name: style.icon,
     icon: network.wired.bind("icon_name"),
   });
 
@@ -93,23 +98,33 @@ const NetworkIndicator = () =>
 
 function Clock() {
   return Widget.Box({
+    class_name: style.clock,
     vertical: true,
     children: [
-      Widget.Label({ class_name: "clock date", label: date.bind() }),
-      Widget.Label({ class_name: "clock time", label: time.bind() }),
+      Widget.Label({
+        class_name: style.date,
+        label: date.bind(),
+        xalign: 1,
+      }),
+      Widget.Label({
+        class_name: style.time,
+        label: time.bind(),
+        xalign: 1,
+      }),
     ],
   });
 }
 
 function StatusArea() {
   return Widget.Box({
-    class_name: "grouping",
-    spacing: 8,
+    class_name: style.grouping,
+    spacing: 0,
     children: [
       SystemTray(),
-      VolumeInfo(),
-      BatteryInfo(),
-      NetworkIndicator(),
+      Widget.Box({
+        spacing: 8,
+        children: [VolumeInfo(), BatteryInfo(), NetworkIndicator()],
+      }),
       Clock(),
     ],
   });
@@ -135,7 +150,7 @@ function Right() {
 function Bar(monitor: number = 0) {
   return Widget.Window({
     name: `ags-status-bar-${monitor}`, // name has to be unique
-    class_name: "bar",
+    class_name: style.bar,
     monitor,
     anchor: ["top", "left", "right"],
     exclusivity: "exclusive",
@@ -146,16 +161,17 @@ function Bar(monitor: number = 0) {
   });
 }
 
-const scss = `${App.configDir}/style.scss`;
-const css = `/tmp/my-style.css`;
-Utils.exec(`sassc ${scss} ${css}`);
+// const scss = `${App.configDir}/style.scss`;
+// const css = `/tmp/my-style.css`;
+// Utils.exec(`sassc ${scss} ${css}`);
 
-Utils.monitorFile(scss, function () {
-  Utils.exec(`sassc ${scss} ${css}`);
+// Utils.monitorFile(scss, function () {
+//   Utils.exec(`sassc ${scss} ${css}`);
 
-  App.resetCss();
-  App.applyCss(css);
-});
+//   App.resetCss();
+//   App.applyCss(css);
+// });
+const css = App.configDir + "/style.css";
 
 App.config({
   style: css,
