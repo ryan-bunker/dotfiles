@@ -21,4 +21,4 @@ git submodule update --init --recursive
 export ANSIBLE_LIBRARY=library
 
 echo "Bootstrapping local computer..."
-ansible-playbook -i hosts setup.yml --ask-become-pass
+ansible-playbook -i hosts setup.yml --ask-become-pass $@
