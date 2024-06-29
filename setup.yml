@@ -1,4 +1,6 @@
 ---
+# TODO: set default applications: xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+# TODO: Setup audio: Install pipewire, pipewire-audio, pipewire-alsa, pipewire-pulse, wireplumber, qpwgraph, alsa-utils
 - name: Setup system
   hosts: localhost
   vars:
