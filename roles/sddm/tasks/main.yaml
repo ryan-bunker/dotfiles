@@ -1,0 +1,55 @@
+---
+- name: Install SDDM
+  become: true
+  ansible.builtin.package:
+    name: [sddm]
+    state: present
+
+- name: Switch SDDM to wayland
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/sddm.conf.d/wayland.conf
+    content: |
+      [General]
+      DisplayServer=wayland
+
+- name: Set SDDM theme
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/sddm.conf.d/theme.conf
+    content: |
+      [Theme]
+      Current={{ sddm_theme }}
+
+- name: List SDDM themes to Install
+  ansible.builtin.find:
+    paths: "{{ (role_path, 'files/themes') | path_join }}"
+    file_type: directory
+    recurse: false
+  register: sddm_themes
+
+# - name: Install SDDM themes
+#   ansible.builtin.debug:
+#     msg: "{{ ('/usr/share/sddm/themes', item | basename) | path_join }}"
+#   loop: "{{ sddm_themes.files | map(attribute='path') }}"
+
+- name: Install SDDM themes
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    # dest: "{{ ('/usr/share/sddm/themes', item | basename) | path_join }}"
+    dest: /usr/share/sddm/themes/
+  loop: "{{ sddm_themes.files | map(attribute='path') }}"
+
+- name: Copy login wallpaper to themes
+  become: true
+  ansible.builtin.copy:
+    src: wallhaven-ymz61d_3840x2160.png
+    dest: "{{ ('/usr/share/sddm/themes', item | basename, 'background.png') | path_join }}"
+  loop: "{{ sddm_themes.files | map(attribute='path') }}"
+
+- name: Link login wallpaper to config directory
+  ansible.builtin.file:
+    src: "{{ ('/usr/share/sddm/themes', sddm_theme, 'background.png') | path_join }}"
+    dest: "{{ (config_dir, 'login_wallpaper.png') | path_join }}"
+    state: link
