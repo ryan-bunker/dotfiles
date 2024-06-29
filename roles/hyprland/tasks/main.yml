@@ -5,6 +5,12 @@
     name: hyprland
     state: present
 
+- name: Install hyprland utilities
+  yay:
+    name:
+      - catppuccin-cursors-macchiato
+    state: present
+
 - name: Configure hyprland
   ansible.builtin.file:
     src: "{{ (role_path, 'files', 'hypr') | path_join }}"
