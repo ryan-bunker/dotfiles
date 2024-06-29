@@ -5,6 +5,8 @@ dist_packages:
   - git
   - ttf-jetbrains-mono-nerd
   - udiskie
+  - pipewire
+  - wireplumber
 
 aur_packages:
   - bcompare
