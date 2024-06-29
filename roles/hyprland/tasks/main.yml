@@ -1,7 +1,9 @@
 ---
 - name: Install hyprland
-  ansible.builtin.debug:
-    msg: todo # TODO: install hyprland packages
+  become: true
+  ansible.builtin.package:
+    name: hyprland
+    state: present
 
 - name: Configure hyprland
   ansible.builtin.file:
