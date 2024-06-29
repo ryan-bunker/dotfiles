@@ -54,6 +54,8 @@
       tags: neovim
     - role: nvm
       tags: nvm
+    - role: asdf
+      tags: asdf
     - role: fuzzel
       tags: [launcher, fuzzel]
       when: ansible_distribution == "Archlinux"
