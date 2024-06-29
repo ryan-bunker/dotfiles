@@ -8,8 +8,15 @@
 - name: Install hyprland utilities
   yay:
     name:
+      - hypridle-git
+      # - hyprlock-git
       - catppuccin-cursors-macchiato
     state: present
+
+# there is a bug in hyprlock that hasn't been fixed in the AUR package yet
+# for now, install it from source
+- name: Install hyprlock
+  ansible.builtin.import_tasks: hyprlock.yaml
 
 - name: Configure hyprland
   ansible.builtin.file:
@@ -22,6 +29,13 @@
     src: "{{ (role_path, 'files/hypr-session.target') | path_join }}"
     dest: "{{ (config_dir, 'systemd/user/hypr-session.target') | path_join }}"
     state: link
+
+- name: Enable hypridle systemd service
+  ansible.builtin.systemd:
+    name: hypridle.service
+    enabled: true
+    state: started
+    scope: user
 
 - name: Reload systemd
   ansible.builtin.systemd:

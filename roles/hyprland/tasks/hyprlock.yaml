@@ -1,0 +1,56 @@
+---
+- name: Setup vars
+  ansible.builtin.set_fact:
+    hyprlock_source_dir: "{{ (source_dir, 'hyprlock') | path_join }}"
+
+- name: Install hyprlock dependencies
+  ansible.builtin.package:
+    name:
+      # dependencies
+      - wayland
+      - hyprlang
+      - cairo
+      - pango
+      - pam
+      - libxkbcommon
+      # - libglvnd
+      - libdrm
+      - mesa
+      # - libjpeg
+      # - libwebp
+      # - hyprutils
+      - file
+      # make dependencies
+      - cmake
+      # - gcc
+      # - wayland-protocols
+      # - xorgproto
+    state: present
+
+- name: Clone hyprlock repo
+  ansible.builtin.git:
+    repo: https://github.com/hyprwm/hyprlock.git
+    dest: "{{ hyprlock_source_dir }}"
+  register: hyprlock_clone
+
+- name: Clean build
+  ansible.builtin.file:
+    path: "{{ (hyprlock_source_dir, 'build') | path_join }}"
+    state: absent
+  when: hyprlock_clone.changed
+
+- name: Build hyprlock
+  ansible.builtin.shell: |
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
+    cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+  args:
+    chdir: "{{ hyprlock_source_dir }}"
+    creates: build/hyprlock
+  register: hyprlock_build
+
+- name: Install hyprlock
+  become: true
+  ansible.builtin.shell: cmake --install build
+  args:
+    chdir: "{{ hyprlock_source_dir }}"
+  when: hyprlock_build.changed
