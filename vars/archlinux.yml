@@ -17,3 +17,6 @@ yay_force_build: false
 yay_repo: yay # yay or yay-bin
 
 sddm_theme: catppuccin-macchiato
+
+cursor_theme: catppuccin-macchiato-blue-cursors
+cursor_size: 64

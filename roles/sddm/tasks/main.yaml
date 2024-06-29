@@ -20,6 +20,8 @@
     content: |
       [Theme]
       Current={{ sddm_theme }}
+      CursorSize={{ cursor_size }}
+      CursorTheme={{ cursor_theme }}
 
 - name: List SDDM themes to Install
   ansible.builtin.find:
