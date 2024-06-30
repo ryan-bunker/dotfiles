@@ -41,7 +41,7 @@ label {
   /* background-color: $base; */
   background-color: rgba($base, 0.6);
   /* opacity: 0.5; */
-  margin: 8px 20px;
+  margin: 8px 20px 0 20px;
   padding: 6px 16px;
   border-radius: 3px;
 }
@@ -76,12 +76,12 @@ $rainbow: $rosewater, $lavender, $sky, $red, $green, $yellow, $blue, $pink, $tea
 }
 
 .workspace .label {
-  font-size: 18px;
+  font-size: 16px;
   margin-right: 8px;
 }
 
 .workspace .value {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /***
@@ -94,9 +94,7 @@ system tray
 /***
 system icons
 ***/
-.icon {
-  color: $lavender;
-}
+.icon {}
 
 /***
 clock
@@ -106,12 +104,15 @@ clock
 }
 
 .date {
-  font-size: 14px;
+  font-size: 12px;
   color: $text;
+  margin-top: -2px;
+  margin-bottom: -4px;
 }
 
 .time {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: $text;
+  margin-bottom: -6px;
 }

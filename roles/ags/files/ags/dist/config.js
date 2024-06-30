@@ -1,10 +1,10 @@
-const f = "_bar_otxuu_7", v = "_workspace_otxuu_24", k = "_grouping_otxuu_34", h = "_notification_otxuu_43", y = "_ws1_otxuu_55", W = "_focused_otxuu_59", I = "_ws2_otxuu_63", $ = "_ws3_otxuu_71", B = "_ws4_otxuu_79", S = "_ws5_otxuu_87", C = "_ws6_otxuu_95", L = "_ws7_otxuu_103", V = "_ws8_otxuu_111", z = "_ws9_otxuu_119", A = "_label_otxuu_132", M = "_value_otxuu_137", j = "_icon_otxuu_151", q = "_clock_otxuu_158", N = "_date_otxuu_162", D = "_time_otxuu_167", i = {
-  bar: f,
-  workspace: v,
-  grouping: k,
-  notification: h,
-  ws1: y,
-  focused: W,
+const v = "_bar_1bt7o_7", k = "_workspace_1bt7o_24", h = "_grouping_1bt7o_34", y = "_notification_1bt7o_43", W = "_ws1_1bt7o_55", x = "_focused_1bt7o_59", I = "_ws2_1bt7o_63", $ = "_ws3_1bt7o_71", B = "_ws4_1bt7o_79", S = "_ws5_1bt7o_87", C = "_ws6_1bt7o_95", L = "_ws7_1bt7o_103", V = "_ws8_1bt7o_111", z = "_ws9_1bt7o_119", A = "_label_1bt7o_132", M = "_value_1bt7o_137", j = "_clock_1bt7o_154", q = "_date_1bt7o_158", N = "_time_1bt7o_165", i = {
+  bar: v,
+  workspace: k,
+  grouping: h,
+  notification: y,
+  ws1: W,
+  focused: x,
   ws2: I,
   ws3: $,
   ws4: B,
@@ -15,60 +15,59 @@ const f = "_bar_otxuu_7", v = "_workspace_otxuu_24", k = "_grouping_otxuu_34", h
   ws9: z,
   label: A,
   value: M,
-  "system-tray": "_system-tray_otxuu_144",
-  icon: j,
-  clock: q,
-  date: N,
-  time: D
-}, _ = await Service.import("hyprland"), E = {
+  "system-tray": "_system-tray_1bt7o_144",
+  clock: j,
+  date: q,
+  time: N
+}, w = await Service.import("hyprland"), D = {
   "org.qutebrowser.qutebrowser": "",
   kitty: "",
-  discord: ""
-}, b = [1, 2, 3, 4, 5, 6, 7, 9];
-function O() {
-  const t = b.reduce(
+  vesktop: ""
+}, m = [1, 2, 3, 4, 5, 6, 7, 9];
+function E() {
+  const t = m.reduce(
     (e, s) => {
-      const o = _.clients.filter((a) => a.workspace.id == s);
+      const o = w.clients.filter((c) => c.workspace.id == s);
       return { ...e, [s]: Variable(o) };
     },
     {}
-  ), c = (e) => `${e == null ? void 0 : e.address} class=${e == null ? void 0 : e.class} title=${e == null ? void 0 : e.title}`;
-  _.connect("client-added", (e, s) => {
+  ), a = (e) => `${e == null ? void 0 : e.address} class=${e == null ? void 0 : e.class} title=${e == null ? void 0 : e.title}`;
+  w.connect("client-added", (e, s) => {
     print("client added:", s);
     const o = e.getClient(s);
-    print("client:", c(o)), o && (t[o == null ? void 0 : o.workspace.id].value = [
+    print("client:", a(o)), o && (t[o == null ? void 0 : o.workspace.id].value = [
       ...t[o == null ? void 0 : o.workspace.id].value,
       o
     ]);
-  }), _.connect("client-removed", (e, s) => {
+  }), w.connect("client-removed", (e, s) => {
     print("client removed:", s);
     for (const o of Object.keys(t)) {
-      const a = t[o].value.findIndex(
-        (p) => p.address == s
+      const c = t[o].value.findIndex(
+        (u) => u.address == s
       );
-      if (a < 0) continue;
+      if (c < 0) continue;
       const r = [...t[o].value];
-      r.splice(a, 1), t[o].value = r;
+      r.splice(c, 1), t[o].value = r;
       break;
     }
-  }), _.connect("event", (e, s, o) => {
+  }), w.connect("event", (e, s, o) => {
     if (s != "movewindowv2") return;
-    const [a, r, p] = o.split(",");
-    print("window moved:", a, r, p);
-    const n = e.getClient("0x" + a);
+    const [c, r, u] = o.split(",");
+    print("window moved:", c, r, u);
+    const n = e.getClient("0x" + c);
     if (print(
       "client:",
-      c(n),
+      a(n),
       `from=${n == null ? void 0 : n.workspace.id}`,
       `to=${r}`
     ), !n)
       return;
-    const m = n.workspace.id;
-    t[m].value = t[m].value.filter(
-      (x) => x.address != (n == null ? void 0 : n.address)
+    const g = n.workspace.id;
+    t[g].value = t[g].value.filter(
+      (f) => f.address != (n == null ? void 0 : n.address)
     ), t[r].value = [...t[r].value, n];
   });
-  const w = _.active.workspace.bind("id"), d = b.map(
+  const p = w.active.workspace.bind("id"), d = m.map(
     (e) => Widget.Button({
       child: Widget.Box({
         children: [
@@ -78,13 +77,13 @@ function O() {
           }),
           Widget.Label({
             label: t[e].bind().as(
-              (s) => s.map((o) => E[o.class] ?? `[${o.title}]`).join("")
+              (s) => s.map((o) => D[o.class] ?? `[${o.title}]`).join("")
             ),
             class_name: i.value
           })
         ]
       }),
-      class_names: w.as((s) => [
+      class_names: p.as((s) => [
         i.workspace,
         i[`ws${e}`],
         `${s === e ? i.focused : ""}`
@@ -97,110 +96,113 @@ function O() {
     children: d
   });
 }
-const g = await Service.import("audio"), u = await Service.import("battery"), R = await Service.import("systemtray"), l = await Service.import("network"), T = Variable("", {
+const b = await Service.import("audio"), l = await Service.import("battery"), O = await Service.import("systemtray"), _ = await Service.import("network"), R = Variable("", {
   poll: [1e3, "date '+%a, %b %d'"]
-}), F = Variable("", {
+}), T = Variable("", {
   poll: [1e3, "date '+%l:%M %p'"]
-}), G = () => Widget.Box({
+}), F = () => Widget.Box({
   class_name: i["system-tray"],
   spacing: 8,
-  children: R.bind("items").as(
+  children: O.bind("items").as(
     (t) => t.map(
-      (c) => Widget.Button({
-        child: Widget.Icon({ size: 20 }).bind("icon", c, "icon"),
-        tooltipMarkup: c.bind("tooltip_markup"),
+      (a) => Widget.Button({
+        child: Widget.Icon({ size: 20 }).bind("icon", a, "icon"),
+        tooltipMarkup: a.bind("tooltip_markup"),
         // onPrimaryClick: item.is_menu
         //   ? undefined
         //   : (_, event) => item.activate(event),
-        onSecondaryClick: (w, d) => c.openMenu(d)
+        onSecondaryClick: (p, d) => a.openMenu(d)
       })
     )
   )
-}), H = () => Widget.EventBox({
-  child: Widget.Icon({ size: 20, class_name: i.icon }).hook(g.speaker, (t) => {
-    var d;
-    const c = g.speaker.volume * 100, w = (d = [
-      { t: 101, i: "oversimplified" },
-      { t: 67, i: "high" },
-      { t: 32, i: "medium" },
-      { t: 1, i: "low" },
-      { t: 0, i: "muted" }
-    ].find(({ t: e }) => e <= c)) == null ? void 0 : d.i;
-    g.speaker.is_muted ? t.icon = "audio-volume-muted-symbolic" : t.icon = `audio-volume-${w}-symbolic`;
-  })
-}), J = () => Widget.Icon({
-  class_name: i.icon,
-  icon: u.bind("icon_name"),
+}), G = () => Widget.EventBox({
+  child: Widget.Icon({ size: 20, class_name: i.icon ?? "" }).hook(
+    b.speaker,
+    (t) => {
+      var d;
+      const a = b.speaker.volume * 100, p = (d = [
+        { t: 101, i: "oversimplified" },
+        { t: 67, i: "high" },
+        { t: 32, i: "medium" },
+        { t: 1, i: "low" },
+        { t: 0, i: "muted" }
+      ].find(({ t: e }) => e <= a)) == null ? void 0 : d.i;
+      b.speaker.is_muted ? t.icon = "audio-volume-muted-symbolic" : t.icon = `audio-volume-${p}-symbolic`;
+    }
+  )
+}), H = () => Widget.Icon({
+  class_name: i.icon ?? "",
+  icon: l.bind("icon_name"),
   size: 20,
-  visible: u.bind("available")
-}).hook(u, (t) => {
-  t.tooltip_text = `${u.percent}%`, u.charging ? t.tooltip_text += " (charging)" : u.charged && (t.tooltip_text += " (charged)");
-}), K = () => Widget.Icon({
-  class_name: i.icon,
-  icon: l.wifi.bind("icon_name"),
+  visible: l.bind("available")
+}).hook(l, (t) => {
+  t.tooltip_text = `${l.percent}%`, l.charging ? t.tooltip_text += " (charging)" : l.charged && (t.tooltip_text += " (charged)");
+}), J = () => Widget.Icon({
+  class_name: i.icon ?? "",
+  icon: _.wifi.bind("icon_name"),
   size: 20
 }).hook(
-  l.wifi,
+  _.wifi,
   (t) => {
-    t.tooltip_text = `${l.wifi.ssid} (${l.wifi.strength} dB)`;
+    t.tooltip_text = `${_.wifi.ssid} (${_.wifi.strength} dB)`;
   },
   "changed"
-), P = () => Widget.Icon({
-  class_name: i.icon,
-  icon: l.wired.bind("icon_name")
-}), Q = () => Widget.Stack({
+), K = () => Widget.Icon({
+  class_name: i.icon ?? "",
+  icon: _.wired.bind("icon_name")
+}), P = () => Widget.Stack({
   children: {
-    wifi: K(),
-    wired: P()
+    wifi: J(),
+    wired: K()
   },
-  shown: l.bind("primary").as((t) => t || "wifi")
+  shown: _.bind("primary").as((t) => t || "wifi")
 });
-function U() {
+function Q() {
   return Widget.Box({
     class_name: i.clock,
     vertical: !0,
     children: [
       Widget.Label({
         class_name: i.date,
-        label: T.bind(),
+        label: R.bind(),
         xalign: 1
       }),
       Widget.Label({
         class_name: i.time,
-        label: F.bind(),
+        label: T.bind(),
         xalign: 1
       })
     ]
   });
 }
-function X() {
+function U() {
   return Widget.Box({
     class_name: i.grouping,
     spacing: 0,
     children: [
-      G(),
+      F(),
       Widget.Box({
         spacing: 8,
-        children: [H(), J(), Q()]
+        children: [G(), H(), P()]
       }),
-      U()
+      Q()
     ]
+  });
+}
+function X() {
+  return Widget.Box({
+    spacing: 8,
+    children: [E()]
   });
 }
 function Y() {
   return Widget.Box({
-    spacing: 8,
-    children: [O()]
-  });
-}
-function Z() {
-  return Widget.Box({
     hpack: "end",
     spacing: 8,
-    children: [X()]
+    children: [U()]
   });
 }
-function tt(t = 0) {
+function Z(t = 0) {
   return Widget.Window({
     name: `ags-status-bar-${t}`,
     // name has to be unique
@@ -209,13 +211,13 @@ function tt(t = 0) {
     anchor: ["top", "left", "right"],
     exclusivity: "exclusive",
     child: Widget.CenterBox({
-      start_widget: Y(),
-      end_widget: Z()
+      start_widget: X(),
+      end_widget: Y()
     })
   });
 }
-const et = App.configDir + "/style.css";
+const tt = App.configDir + "/style.css";
 App.config({
-  style: et,
-  windows: [tt()]
+  style: tt,
+  windows: [Z()]
 });

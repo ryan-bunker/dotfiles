@@ -7,7 +7,7 @@ const hyprland = await Service.import("hyprland");
 const appIcons = {
   "org.qutebrowser.qutebrowser": "",
   kitty: "",
-  discord: "",
+  vesktop: "",
 };
 
 const WorkspaceIds = [1, 2, 3, 4, 5, 6, 7, 9];

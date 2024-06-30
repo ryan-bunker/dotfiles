@@ -35,27 +35,30 @@ const SystemTray = () =>
 
 const VolumeInfo = () =>
   Widget.EventBox({
-    child: Widget.Icon({ size: 20, class_name: style.icon }).hook(audio.speaker, (self) => {
-      const vol = audio.speaker.volume * 100;
-      const icon = [
-        { t: 101, i: "oversimplified" },
-        { t: 67, i: "high" },
-        { t: 32, i: "medium" },
-        { t: 1, i: "low" },
-        { t: 0, i: "muted" },
-      ].find(({ t }) => t <= vol)?.i;
+    child: Widget.Icon({ size: 20, class_name: style.icon ?? "" }).hook(
+      audio.speaker,
+      (self) => {
+        const vol = audio.speaker.volume * 100;
+        const icon = [
+          { t: 101, i: "oversimplified" },
+          { t: 67, i: "high" },
+          { t: 32, i: "medium" },
+          { t: 1, i: "low" },
+          { t: 0, i: "muted" },
+        ].find(({ t }) => t <= vol)?.i;
 
-      if (audio.speaker.is_muted) {
-        self.icon = "audio-volume-muted-symbolic";
-      } else {
-        self.icon = `audio-volume-${icon}-symbolic`;
-      }
-    }),
+        if (audio.speaker.is_muted) {
+          self.icon = "audio-volume-muted-symbolic";
+        } else {
+          self.icon = `audio-volume-${icon}-symbolic`;
+        }
+      },
+    ),
   });
 
 const BatteryInfo = () =>
   Widget.Icon({
-    class_name: style.icon,
+    class_name: style.icon ?? "",
     icon: battery.bind("icon_name"),
     size: 20,
     visible: battery.bind("available"),
@@ -70,7 +73,7 @@ const BatteryInfo = () =>
 
 const WifiIndicator = () =>
   Widget.Icon({
-    class_name: style.icon,
+    class_name: style.icon ?? "",
     icon: network.wifi.bind("icon_name"),
     size: 20,
   }).hook(
@@ -83,7 +86,7 @@ const WifiIndicator = () =>
 
 const WiredIndicator = () =>
   Widget.Icon({
-    class_name: style.icon,
+    class_name: style.icon ?? "",
     icon: network.wired.bind("icon_name"),
   });
 
