@@ -1,0 +1,188 @@
+---
+- name: Install spotify launcher
+  become: true
+  ansible.builtin.package:
+    name: spotify-launcher
+    state: present
+  register: spotify_install
+
+- name: Install spotify client
+  ansible.builtin.command: spotify-launcher --no-exec
+  args:
+    creates: "{{ (ansible_user_dir, '.local/share/spotify-launcher/install/usr/share/spotify/') | path_join }}"
+
+########################
+### spotify-tui
+########################
+- name: Install spotify-tui client
+  yay:
+    name: spotify-tui
+    state: present
+
+- name: Ensure spotify-tui config directory exists
+  ansible.builtin.file:
+    path: "{{ (config_dir, 'spotify-tui') | path_join }}"
+    state: directory
+    mode: u=rwx,g=rx,o=rx
+  register: spotify_tui_config_dir
+
+- name: Render spotify-tui client.yml
+  ansible.builtin.template:
+    src: templates/spotify-tui/client.yml.jinja
+    dest: "{{ (spotify_tui_config_dir.path, 'client.yml') | path_join }}"
+    mode: u=rw,g=,o=
+
+- name: Render spotify-tui config.yml
+  ansible.builtin.template:
+    src: templates/spotify-tui/config.yml.jinja
+    dest: "{{ (spotify_tui_config_dir.path, 'config.yml') | path_join }}"
+    mode: u=rw,g=r,o=r
+  vars:
+    theme_content: "{{ lookup('ansible.builtin.file', 'files/catppuccin/spotify-tui/themes/catppuccin-macchiato.yml') }}"
+
+########################
+### Spicetify CLI
+########################
+- name: Determine latest version of spicetify
+  ansible.builtin.uri:
+    url: https://github.com/spicetify/cli/releases/latest
+    method: GET
+    headers:
+      Accept: application/json
+  register: spicetify_version_result
+
+- name: Set version var
+  ansible.builtin.set_fact:
+    spicetify_version: "{{ spicetify_version_result.json.tag_name | regex_replace('^v', '') }}"
+
+- name: Ensure spicetify install directory exists
+  ansible.builtin.file:
+    path: "{{ (ansible_user_dir, '.spicetify') | path_join }}"
+    state: directory
+    mode: u=rwx,g=rx,o=rx
+  register: spicetify_install
+
+- name: Check existing spicetify version
+  ansible.builtin.shell: "[ -f {{ exe }} ] && {{ exe }} --version"
+  vars:
+    exe: "{{ (spicetify_install.path, 'spicetify') | path_join }}"
+  register: spicetify_installed_version
+  changed_when: false
+
+- name: Download latest version
+  ansible.builtin.unarchive:
+    src: https://github.com/spicetify/cli/releases/download/v{{ spicetify_version }}/spicetify-{{ spicetify_version }}-linux-amd64.tar.gz
+    dest: "{{ spicetify_install.path }}"
+    remote_src: true
+  when: spicetify_version != spicetify_installed_version
+  notify:
+    - spicetify apply
+
+- name: Ensure spicetify is executable
+  ansible.builtin.file:
+    path: "{{ (spicetify_install.path, 'spicetify') | path_join }}"
+    state: file
+    mode: u=rwx,g=rx,o=rx
+
+- name: Configure spotify path in spicetify
+  ansible.builtin.lineinfile:
+    path: "{{ (config_dir, 'spicetify/config-xpui.ini') | path_join }}"
+    regexp: '^\s*spotify_path\s*='
+    line: spotify_path           = {{ (ansible_user_dir, '.local/share/spotify-launcher/install/usr/share/spotify/') | path_join }}
+    insertafter: '\[Setting\]'
+  notify:
+    - spicetify apply
+
+- name: Link catppuccin theme into spicetify config
+  ansible.builtin.file:
+    src: "{{ (role_path, 'files/catppuccin/spicetify/catppuccin') | path_join }}"
+    dest: "{{ (config_dir, 'spicetify/Themes/catppuccin') | path_join }}"
+    state: link
+  notify:
+    - spicetify apply
+
+- name: Configure catppuccin theme
+  ansible.builtin.lineinfile:
+    path: "{{ (config_dir, 'spicetify/config-xpui.ini') | path_join }}"
+    regexp: '^\s*{{ item.key }}\s*='
+    line: "{{ item.key }}{{ item.spaces }}= {{ item.value }}"
+    insertafter: '\[Setting\]'
+  loop:
+    - key: current_theme
+      value: catppuccin
+      spaces: "          "
+    - key: color_scheme
+      value: macchiato
+      spaces: "           "
+    - key: inject_css
+      value: 1
+      spaces: "             "
+    - key: inject_theme_js
+      value: 1
+      spaces: "        "
+    - key: replace_colors
+      value: 1
+      spaces: "         "
+    - key: overwrite_assets
+      value: 1
+      spaces: "       "
+  notify:
+    - spicetify apply
+# ########################
+# ### Spicetify marketplace
+# ########################
+# - name: Ensure marketplace themes directory exists
+#   ansible.builtin.file:
+#     path: "{{ (config_dir, '.spicetify/Themes/marketplace') | path_join }}"
+#     state: directory
+#     mode: u=rwx,g=rx,o=rx
+
+# - name: Download default theme
+#   ansible.builtin.get_url:
+#     url: https://raw.githubusercontent.com/spicetify/marketplace/main/resources/color.ini
+#     dest: "{{ (config_dir, '.spicetify/Themes/marketplace/color.ini') | path_join }}"
+#     mode: u=rwx,g=rx,o=rx
+
+# - name: Set theme config values
+#   ansible.builtin.shell: spicetify config inject_css 1 && spicetify config replace_colors 1
+
+# - name: Determine latest version of spicetify marketplace
+#   ansible.builtin.uri:
+#     url: https://github.com/spicetify/marketplace/releases/latest
+#     method: GET
+#     headers:
+#       Accept: application/json
+#   register: spicetify_marketplace_version_result
+
+# - name: Set version var
+#   ansible.builtin.set_fact:
+#     spicetify_marketplace_version: "{{ spicetify_marketplace_version_result.json.tag_name | regex_replace('^v', '') }}"
+
+# - name: Install spicetify marketplace
+#   vars:
+#     install_dir: "{{ (config_dir, 'spicetify/CustomApps') | path_join }}"
+#     releases_uri: https://github.com/spicetify/marketplace/releases
+#   block:
+#     - name: Ensure spicetify marketplace directories exist
+#       ansible.builtin.file:
+#         path: "{{ (install_dir, 'marketplace-tmp') | path_join }}"
+#         state: directory
+#         mode: u=rwx,g=rx,o=rx
+
+#     - name: Clear existing marketplace directory
+#       ansible.builtin.file:
+#         path: "{{ (install_dir, 'marketplace') | path_join }}"
+#         state: absent
+
+#     - name: Download latest version
+#       ansible.builtin.unarchive:
+#         src: "{{ releases_uri }}/download/v{{ spicetify_marketplace_version }}/marketplace.zip"
+#         dest: "{{ (install_dir, 'marketplace-tmp') | path_join }}"
+#         remote_src: true
+
+#     - name: Copy dist directory to install directory
+#       ansible.builtin.copy:
+#         src: "{{ (install_dir, 'marketplace-tmp/marketplace-dist/') | path_join }}"
+#         dest: "{{ (install_dir, 'marketplace') | path_join }}"
+#         remote_src: true
+#         mode: u=rwx,g=rx,o=rx

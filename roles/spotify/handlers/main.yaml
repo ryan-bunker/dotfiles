@@ -1,0 +1,3 @@
+---
+- name: spicetify apply
+  ansible.builtin.command: spicetify apply

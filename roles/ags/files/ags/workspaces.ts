@@ -8,6 +8,7 @@ const appIcons = {
   "org.qutebrowser.qutebrowser": "",
   kitty: "",
   vesktop: "",
+  Spotify: "",
 };
 
 const WorkspaceIds = [1, 2, 3, 4, 5, 6, 7, 9];

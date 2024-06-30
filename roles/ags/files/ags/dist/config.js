@@ -22,7 +22,8 @@ const v = "_bar_1bt7o_7", k = "_workspace_1bt7o_24", h = "_grouping_1bt7o_34", y
 }, w = await Service.import("hyprland"), D = {
   "org.qutebrowser.qutebrowser": "",
   kitty: "",
-  vesktop: ""
+  vesktop: "",
+  Spotify: ""
 }, m = [1, 2, 3, 4, 5, 6, 7, 9];
 function E() {
   const t = m.reduce(

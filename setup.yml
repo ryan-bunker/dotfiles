@@ -64,6 +64,8 @@
     - role: avizo
       tags: avizo
       when: ansible_distribution == "Archlinux"
+    - role: spotify
+      tags: [apps, spotify]
 
   tasks:
     - name: Install packages
