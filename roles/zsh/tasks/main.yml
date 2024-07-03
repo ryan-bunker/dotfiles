@@ -5,7 +5,14 @@
     dest: "{{ (ansible_user_dir, '.zshrc') | path_join }}"
     state: link
 
-- name: Install oh-my-zsh
-  ansible.builtin.import_tasks: oh-my-zsh.yml
-  vars:
-    zsh_dir: "{{ (ansible_user_dir, '.oh-my-zsh') | path_join }}"
+- name: Install oh-my-posh (yay)
+  yay:
+    name: oh-my-posh
+    state: present
+  when: ansible_distribution == "Archlinux"
+
+- name: Install oh-my-posh (homebrew)
+  community.general.homebrew_cask:
+    name: oh-my-posh
+    state: present
+  when: ansible_distribution == "MacOSX"
