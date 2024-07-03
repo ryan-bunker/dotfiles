@@ -1,7 +1,5 @@
 .ansible_vault_pass
 
-wallpapers/feh_cache.txt
-
 roles/tmux/files/tmux/plugins/*
 !roles/tmux/files/tmux/plugins/tpm
 
