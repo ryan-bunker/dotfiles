@@ -12,6 +12,7 @@ aur_packages:
   - bcompare
   - powershell
   - vesktop
+  - netpad-bin
 
 yay_force_build: false
 yay_repo: yay # yay or yay-bin
