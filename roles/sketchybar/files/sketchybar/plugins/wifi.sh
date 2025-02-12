@@ -8,10 +8,10 @@ POPUP_CLICK_SCRIPT="sketchybar --set wifi popup.drawing=toggle"
 
 # IS_VPN=$(/usr/local/bin/piactl get connectionstate)
 IS_VPN="Disconnected"
-CURRENT_WIFI="$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I)"
+CURRENT_WIFI="$(sudo wdutil info)"
 IP_ADDRESS="$(ipconfig getifaddr en0)"
-SSID="$(echo "$CURRENT_WIFI" | grep -o "SSID: .*" | sed 's/^SSID: //')"
-CURR_TX="$(echo "$CURRENT_WIFI" | grep -o "lastTxRate: .*" | sed 's/^lastTxRate: //')"
+SSID="$(echo "$CURRENT_WIFI" | grep -o "\\bSSID *: .*" | sed 's/^SSID *: //')"
+CURR_TX="$(echo "$CURRENT_WIFI" | grep -o "\\bTx Rate *: .*" | sed 's/^Tx Rate *: //')"
 
 if [[ $IS_VPN != "Disconnected" ]]; then
   ICON_COLOR=$HIGHLIGHT
@@ -41,7 +41,7 @@ render_popup() {
     args=(
       --set wifi click_script="$POPUP_CLICK_SCRIPT"
       --set wifi.ssid label="$SSID"
-      --set wifi.strength label="$CURR_TX Mbps"
+      --set wifi.strength label="$CURR_TX"
       --set wifi.ipaddress label="$IP_ADDRESS"
       click_script="printf $IP_ADDRESS | pbcopy;$POPUP_OFF"
     )

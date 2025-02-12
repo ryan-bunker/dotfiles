@@ -84,6 +84,9 @@ export ICON_PEN=󰏬 # curve
 export ICON_REMOTEDESKTOP=󰢹 # remote desktop, vmware, utm
 export ICON_STORE=
 export ICON_WALLPAPER=󰸉
+export ICON_CODE_DIFF=
+export ICON_CSHARP=
+export ICON_DOTNET=󰪮
 
 export ICON_APP_SAFARI=
 export ICON_APP_EDGE=󰇩

@@ -28,15 +28,18 @@ sketchybar --add item space.left left \
   icon.padding_left=0 icon.padding_right=0 \
   label.padding_left=0 label.padding_right=0
 
+idx=0
 for SID in "${SPACES[@]}"; do
   sketchybar --add item space.$SID left \
     --set space.$SID "${spaces[@]}" \
-    background.color=${RAINBOW[SID]} \
-    icon.color=${RAINBOW[SID]} \
-    label.color=${RAINBOW[SID]} \
+    background.color=${RAINBOW[idx]} \
+    icon.color=${RAINBOW[idx]} \
+    label.color=${RAINBOW[idx]} \
     script="$PLUGIN_DIR/app_space.sh $SID" \
     icon=$SID \
     --subscribe space.$SID mouse.clicked front_app_switched aerospace_workspace_change space_windows_change
+
+  ((idx++))
 
   sketchybar --set space.$SID background.drawing=off
 done

@@ -57,7 +57,7 @@ case "$1" in
 "Slack")
   RESULT=$ICON_APP_SLACK
   ;;
-"Microsoft Teams (work or school)")
+"Microsoft Teams (work or school)" | "Microsoft Teams")
   RESULT=$ICON_APP_TEAMS
   ;;
 "Discord")
@@ -72,7 +72,7 @@ case "$1" in
 "Notes" | "TextEdit" | "Stickies" | "Microsoft Word")
 	RESULT=$ICON_NOTE
 	;;
-"Reminders" | "Microsoft OneNote" | "Logseq")
+"Reminders" | "Microsoft OneNote" | "Logseq" | "Obsidian")
 	RESULT=$ICON_LIST
 	;;
 "Photo Booth")
@@ -84,7 +84,10 @@ case "$1" in
 "Microsoft Edge")
   RESULT=$ICON_APP_EDGE
   ;;
-"qutebrowser" | "Beam" | "DuckDuckGo" | "Arc" | "Google Chrome" | "Firefox")
+"qutebrowser")
+	RESULT=$ICON_WEB
+	;;
+"Beam" | "DuckDuckGo" | "Arc" | "Google Chrome" | "Firefox")
 	RESULT=$ICON_WEB
 	;;
 "System Settings" | "System Information" | "TinkerTool")
@@ -155,6 +158,15 @@ case "$1" in
 	;;
 "Dynamic wallpaper" | "Dynamic Wallpaper")
 	RESULT=$ICON_WALLPAPER
+	;;
+"Beyond Compare")
+	RESULT=$ICON_CODE_DIFF
+	;;
+"JetBrains Rider")
+	RESULT=$ICON_CSHARP
+	;;
+"NetPad")
+	RESULT="NP"
 	;;
 *)
 	RESULT=[$1]
