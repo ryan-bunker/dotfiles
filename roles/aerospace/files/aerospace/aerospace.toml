@@ -65,6 +65,11 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
+alt-0 = 'workspace 0'
+alt-a = 'workspace a'
+alt-b = 'workspace b'
+alt-c = 'workspace c'
+alt-d = 'workspace d'
 
 # switch to previous workspace
 alt-tab = 'workspace-back-and-forth'
@@ -100,10 +105,18 @@ alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 0'
+alt-shift-a = 'move-node-to-workspace a'
+alt-shift-b = 'move-node-to-workspace b'
+alt-shift-c = 'move-node-to-workspace c'
+alt-shift-d = 'move-node-to-workspace d'
 
 # modes
 ctrl-alt-shift-r = 'mode resize'
 alt-shift-semicolon = 'mode service'
+
+# password picker
+ctrl-shift-p = 'exec-and-forget find "$HOME/OneDrive - SAP SE/.password-store" -type f -name "*.gpg" | sed "s|.*/\.password-store/||; s|\.gpg$||" | choose | xargs -r -I{} env PASSWORD_STORE_DIR=$HOME/OneDrive\ -\ SAP\ SE/.password-store pass show -c {}'
 
 
 [workspace-to-monitor-force-assignment]
@@ -151,3 +164,7 @@ if.app-id = 'com.microsoft.teams2'
 #if.window-title-regex-substring = ''
 run = ['move-node-to-workspace 5']
 
+[[on-window-detected]]
+if.app-id = 'org.qutebrowser.qutebrowser'
+# if.window-title-regex-substring = '^$'
+run = ['layout tiling']
