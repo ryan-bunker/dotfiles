@@ -1,0 +1,13 @@
+[init]
+	defaultBranch = main
+[credential]
+	helper = !aws --profile concur-integration-devscratch codecommit credential-helper $@
+	UseHttpPath = true
+[diff]
+	tool = bc
+[difftool "bc"]
+	trustExitCode = true
+[merge]
+	tool = bc
+[mergetool "bc"]
+	trustExitCode = true
