@@ -66,6 +66,8 @@
       when: ansible_distribution == "Archlinux"
     - role: spotify
       tags: [apps, spotify]
+    - role: asdf
+      tags: [utilities, asdf]
 
   tasks:
     - name: Install packages

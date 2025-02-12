@@ -1,0 +1,25 @@
+---
+- name: Instal prerequisites
+  become: "{{ package_install_requires_elevation }}"
+  ansible.builtin.package:
+    name: "{{ packages[ansible_distribution] }}"
+    state: present
+  vars:
+    packages:
+      Archlinux: [curl, git]
+      MacOSX: [coreutils, curl, git]
+
+- name: Clone asdf repo
+  ansible.builtin.git:
+    repo: https://github.com/asdf-vm/asdf.git
+    dest: "{{ (ansible_user_dir, '.asdf') | path_join }}"
+    version: v0.14.0
+    single_branch: true
+    depth: 1
+
+- name: Install plugins
+  ansible.builtin.command:
+    cmd: asdf plugin-add {{ item.name }} {{ item.repo | default() }}
+    creates: "{{ (ansible_user_dir, '.asdf', 'plugins', item.name) | path_join }}"
+  loop: "{{ asdf_plugins }}"
+  when: asdf_plugins | length > 0

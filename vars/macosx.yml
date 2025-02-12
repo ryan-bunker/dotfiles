@@ -11,3 +11,7 @@ casks:
   - sf-symbols
   - slack
   - spotify
+
+asdf_plugins:
+  - name: kubectl
+    repo: https://github.com/asdf-community/asdf-kubectl.git
