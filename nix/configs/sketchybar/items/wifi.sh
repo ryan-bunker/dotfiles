@@ -24,11 +24,6 @@ sketchybar                                                                      
         label="SSID"                                                                                  \
         "${menu_item_defaults[@]}"                                                                    \
         click_script="open 'x-apple.systempreferences:com.apple.preference.network?Wi-Fi';$POPUP_OFF" \
-  --add item wifi.strength popup.wifi                                                                 \
-  --set wifi.strength icon=􀋨                                                                          \
-        label="Speed"                                                                                 \
-        "${menu_item_defaults[@]}"                                                                    \
-        click_script="open 'x-apple.systempreferences:com.apple.preference.network?Wi-Fi';$POPUP_OFF" \
   --add item wifi.ipaddress popup.wifi                                                                \
   --set wifi.ipaddress icon=􀆪                                                                         \
         label="IP Address"                                                                            \

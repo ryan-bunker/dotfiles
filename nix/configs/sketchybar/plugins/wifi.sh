@@ -8,10 +8,10 @@ POPUP_CLICK_SCRIPT="sketchybar --set wifi popup.drawing=toggle"
 
 # IS_VPN=$(/usr/local/bin/piactl get connectionstate)
 IS_VPN="Disconnected"
-CURRENT_WIFI="$(sudo wdutil info)"
+WIFI_ACTIVE=$(ipconfig getsummary en0 | awk -F ' Active : '  '/ Active : / {print $2}')
 IP_ADDRESS="$(ipconfig getifaddr en0)"
-SSID="$(echo "$CURRENT_WIFI" | grep -o "\\bSSID *: .*" | sed 's/^SSID *: //')"
-CURR_TX="$(echo "$CURRENT_WIFI" | grep -o "\\bTx Rate *: .*" | sed 's/^Tx Rate *: //')"
+SSID="$(ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}')"
+# CURR_TX="$(echo "$CURRENT_WIFI" | grep -o "\\bTx Rate *: .*" | sed 's/^Tx Rate *: //')"
 
 if [[ $IS_VPN != "Disconnected" ]]; then
   ICON_COLOR=$HIGHLIGHT
@@ -19,8 +19,8 @@ if [[ $IS_VPN != "Disconnected" ]]; then
 elif [[ $SSID != "" ]]; then
   ICON_COLOR=$LABEL_COLOR
   ICON=󰖩
-elif [[ $CURRENT_WIFI = "AirPort: Off" ]]; then
-  # ICON_COLOR=$RED
+elif [[ $WIFI_ACTIVE = "FALSE" ]]; then
+  ICON_COLOR=$RED
   ICON=􀐾
 else
   ICON_COLOR=$(getcolor white 25)
@@ -41,7 +41,7 @@ render_popup() {
     args=(
       --set wifi click_script="$POPUP_CLICK_SCRIPT"
       --set wifi.ssid label="$SSID"
-      --set wifi.strength label="$CURR_TX"
+      # --set wifi.strength label="$CURR_TX"
       --set wifi.ipaddress label="$IP_ADDRESS"
       click_script="printf $IP_ADDRESS | pbcopy;$POPUP_OFF"
     )
