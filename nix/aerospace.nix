@@ -34,6 +34,11 @@
       "exec-and-forget env PATH=$HOME/.nix-profile/bin:$PATH ${pkgs.sketchybar}/bin/sketchybar"
       "workspace 4"
       "layout h_accordion"
+      "exec-and-forget open -n /Applications/qutebrowser.app"
+      "exec-and-forget open -n /Applications/kitty.app"
+      "exec-and-forget kitty --title 'Scratch Terminal'"
+      "exec-and-forget open -n /Applications/Slack.app"
+      "exec-and-forget open -n /Applications/Diskord.app"
     ];
 
     # Notify Sketchybar about workspace change
@@ -85,6 +90,7 @@
       alt-b = "workspace b";
       alt-c = "workspace c";
       alt-d = "workspace d";
+      alt-t = "workspace t";
 
       # switch to previous workspace
       alt-tab = "workspace-back-and-forth";
@@ -156,7 +162,20 @@
     # app to workspace assignments
     on-window-detected = [
       { "if" = { app-id = "org.qutebrowser.qutebrowser"; }; run = ["move-node-to-workspace 1"]; }
-      { "if" = { app-id = "net.kovidgoyal.kitty"; }; run = ["move-node-to-workspace 2"]; }
+      {
+        "if" = { 
+          app-id = "net.kovidgoyal.kitty";
+          during-aerospace-startup = true;
+        };
+        run = ["move-node-to-workspace 2"];
+      }
+      {
+        "if" = { 
+          app-id = "net.kovidgoyal.kitty";
+          window-title-regex-substring = "Scratch Terminal";
+        };
+        run = ["move-node-to-workspace t"];
+      }
       { "if" = { app-id = "com.microsoft.Outlook"; }; run = ["move-node-to-workspace 3"]; }
       { "if" = { app-id = "com.tinyspeck.slackmacgap"; }; run = ["move-node-to-workspace 4"]; }
       { "if" = { app-id = "com.hnc.Discord"; }; run = ["move-node-to-workspace 4"]; }

@@ -32,6 +32,8 @@
     bindkey '^n' history-search-forward
     bindkey "^[[A" up-line-or-beginning-search # Up
     bindkey "^[[B" down-line-or-beginning-search # Down
+    bindkey "^[[1~" beginning-of-line # Home
+    bindkey "^[[4~" end-of-line # End
     bindkey -s '^g' "tmux-sessionizer\n"
 
     HISTDUP=erase
