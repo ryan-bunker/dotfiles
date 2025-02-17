@@ -88,6 +88,7 @@
   };
 
   programs = {
+    aerospace = (import ./aerospace.nix { inherit pkgs; });
     bat = {
       enable = true;
     };
@@ -96,29 +97,8 @@
       git = true;
       icons = "auto";
     };
-    jq = {
-      enable = true;
-    };
-    lazygit = {
-      enable = true;
-    };
-    # TODO: this doesn't install an .app and it crashes when run from the terminal
-    # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
-    ripgrep = {
-      enable = true;
-    };
-    tmux = (import ./tmux.nix { inherit pkgs; });
-    zsh = (import ./zsh.nix { inherit config pkgs; });
-    oh-my-posh = {
-      enable = true;
-      settings = builtins.fromTOML (builtins.unsafeDiscardStringContext (builtins.readFile ../roles/zsh/files/oh-my-posh.toml));
-    };
     fzf = {
       enable = true;
-    };
-    zoxide = {
-      enable = true;
-      options = [ "--cmd" "cd" ];
     };
     git = {
       enable = true;
@@ -128,7 +108,27 @@
         { path = ./gitconfig.local; }
       ];
     };
-    aerospace = (import ./aerospace.nix { inherit pkgs; });
+    jq = {
+      enable = true;
+    };
+    lazygit = {
+      enable = true;
+    };
+    oh-my-posh = {
+      enable = true;
+      settings = builtins.fromTOML (builtins.unsafeDiscardStringContext (builtins.readFile ../roles/zsh/files/oh-my-posh.toml));
+    };
+    # TODO: this doesn't install an .app and it crashes when run from the terminal
+    # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
+    ripgrep = {
+      enable = true;
+    };
+    tmux = (import ./tmux.nix { inherit pkgs; });
+    zoxide = {
+      enable = true;
+      options = [ "--cmd" "cd" ];
+    };
+    zsh = (import ./zsh.nix { inherit config pkgs; });
   };
 
 
