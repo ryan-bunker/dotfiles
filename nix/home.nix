@@ -26,8 +26,21 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    nerd-fonts.jetbrains-mono
+    curl
+    luajit
+    lynx
+    pass
+    powershell
     sketchybar
+    slack
+    spotify
+    tree
+    unixtools.watch
+    yq
   ];
+
+  fonts.fontconfig.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -75,6 +88,25 @@
   };
 
   programs = {
+    bat = {
+      enable = true;
+    };
+    eza = {
+      enable = true;
+      git = true;
+      icons = "auto";
+    };
+    jq = {
+      enable = true;
+    };
+    lazygit = {
+      enable = true;
+    };
+    # TODO: this doesn't install an .app and it crashes when run from the terminal
+    # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
+    ripgrep = {
+      enable = true;
+    };
     tmux = (import ./tmux.nix { inherit pkgs; });
     zsh = (import ./zsh.nix { inherit config pkgs; });
     oh-my-posh = {
