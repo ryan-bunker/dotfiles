@@ -23,6 +23,9 @@ return {
 							["<C-h>"] = "which_key",
 						},
 					},
+					file_ignore_patterns = {
+						"^.git/",
+					},
 				},
 				pickers = {
 					buffers = {
@@ -34,6 +37,10 @@ return {
 								["<C-d>"] = require("telescope.actions").delete_buffer,
 							},
 						},
+					},
+					find_files = {
+						hidden = true,
+						no_ignore = true,
 					},
 				},
 				extensions = {

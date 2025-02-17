@@ -6,6 +6,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			"ray-x/lsp_signature.nvim",
+			{ "towolf/vim-helm", ft = "helm" },
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -110,7 +111,7 @@ return {
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
 				lua_ls = {},
-				tsserver = {},
+				-- tsserver = {},
 				gopls = {
 					cmd = { "gopls" },
 					filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -126,10 +127,14 @@ return {
 				},
 				ansiblels = {},
 				powershell_es = {},
-				bufls = {
-					cmd = { "bufls", "serve" },
-					filetypes = { "proto" },
-					root_dir = require("lspconfig/util").root_pattern("buf.work.yaml", ".git"),
+				buf_ls = {},
+				-- bufls = {
+				-- 	cmd = { "bufls", "serve" },
+				-- 	filetypes = { "proto" },
+				-- 	root_dir = require("lspconfig/util").root_pattern("buf.work.yaml", ".git"),
+				-- },
+				["helm-ls"] = {
+					yamlls = { path = "yaml-language-server" },
 				},
 			}
 
@@ -143,18 +148,20 @@ return {
 
 			-- You can add other tools here that you want Mason to install
 			-- for you, so that they are available from within Neovim.
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format lua code
-				"gofumpt",
-				"goimports-reviser",
-				"prettierd",
-				"ansible-lint",
-				"editorconfig-checker",
-				"buf",
-			})
 			require("mason-tool-installer").setup({
-				ensure_installed = ensure_installed,
+				ensure_installed = {
+					"lua_ls",
+					"gopls",
+					"ansiblels",
+					"powershell_es",
+					"buf",
+					"stylua", -- Used to format lua code
+					"gofumpt",
+					"goimports-reviser",
+					"prettierd",
+					"ansible-lint",
+					"editorconfig-checker",
+				},
 				auto_update = true,
 				run_on_start = true,
 				-- debounce_hours = 12,
@@ -166,15 +173,15 @@ return {
 					function(server_name)
 						-- print("Setting up LSP " .. server_name)
 						local server = servers[server_name] or {}
-						server.on_attach = function(client, bufnr)
-							-- print("Attaching LSP " .. server_name .. " to " .. bufnr)
-							require("lsp_signature").on_attach({
-								bind = true,
-								handler_opts = {
-									border = "rounded",
-								},
-							}, bufnr)
-						end
+						-- server.on_attach = function(client, bufnr)
+						-- 	-- print("Attaching LSP " .. server_name .. " to " .. bufnr)
+						-- 	require("lsp_signature").on_attach({
+						-- 		bind = true,
+						-- 		handler_opts = {
+						-- 			border = "rounded",
+						-- 		},
+						-- 	}, bufnr)
+						-- end
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
@@ -281,7 +288,7 @@ return {
 			end
 
 			require("ufo").setup({
-				fold_virt_text_handler = handler
+				fold_virt_text_handler = handler,
 			})
 		end,
 	},
