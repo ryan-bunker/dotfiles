@@ -3,27 +3,29 @@ return {
 	config = function()
 		local conform = require("conform")
 
+		local prettier_format = { "prettierd", "prettier", stop_after_first = true }
+
 		conform.setup({
 			format_on_save = {
 				lsp_fallback = true,
 				timeout_ms = 500,
 			},
 			formatters_by_ft = {
-				css = { { "prettierd", "prettier" } },
+				css = prettier_format,
 				go = { "gofumpt", "goimports-reviser" },
-				graphql = { { "prettierd", "prettier" } },
-				html = { { "prettierd", "prettier" } },
-				javascript = { { "prettierd", "prettier" } },
-				javascriptreact = { { "prettierd", "prettier" } },
-				json = { { "prettierd", "prettier" } },
+				graphql = prettier_format,
+				html = prettier_format,
+				javascript = prettier_format,
+				javascriptreact = prettier_format,
+				json = prettier_format,
 				lua = { "stylua" },
-				markdown = { { "prettierd", "prettier" } },
+				markdown = prettier_format,
 				-- python = { "isort", "black" },
 				-- sql = { "sql-formatter" },
-				svelte = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				typescriptreact = { { "prettierd", "prettier" } },
-				yaml = { { "prettierd", "prettier" } },
+				svelte = prettier_format,
+				typescript = prettier_format,
+				typescriptreact = prettier_format,
+				yaml = prettier_format,
 			},
 		})
 
