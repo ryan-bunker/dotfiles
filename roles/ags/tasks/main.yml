@@ -6,7 +6,7 @@
 
 - name: Configure ags
   ansible.builtin.file:
-    src: "{{ (role_path, 'files', 'ags', 'dist') | path_join }}"
+    src: "{{ (role_path, 'files', 'ags') | path_join }}"
     dest: "{{ (config_dir, 'ags') | path_join }}"
     state: link
 

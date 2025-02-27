@@ -1,0 +1,238 @@
+@import "./macchiato.scss";
+
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+/* $fg-color: #{"@theme_fg_color"}; */
+/* $bg-color: #{"@theme_bg_color"}; */
+
+window {
+    font-family: Montserrat, "Font Awesome 5 Free", "JetBrainsMono Nerd Font Mono";
+    background-color: transparent;
+}
+
+button {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    background-image: none;
+    background-color: transparent;
+    border: 0px solid blue;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+button.workspace {
+    padding: 0px 10px;
+    margin: 0;
+    border-radius: 3px;
+}
+
+button:active {
+  /* // background-color: @theme_selected_bg_color; */
+}
+
+button:hover {
+  /* // background-color: @inherit; */
+}
+
+label {
+  /* font-weight: bold; */
+}
+
+.grouping {
+  /* background-color: $base; */
+  background-color: rgba(36, 39, 58, 0.6);
+  /* opacity: 0.5; */
+  margin: 8px 20px 0 20px;
+  padding: 6px 16px;
+  border-radius: 3px;
+}
+
+.notification {
+  color: yellow;
+}
+
+levelbar block,
+highlight {
+  min-height: 10px;
+}
+
+/***
+workspace
+***/
+
+.ws1 {
+  color: $rosewater;
+}
+.ws1.focused {
+  background-color: $rosewater;
+}
+.ws2 {
+  color: $lavender;
+}
+.ws2.focused {
+  background-color: $lavender;
+}
+.ws3 {
+  color: $sky;
+}
+.ws3.focused {
+  background-color: $sky;
+}
+.ws4 {
+  color: $red;
+}
+.ws4.focused {
+  background-color: $red;
+}
+.ws5 {
+  color: $green;
+}
+.ws5.focused {
+  background-color: $green;
+}
+.ws6 {
+  color: $yellow;
+}
+.ws6.focused {
+  background-color: $yellow;
+}
+.ws7 {
+  color: $blue;
+}
+.ws7.focused {
+  background-color: $blue;
+}
+.ws8 {
+  color: $pink;
+}
+.ws8.focused {
+  background-color: $pink;
+}
+.ws9 {
+  color: $teal;
+}
+.ws9.focused {
+  background-color: $teal;
+}
+
+.focused {
+  color: $crust;
+  transition: background-color 0.5s;
+}
+
+.workspace .label {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.workspace .value {
+  font-size: 14px;
+}
+.value.Code, .value.Spotify {
+  font-size: 24px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+/***
+system tray
+***/
+.system-tray {
+  margin-right: 20px;
+}
+
+/***
+system icons
+***/
+.icon {
+}
+
+/***
+clock
+***/
+.clock {
+  margin-left: 20px;
+}
+
+.date {
+  font-size: 12px;
+  color: $text;
+  margin-top: -2px;
+  margin-bottom: -4px;
+}
+
+.time {
+  font-size: 14px;
+  font-weight: bold;
+  color: $text;
+  margin-bottom: -6px;
+}
+
+window.notification-popups box.notifications {
+}
+
+.notification-popups .icon {
+    min-width: 68px;
+    min-height: 68px;
+    margin-right: 1em;
+}
+
+.notification-popups .icon image {
+    font-size: 58px;
+    /* to center the icon */
+    margin: 5px;
+    color: $lavender;
+}
+
+.notification-popups .icon box {
+    min-width: 68px;
+    min-height: 68px;
+    border-radius: 7px;
+}
+
+.notification-popups .notification {
+  background-color: rgba(36, 39, 58, 0.6);
+  min-width: 350px;
+  border-radius: 3px;
+  margin: 8px 20px;
+  padding: 1em;
+  border: 1px solid $lavender;
+}
+
+.notification-popups .notification.critical {
+    border: 2px solid $red;
+}
+.notification-popups .notification.critical .icon image,
+.notification-popups .notification.critical .title {
+  color: $red;
+}
+
+.notification-popups .title {
+  color: $text;
+  font-size: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+.notification-popups .body {
+  color: $text;
+}
+
+.actions .action-button {
+    margin: 0 .4em;
+    margin-top: .8em;
+    padding: 0.4em;
+  background-color: $surface2;
+    color: $text;
+}
+
+.actions .action-button:hover {
+  background-color: $blue;
+}
+
+.actions .action-button:first-child {
+    margin-left: 0;
+}
+
+.actions .action-button:last-child {
+    margin-right: 0;
+}

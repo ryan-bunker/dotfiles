@@ -8,25 +8,30 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ags = {
+      url = "github:aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, ... }@inputs:
     let
-      system = "aarch64-darwin";
-      pkgs = import nixpkgs {
-        system = system;
+      mkPkgs = sys: import nixpkgs {
+        system = sys;
         config.allowUnfree = true;
       };
     in {
-      homeConfigurations."I845798" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      homeConfigurations = {
+        I845798 = home-manager.lib.homeManagerConfiguration {
+          pkgs = (mkPkgs "aarch64-darwin");
+          modules = [ ./home.nix ];
+        };
 
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+        ryan = home-manager.lib.homeManagerConfiguration {
+          pkgs = (mkPkgs "x86_64-linux");
+          extraSpecialArgs = { inherit inputs; };
+          modules = [ ./arch-laptop.nix ];
+        };
       };
     };
 }

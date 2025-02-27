@@ -24,12 +24,6 @@
     dest: "{{ (config_dir, 'hypr') | path_join }}"
     state: link
 
-- name: Install systemd units
-  ansible.builtin.file:
-    src: "{{ (role_path, 'files/hypr-session.target') | path_join }}"
-    dest: "{{ (config_dir, 'systemd/user/hypr-session.target') | path_join }}"
-    state: link
-
 - name: Enable hypridle systemd service
   ansible.builtin.systemd:
     name: hypridle.service

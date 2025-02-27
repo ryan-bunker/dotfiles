@@ -136,6 +136,10 @@ return {
 				["helm-ls"] = {
 					yamlls = { path = "yaml-language-server" },
 				},
+				svelte = {},
+				omnisharp = {
+					cmd = { vim.fn.stdpath("data") .. "/mason/bin/omnisharp" },
+				},
 			}
 
 			-- Ensure the servers and tools above are installed

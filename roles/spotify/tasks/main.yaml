@@ -83,6 +83,7 @@
     path: "{{ (spicetify_install.path, 'spicetify') | path_join }}"
     state: file
     mode: u=rwx,g=rx,o=rx
+  register: spicetify_cli
 
 - name: Configure spotify path in spicetify
   ansible.builtin.lineinfile:
