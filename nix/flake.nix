@@ -12,6 +12,10 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
@@ -19,6 +23,9 @@
       mkPkgs = sys: import nixpkgs {
         system = sys;
         config.allowUnfree = true;
+        overlays = [
+          inputs.neovim-nightly-overlay.overlays.default
+        ];
       };
     in {
       homeConfigurations = {
