@@ -135,7 +135,7 @@
       alt-shift-semicolon = "mode service";
 
       # password picker
-      ctrl-shift-p = ''exec-and-forget find "$HOME/OneDrive - SAP SE/.password-store" -type f -name "*.gpg" | sed "s|.*/\.password-store/||; s|\.gpg$||" | choose | xargs -r -I{} env PASSWORD_STORE_DIR=$HOME/OneDrive\ -\ SAP\ SE/.password-store pass show -c {}'';
+      ctrl-shift-p = ''exec-and-forget find "$HOME/.password-store" -type f -name "*.gpg" | sed "s|.*/\.password-store/||; s|\.gpg$||" | ${pkgs.choose-gui}/bin/choose | xargs -r -I{} ${pkgs.pass}/bin/pass show -c {}'';
     };
 
     workspace-to-monitor-force-assignment = {

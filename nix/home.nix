@@ -87,7 +87,6 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     GOPATH = "$HOME/go";
-    PASSWORD_STORE_DIR = "$HOME/OneDrive - SAP SE/.password-store";
   };
 
   programs = {
