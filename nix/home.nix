@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./modules/aerospace
     ./modules/sketchybar
   ];
 
@@ -94,7 +95,6 @@
   };
 
   programs = {
-    aerospace = (import ./aerospace.nix { inherit pkgs; });
     bash = {
       enable = true;
     };
