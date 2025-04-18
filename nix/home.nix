@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./modules/sketchybar.nix
+    ./modules/sketchybar
   ];
 
   # Let Home Manager install and manage itself.

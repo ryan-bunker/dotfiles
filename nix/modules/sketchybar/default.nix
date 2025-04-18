@@ -3,7 +3,7 @@ let
   homeDir = config.home.homeDirectory;
   configDir = builtins.path {
     name = "sketchybar-config";
-    path = ../configs/sketchybar;
+    path = ./config;
   };
   sketchybarrcFile = "${configDir}/sketchybarrc";
 in 
