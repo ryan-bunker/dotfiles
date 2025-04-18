@@ -1,6 +1,7 @@
 return {
 	{
 		"folke/noice.nvim",
+		enabled = true,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 			{
@@ -19,6 +20,10 @@ return {
 					["vim.lsp.util.stylize_markdown"] = true,
 					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
+				signature = {
+					enabled = false,
+					view = "sig_hover",
+				},
 			},
 			-- you can enable a preset for easier configuration
 			presets = {
@@ -26,12 +31,19 @@ return {
 				command_palette = true, -- position the cmdline and popupmenu together
 				long_message_to_split = true, -- long messages will be sent to a split
 				inc_rename = false, -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = false, -- add a border to hover docs and signature help
+				lsp_doc_border = true, -- add a border to hover docs and signature help
 			},
 			routes = {
 				{
 					view = "notify",
 					filter = { event = "msg_showmode" },
+				},
+			},
+			views = {
+				sig_hover = {
+					view = "hover",
+					anchor = "SW",
+					position = { row = 0, col = 0 },
 				},
 			},
 		},

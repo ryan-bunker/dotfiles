@@ -16,4 +16,8 @@ return {
 			width = 0.3,
 		},
 	},
+	keys = {
+		{ "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Toggle Copilot Chat" },
+		{ "<leader>cp", "<cmd>CopilotChatPrompts<cr>", desc = "Show predefined Copilot prompts" },
+	},
 }
