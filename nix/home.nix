@@ -31,7 +31,11 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     nerd-fonts.jetbrains-mono
+    antlr
+    choose-gui
     curl
+    dua
+    libxml2
     luajit
     lynx
     pass
@@ -91,6 +95,9 @@
 
   programs = {
     aerospace = (import ./aerospace.nix { inherit pkgs; });
+    bash = {
+      enable = true;
+    };
     bat = {
       enable = true;
     };

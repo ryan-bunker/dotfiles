@@ -31,13 +31,17 @@
       homeConfigurations = {
         I845798 = home-manager.lib.homeManagerConfiguration {
           pkgs = (mkPkgs "aarch64-darwin");
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix 
+          ];
         };
 
         ryan = home-manager.lib.homeManagerConfiguration {
           pkgs = (mkPkgs "x86_64-linux");
           extraSpecialArgs = { inherit inputs; };
-          modules = [ ./arch-laptop.nix ];
+          modules = [
+            ./arch-laptop.nix 
+          ];
         };
       };
     };
