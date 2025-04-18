@@ -36,7 +36,6 @@
     lynx
     pass
     powershell
-    sketchybar
     slack
     spotify
     tree
@@ -61,7 +60,6 @@
     # '';
 
     ".local/bin/tmux-sessionizer".source = ./tmux-sessionizer;
-    ".config/sketchybar".source = ./configs/sketchybar;
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/neovim";
   };
 

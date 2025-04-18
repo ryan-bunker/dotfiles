@@ -1,11 +1,11 @@
-echo "(from rc) starting sketchybar..." >> $HOME/.sketchybar.log
-echo "(from rc) PATH=$PATH" >> $HOME/.sketchybar.log
+echo "(from rc) starting sketchybar..."
+echo "(from rc) PATH=$PATH"
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 ITEM_DIR="$CONFIG_DIR/items"
 
-echo "(from rc) config: $CONFIG_DIR" >> $HOME/.sketchybar.log
-echo "(from rc) $(which sketchybar)" >> $HOME/.sketchybar.log
+echo "(from rc) config: $CONFIG_DIR"
+echo "(from rc) $(which sketchybar)"
 
 # Load global styles, colors and icons
 source "$CONFIG_DIR/globalstyles.sh"

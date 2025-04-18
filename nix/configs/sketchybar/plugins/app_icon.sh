@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "$HOME/.config/sketchybar/icons.sh"
+source "$CONFIG_DIR/icons.sh"
 
 case "$1" in
 "Terminal" | "Alacritty" | "kitty")
