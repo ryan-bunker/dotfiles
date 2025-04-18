@@ -30,8 +30,6 @@
     };
 
     after-startup-command = [
-      # TODO: figure out why nix bins are not in the default aerospace path (homebrew is for some reason)
-      "exec-and-forget env PATH=$HOME/.nix-profile/bin:$PATH ${pkgs.sketchybar}/bin/sketchybar"
       "workspace 4"
       "layout h_accordion"
       "exec-and-forget open -n /Applications/qutebrowser.app"
