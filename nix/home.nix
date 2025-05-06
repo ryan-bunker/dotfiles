@@ -4,6 +4,8 @@
   imports = [
     ./modules/aerospace
     ./modules/sketchybar
+    ./modules/tmux
+    ./modules/zsh
   ];
 
   # Let Home Manager install and manage itself.
@@ -135,12 +137,10 @@
     ripgrep = {
       enable = true;
     };
-    tmux = (import ./tmux.nix { inherit pkgs; });
     zoxide = {
       enable = true;
       options = [ "--cmd" "cd" ];
     };
-    zsh = (import ./zsh.nix { inherit config pkgs; });
   };
 
 
