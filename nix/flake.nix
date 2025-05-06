@@ -16,6 +16,10 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    alejandra = {
+      url = "github:kamadorueda/alejandra/4.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
@@ -31,6 +35,7 @@
       homeConfigurations = {
         I845798 = home-manager.lib.homeManagerConfiguration {
           pkgs = (mkPkgs "aarch64-darwin");
+          extraSpecialArgs = { inherit inputs; };
           modules = [
             ./home.nix 
           ];
