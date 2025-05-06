@@ -1,13 +1,15 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   homeDir = config.home.homeDirectory;
   configDir = builtins.path {
     name = "sketchybar-config";
     path = ./config;
   };
   sketchybarrcFile = "${configDir}/sketchybarrc";
-in 
-{
+in {
   home.packages = [pkgs.sketchybar];
 
   launchd.agents = {

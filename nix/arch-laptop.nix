@@ -1,12 +1,16 @@
-{ inputs, config, pkgs, ... }:
 {
+  inputs,
+  config,
+  pkgs,
+  ...
+}: {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   home.username = "ryan";
   home.homeDirectory = "/home/ryan";
 
-  imports = [ inputs.ags.homeManagerModules.default ];
+  imports = [inputs.ags.homeManagerModules.default];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -164,12 +168,12 @@
     ripgrep = {
       enable = true;
     };
-    tmux = (import ./tmux.nix { inherit pkgs; });
+    tmux = import ./tmux.nix {inherit pkgs;};
     zoxide = {
       enable = true;
-      options = [ "--cmd" "cd" ];
+      options = ["--cmd" "cd"];
     };
-    zsh = (import ./zsh.nix { inherit config pkgs; });
+    zsh = import ./zsh.nix {inherit config pkgs;};
   };
 
   systemd.user.services = {
@@ -217,7 +221,6 @@
       };
     };
   };
-
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

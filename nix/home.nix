@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./modules/aerospace
     ./modules/sketchybar
@@ -117,7 +120,7 @@
       userName = "Ryan Bunker";
       userEmail = "ryan.bunker@sap.com";
       includes = [
-        { path = ./gitconfig.local; }
+        {path = ./gitconfig.local;}
       ];
     };
     jq = {
@@ -140,10 +143,9 @@
     };
     zoxide = {
       enable = true;
-      options = [ "--cmd" "cd" ];
+      options = ["--cmd" "cd"];
     };
   };
-
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

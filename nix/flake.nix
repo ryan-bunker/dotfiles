@@ -22,32 +22,36 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs:
-    let
-      mkPkgs = sys: import nixpkgs {
+  outputs = {
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+    mkPkgs = sys:
+      import nixpkgs {
         system = sys;
         config.allowUnfree = true;
         overlays = [
           inputs.neovim-nightly-overlay.overlays.default
         ];
       };
-    in {
-      homeConfigurations = {
-        I845798 = home-manager.lib.homeManagerConfiguration {
-          pkgs = (mkPkgs "aarch64-darwin");
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ./home.nix 
-          ];
-        };
+  in {
+    homeConfigurations = {
+      I845798 = home-manager.lib.homeManagerConfiguration {
+        pkgs = mkPkgs "aarch64-darwin";
+        extraSpecialArgs = {inherit inputs;};
+        modules = [
+          ./home.nix
+        ];
+      };
 
-        ryan = home-manager.lib.homeManagerConfiguration {
-          pkgs = (mkPkgs "x86_64-linux");
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ./arch-laptop.nix 
-          ];
-        };
+      ryan = home-manager.lib.homeManagerConfiguration {
+        pkgs = mkPkgs "x86_64-linux";
+        extraSpecialArgs = {inherit inputs;};
+        modules = [
+          ./arch-laptop.nix
+        ];
       };
     };
+  };
 }

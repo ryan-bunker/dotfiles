@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.aerospace = {
     enable = true;
 
@@ -19,11 +18,11 @@
           bottom = 10;
           top = [
             # Ultrawides
-            { monitor."^dell .*" = 54; }
-            { monitor."^acer .*" = 46; }
+            {monitor."^dell .*" = 54;}
+            {monitor."^acer .*" = 46;}
             # Portrait secondary
-            { monitor."lg ultra hd" = 54; }
-            { monitor."samsung" = 46; }
+            {monitor."lg ultra hd" = 54;}
+            {monitor."samsung" = 46;}
             16
           ];
           right = 10;
@@ -160,27 +159,55 @@
 
       # app to workspace assignments
       on-window-detected = [
-        { "if" = { app-id = "org.qutebrowser.qutebrowser"; }; run = ["move-node-to-workspace 1"]; }
         {
-          "if" = { 
+          "if" = {app-id = "org.qutebrowser.qutebrowser";};
+          run = ["move-node-to-workspace 1"];
+        }
+        {
+          "if" = {
             app-id = "net.kovidgoyal.kitty";
             during-aerospace-startup = true;
           };
           run = ["move-node-to-workspace 2"];
         }
         {
-          "if" = { 
+          "if" = {
             app-id = "net.kovidgoyal.kitty";
             window-title-regex-substring = "Scratch Terminal";
           };
           run = ["move-node-to-workspace t"];
         }
-        { "if" = { app-id = "com.microsoft.Outlook"; }; run = ["move-node-to-workspace 3"]; }
-        { "if" = { app-id = "com.tinyspeck.slackmacgap"; }; run = ["move-node-to-workspace 4"]; }
-        { "if" = { app-id = "com.hnc.Discord"; }; run = ["move-node-to-workspace 4"]; }
+        {
+          "if" = {app-id = "com.microsoft.Outlook";};
+          run = ["move-node-to-workspace 3"];
+        }
+        {
+          "if" = {app-id = "com.tinyspeck.slackmacgap";};
+          run = ["move-node-to-workspace 4"];
+        }
+        {
+          "if" = {app-id = "com.hnc.Discord";};
+          run = ["move-node-to-workspace 4"];
+        }
         # TODO: always send meeting windows to workspace 5
-        { "if" = { app-id = "com.microsoft.teams2"; /*window-title-regex-substring = "";*/ }; run = ["move-node-to-workspace 5"]; }
-        { "if" = { app-id = "org.qutebrowser.qutebrowser"; /*window-title-regex-substring = "^$";*/ }; run = ["layout tiling"]; }
+        {
+          "if" = {
+            app-id = "com.microsoft.teams2";
+            /*
+            window-title-regex-substring = "";
+            */
+          };
+          run = ["move-node-to-workspace 5"];
+        }
+        {
+          "if" = {
+            app-id = "org.qutebrowser.qutebrowser";
+            /*
+            window-title-regex-substring = "^$";
+            */
+          };
+          run = ["layout tiling"];
+        }
       ];
     };
   };
