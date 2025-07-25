@@ -36,8 +36,9 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    inputs.alejandra.defaultPackage.${system}
+    inputs.alejandra.packages.${system}.default
     nerd-fonts.jetbrains-mono
+    asdf-vm
     antlr
     choose-gui
     curl
@@ -115,6 +116,7 @@
     fzf = {
       enable = true;
     };
+    gh.enable = true;
     git = {
       enable = true;
       userName = "Ryan Bunker";
