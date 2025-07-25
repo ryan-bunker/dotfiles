@@ -15,6 +15,12 @@ return {
 		window = {
 			width = 0.3,
 		},
+		mappings = {
+			reset = {
+				normal = "<C-M-r>",
+				insert = "<C-M-r>",
+			},
+		},
 	},
 	keys = {
 		{ "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Toggle Copilot Chat" },
