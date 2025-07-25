@@ -156,6 +156,7 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"gopls",
+					"golangci-lint",
 					"ansiblels",
 					"powershell_es",
 					"buf",
