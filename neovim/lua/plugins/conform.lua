@@ -20,6 +20,7 @@ return {
 				json = prettier_format,
 				lua = { "stylua" },
 				markdown = prettier_format,
+				nix = { "alejandra" },
 				-- python = { "isort", "black" },
 				-- sql = { "sql-formatter" },
 				svelte = prettier_format,
