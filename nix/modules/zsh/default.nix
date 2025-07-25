@@ -17,10 +17,14 @@
       kns = "kubectl config set-context --current --namespace";
       ls = "eza";
     };
+    # TODO: evaluation warning: `programs.zsh.initExtraFirst` is deprecated, use `programs.zsh.initContent` with `lib.mkBefore` instead.
+    #   Example: programs.zsh.initContent = lib.mkBefore "your content here";
     initExtraFirst = ''
       # Setup homebrew on systems where it is installed
       [ -s /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
     '';
+    # TODO: evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
+    #   Example: programs.zsh.initContent = "your content here";
     initExtra = ''
       autoload -U up-line-or-beginning-search
       autoload -U down-line-or-beginning-search
