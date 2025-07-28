@@ -14,9 +14,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  home.username = "I845798";
-  home.homeDirectory = "/Users/I845798";
-
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -38,17 +35,13 @@
     # '')
     alejandra.packages.${system}.default
     nerd-fonts.jetbrains-mono
-    asdf-vm
     antlr
-    choose-gui
     curl
     dua
     libxml2
     luajit
     lynx
-    pass
     powershell
-    slack
     spotify
     tree
     unixtools.watch
@@ -117,14 +110,6 @@
       enable = true;
     };
     gh.enable = true;
-    git = {
-      enable = true;
-      userName = "Ryan Bunker";
-      userEmail = "ryan.bunker@sap.com";
-      includes = [
-        {path = ./gitconfig.local;}
-      ];
-    };
     jq = {
       enable = true;
     };
