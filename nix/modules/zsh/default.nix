@@ -83,4 +83,9 @@
         file = "share/oh-my-zsh/plugins/${p}/${p}.plugin.zsh";
       }) ["asdf" "git" "sudo" "aws" "command-not-found" "kubectx"];
   };
+
+  programs.oh-my-posh = {
+    enable = true;
+    settings = builtins.fromTOML (builtins.unsafeDiscardStringContext (builtins.readFile ./oh-my-posh.toml));
+  };
 }

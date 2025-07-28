@@ -134,10 +134,6 @@
     neovim = {
       enable = true;
     };
-    oh-my-posh = {
-      enable = true;
-      settings = builtins.fromTOML (builtins.unsafeDiscardStringContext (builtins.readFile ../roles/zsh/files/oh-my-posh.toml));
-    };
     # TODO: this doesn't install an .app and it crashes when run from the terminal
     # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
     ripgrep = {
