@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  inputs,
+  alejandra,
   ...
 }: {
   imports = [
@@ -36,7 +36,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    inputs.alejandra.packages.${system}.default
+    alejandra.packages.${system}.default
     nerd-fonts.jetbrains-mono
     asdf-vm
     antlr

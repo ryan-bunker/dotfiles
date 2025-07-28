@@ -25,6 +25,7 @@
   outputs = {
     nixpkgs,
     home-manager,
+    alejandra,
     ...
   } @ inputs: let
     mkPkgs = sys:
@@ -36,15 +37,16 @@
         ];
       };
   in {
-    homeConfigurations = {
-      I845798 = home-manager.lib.homeManagerConfiguration {
-        pkgs = mkPkgs "aarch64-darwin";
-        extraSpecialArgs = {inherit inputs;};
-        modules = [
-          ./home.nix
-        ];
-      };
+    nixosModules = {
+      home = {
+        config,
+        pkgs,
+        ...
+      } @ args:
+        import ./home.nix (args // {inherit alejandra;});
+    };
 
+    homeConfigurations = {
       ryan = home-manager.lib.homeManagerConfiguration {
         pkgs = mkPkgs "x86_64-linux";
         extraSpecialArgs = {inherit inputs;};
