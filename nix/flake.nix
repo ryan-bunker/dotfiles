@@ -26,30 +26,23 @@
     nixpkgs,
     home-manager,
     alejandra,
+    neovim-nightly-overlay,
     ...
   } @ inputs: let
-    mkPkgs = sys:
-      import nixpkgs {
-        system = sys;
-        config.allowUnfree = true;
-        overlays = [
-          inputs.neovim-nightly-overlay.overlays.default
-        ];
-      };
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
   in {
     nixosModules = {
-      home = {
-        config,
-        pkgs,
-        ...
-      } @ args:
-        import ./home.nix (args // {inherit alejandra;});
+      default = {...}: {
+        imports = [./modules];
+        _module.args = {inherit alejandra neovim-nightly-overlay;};
+      };
     };
 
     homeConfigurations = {
       ryan = home-manager.lib.homeManagerConfiguration {
-        pkgs = mkPkgs "x86_64-linux";
-        extraSpecialArgs = {inherit inputs;};
+        inherit pkgs;
+        extraSpecialArgs = {inherit alejandra neovim-nightly-overlay;};
         modules = [
           ./arch-laptop.nix
         ];

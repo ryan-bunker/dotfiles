@@ -2,6 +2,7 @@
   config,
   pkgs,
   alejandra,
+  neovim-nightly-overlay,
   ...
 }: {
   imports = [
@@ -118,6 +119,7 @@
     };
     neovim = {
       enable = true;
+      package = neovim-nightly-overlay.packages.${pkgs.system}.default;
     };
     # TODO: this doesn't install an .app and it crashes when run from the terminal
     # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
