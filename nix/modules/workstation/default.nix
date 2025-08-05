@@ -12,9 +12,9 @@ in {
     ./zsh
 
     # TODO: move these to real modules with options
-    ../aerospace
-    ../sketchybar
-    ../tmux
+    ./aerospace
+    ./sketchybar
+    ./tmux
   ];
 
   options = {
