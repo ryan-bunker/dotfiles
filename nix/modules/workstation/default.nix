@@ -8,13 +8,12 @@
   cfg = config.bunker-house.workstation;
 in {
   imports = [
-    ./neovim.nix
-    ./zsh
-
-    # TODO: move these to real modules with options
     ./aerospace
+    ./neovim.nix
+    ./pass.nix
     ./sketchybar
     ./tmux
+    ./zsh
   ];
 
   options = {
@@ -23,7 +22,11 @@ in {
 
   config = lib.mkIf cfg.enable {
     bunker-house.workstation = {
+      aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       neovim.enable = lib.mkDefault true;
+      pass.enable = lib.mkDefault false;
+      sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
+      tmux.enable = lib.mkDefault true;
       zsh = {
         enable = lib.mkDefault true;
         oh-my-posh.enable = lib.mkDefault true;
@@ -50,10 +53,6 @@ in {
     ];
 
     fonts.fontconfig.enable = true;
-
-    home.file = {
-      ".local/bin/tmux-sessionizer".source = ../../tmux-sessionizer;
-    };
 
     home.sessionPath = [
       "$GOPATH/bin"
