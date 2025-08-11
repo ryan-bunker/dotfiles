@@ -33,6 +33,6 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs.password-store.enable = true;
-    home.packages = [cfg.choosePassPackage];
+    home.packages = [pkgs.pass cfg.choosePassPackage];
   };
 }
