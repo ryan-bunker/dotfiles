@@ -31,9 +31,6 @@
     - role: hyprland
       tags: [hyprland, wm]
       when: ansible_distribution == "Archlinux"
-    - role: aerospace
-      tags: [aerospace, wm]
-      when: ansible_distribution == "MacOSX"
     - role: sddm
       tags: sddm
       when: ansible_distribution == "Archlinux"
@@ -43,17 +40,8 @@
     - role: ags
       tags: [statusbar, ags]
       when: ansible_distribution == "Archlinux"
-    - role: sketchybar
-      tags: [statusbar, sketchybar]
-      when: ansible_distribution == "MacOSX"
     - role: kitty
       tags: kitty
-    - role: zsh
-      tags: zsh
-    - role: tmux
-      tags: tmux
-    - role: neovim
-      tags: neovim
     - role: nvm
       tags: nvm
     - role: asdf
