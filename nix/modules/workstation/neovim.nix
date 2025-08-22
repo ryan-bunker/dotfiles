@@ -24,5 +24,8 @@ in {
     home.file = {
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/concur-dotfiles/dotfiles/neovim";
     };
+
+    # disable catppuccin automatic styling
+    catppuccin.nvim.enable = false;
   };
 }

@@ -20,6 +20,7 @@
       url = "github:kamadorueda/alejandra/4.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs = {
@@ -27,6 +28,7 @@
     home-manager,
     alejandra,
     neovim-nightly-overlay,
+    catppuccin,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -34,7 +36,10 @@
   in {
     nixosModules = {
       default = {...}: {
-        imports = [./modules];
+        imports = [
+          catppuccin.homeModules.catppuccin
+          ./modules
+        ];
         _module.args = {inherit alejandra neovim-nightly-overlay;};
       };
     };

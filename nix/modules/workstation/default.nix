@@ -9,6 +9,7 @@
 in {
   imports = [
     ./aerospace
+    ./kitty.nix
     ./neovim.nix
     ./pass.nix
     ./sketchybar
@@ -23,6 +24,7 @@ in {
   config = lib.mkIf cfg.enable {
     bunker-house.workstation = {
       aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
+      kitty.enable = lib.mkDefault true;
       neovim.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
@@ -53,6 +55,12 @@ in {
     ];
 
     fonts.fontconfig.enable = true;
+
+    catppuccin = {
+      enable = true;
+      flavor = "macchiato";
+      accent = "sky";
+    };
 
     home.sessionPath = [
       "$GOPATH/bin"
