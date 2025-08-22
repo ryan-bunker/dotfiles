@@ -15,6 +15,7 @@ in {
     ./sketchybar
     ./spicetify.nix
     ./tmux
+    ./vesktop.nix
     ./zsh
   ];
 
@@ -31,6 +32,10 @@ in {
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       spicetify.enable = lib.mkDefault true;
       tmux.enable = lib.mkDefault true;
+      vesktop = {
+        enable = lib.mkDefault true;
+        enableRichPresence = lib.mkDefault true;
+      };
       zsh = {
         enable = lib.mkDefault true;
         oh-my-posh.enable = lib.mkDefault true;

@@ -48,7 +48,7 @@ in {
           "exec-and-forget open -a kitty.app -n --args --single-instance"
           "exec-and-forget open -a kitty.app -n --args --single-instance --title 'Scratch Terminal'"
           "exec-and-forget open -a Slack.app -n"
-          "exec-and-forget open -a Diskord.app -n"
+          "exec-and-forget open -a Vesktop.app -n" # Discord
         ];
 
         # Notify Sketchybar about workspace change
@@ -200,7 +200,7 @@ in {
             run = ["move-node-to-workspace 4"];
           }
           {
-            "if" = {app-id = "com.hnc.Discord";};
+            "if" = {app-id = "dev.vencord.vesktop";}; # Discord
             run = ["move-node-to-workspace 4"];
           }
           # TODO: always send meeting windows to workspace 5
