@@ -1,3 +1,5 @@
+# spicetify is an alternative client for spotify that allows themes and plugins
+# https://spicetify.app/
 {
   lib,
   config,
