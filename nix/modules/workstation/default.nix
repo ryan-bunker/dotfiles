@@ -12,6 +12,7 @@ in {
     ./kitty.nix
     ./neovim.nix
     ./pass.nix
+    ./qutebrowser.nix
     ./sketchybar
     ./spicetify.nix
     ./tmux
@@ -29,6 +30,7 @@ in {
       kitty.enable = lib.mkDefault true;
       neovim.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
+      qutebrowser.enable = lib.mkDefault true;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       spicetify.enable = lib.mkDefault true;
       tmux.enable = lib.mkDefault true;
@@ -89,8 +91,6 @@ in {
       gh.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
       lazygit.enable = lib.mkDefault true;
-      # TODO: this doesn't install an .app and it crashes when run from the terminal
-      # qutebrowser = (import ./qutebrowser.nix { inherit pkgs; });
       ripgrep.enable = lib.mkDefault true;
       zoxide = {
         enable = lib.mkDefault true;
