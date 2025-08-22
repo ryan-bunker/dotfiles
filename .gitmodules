@@ -14,9 +14,3 @@
 	path = roles/tmux/files/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 	shallow = true
-[submodule "roles/spotify/files/catppuccin/spicetify"]
-	path = roles/spotify/files/catppuccin/spicetify
-	url = https://github.com/catppuccin/spicetify.git
-[submodule "roles/spotify/files/catppuccin/spotify-tui"]
-	path = roles/spotify/files/catppuccin/spotify-tui
-	url = https://github.com/catppuccin/spotify-tui.git

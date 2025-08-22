@@ -21,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     catppuccin.url = "github:catppuccin/nix";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
   outputs = {
@@ -29,6 +30,7 @@
     alejandra,
     neovim-nightly-overlay,
     catppuccin,
+    spicetify-nix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -38,9 +40,10 @@
       default = {...}: {
         imports = [
           catppuccin.homeModules.catppuccin
+          spicetify-nix.homeManagerModules.spicetify
           ./modules
         ];
-        _module.args = {inherit alejandra neovim-nightly-overlay;};
+        _module.args = {inherit alejandra neovim-nightly-overlay spicetify-nix;};
       };
     };
 

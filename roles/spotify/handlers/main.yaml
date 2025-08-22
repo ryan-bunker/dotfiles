@@ -1,3 +1,0 @@
----
-- name: spicetify apply
-  ansible.builtin.command: "{{ spicetify_url.path }} apply "

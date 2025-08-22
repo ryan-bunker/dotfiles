@@ -13,6 +13,7 @@ in {
     ./neovim.nix
     ./pass.nix
     ./sketchybar
+    ./spicetify.nix
     ./tmux
     ./zsh
   ];
@@ -28,6 +29,7 @@ in {
       neovim.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
+      spicetify.enable = lib.mkDefault true;
       tmux.enable = lib.mkDefault true;
       zsh = {
         enable = lib.mkDefault true;
@@ -48,7 +50,6 @@ in {
       luajit
       lynx
       powershell
-      spotify
       tree
       unixtools.watch
       yq
