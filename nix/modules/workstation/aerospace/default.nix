@@ -44,11 +44,11 @@ in {
         after-startup-command = [
           "workspace 4"
           "layout h_accordion"
-          "exec-and-forget open -n /Applications/qutebrowser.app"
-          "exec-and-forget open -n /Applications/kitty.app"
-          "exec-and-forget kitty --title 'Scratch Terminal'"
-          "exec-and-forget open -n /Applications/Slack.app"
-          "exec-and-forget open -n /Applications/Diskord.app"
+          "exec-and-forget open -a qutebrowser.app -n"
+          "exec-and-forget open -a kitty.app -n --args --single-instance"
+          "exec-and-forget open -a kitty.app -n --args --single-instance --title 'Scratch Terminal'"
+          "exec-and-forget open -a Slack.app -n"
+          "exec-and-forget open -a Diskord.app -n"
         ];
 
         # Notify Sketchybar about workspace change
