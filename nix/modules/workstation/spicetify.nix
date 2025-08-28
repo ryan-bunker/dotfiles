@@ -20,6 +20,9 @@ in {
 
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "macchiato";
+
+      spicetifyPackage = pkgs.spicetify-cli;
+      spotifyPackage = pkgs.spotify;
     };
 
     programs.spotify-player.enable = true;
