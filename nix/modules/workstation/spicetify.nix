@@ -17,6 +17,9 @@ in {
   config = lib.mkIf cfg.enable {
     programs.spicetify = {
       enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        shuffle
+      ];
 
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "macchiato";
