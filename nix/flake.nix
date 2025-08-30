@@ -50,9 +50,9 @@
     homeConfigurations = {
       ryan = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit alejandra neovim-nightly-overlay;};
         modules = [
-          ./arch-laptop.nix
+          self.outputs.nixosModules.default
+          ./home/ryan
         ];
       };
     };
