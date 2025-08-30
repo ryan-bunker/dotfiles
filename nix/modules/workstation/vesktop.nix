@@ -22,7 +22,5 @@ in {
         arRPC = cfg.enableRichPresence;
       };
     };
-
-    catppuccin.vesktop.enable = true;
   };
 }

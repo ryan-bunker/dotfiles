@@ -24,7 +24,5 @@ in {
         background_blur = 12;
       };
     };
-
-    catppuccin.kitty.enable = true;
   };
 }

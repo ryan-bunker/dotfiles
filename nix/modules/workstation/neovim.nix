@@ -25,7 +25,8 @@ in {
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/concur-dotfiles/dotfiles/neovim";
     };
 
-    # disable catppuccin automatic styling
+    # disable catppuccin automatic styling as it is currently setup directly
+    # in the neovim config which is not controlled by nix/home-manager
     catppuccin.nvim.enable = false;
   };
 }
