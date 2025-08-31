@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  ags,
   ...
 }: {
   # Allow installing unfree packages.
@@ -17,12 +18,16 @@
   # ];
 
   programs = {
-    git = {
+    ags = {
       enable = true;
-      userName = "Ryan Bunker";
-      userEmail = "ryan.bunker@gmail.com";
-      includes = [
-        {path = ./gitconfig.local;}
+      configDir = ../../ags;
+      systemd.enable = true;
+      extraPackages = with ags.packages.${pkgs.system}; [
+        battery
+        hyprland
+        network
+        tray
+        wireplumber
       ];
     };
 

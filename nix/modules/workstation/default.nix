@@ -9,12 +9,14 @@
 in {
   imports = [
     ./aerospace
+    ./fuzzel.nix
     ./kitty.nix
     ./neovim.nix
     ./pass.nix
     ./qutebrowser.nix
     ./sketchybar
     ./spicetify.nix
+    ./swww.nix
     ./tmux
     ./vesktop.nix
     ./zsh
@@ -27,12 +29,14 @@ in {
   config = lib.mkIf cfg.enable {
     bunker-house.workstation = {
       aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
+      fuzzel.enable = lib.mkDefault pkgs.stdenv.isLinux;
       kitty.enable = lib.mkDefault true;
       neovim.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
       qutebrowser.enable = lib.mkDefault true;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       spicetify.enable = lib.mkDefault true;
+      swww.enable = lib.mkDefault pkgs.stdenv.isLinux;
       tmux.enable = lib.mkDefault true;
       vesktop = {
         enable = lib.mkDefault true;
@@ -89,6 +93,15 @@ in {
       };
       fzf.enable = lib.mkDefault true;
       gh.enable = lib.mkDefault true;
+      git = {
+        enable = lib.mkDefault true;
+        userName = "Ryan Bunker";
+        userEmail = lib.mkDefault "ryan.bunker@gmail.com";
+        extraConfig = {
+          diff.tool = "bc4";
+          merge.tool = "bc4";
+        };
+      };
       jq.enable = lib.mkDefault true;
       lazygit.enable = lib.mkDefault true;
       ripgrep.enable = lib.mkDefault true;
