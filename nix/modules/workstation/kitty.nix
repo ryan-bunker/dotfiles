@@ -40,7 +40,7 @@ in {
         # zoom
         "${leader}>z" = "combine : toggle_layout stack : scroll_prompt_to_bottom";
         # tabs (tmux windows)
-        "${leader}>c" = "new_tab";
+        "${leader}>c" = "launch --cwd=current --type=tab";
         "${leader}>n" = "next_tab";
         "${leader}>p" = "previous_tab";
         "${leader}>l" = "goto_tab -1";
@@ -55,8 +55,8 @@ in {
         "${leader}>8" = "goto_tab 8";
         "${leader}>9" = "goto_tab 9";
         # splits
-        "${leader}>\"" = "launch --location=vsplit";
-        "${leader}>%" = "launch --location=hsplit";
+        "${leader}>\"" = "launch --cwd=current --location=vsplit";
+        "${leader}>%" = "launch --cwd=current --location=hsplit";
       };
     };
   };
