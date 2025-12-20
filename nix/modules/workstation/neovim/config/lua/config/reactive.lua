@@ -1,0 +1,3 @@
+require("reactive").setup({
+	load = { "catppuccin-macchiato-cursor", "catppuccin-macchiato-cursorline" },
+})

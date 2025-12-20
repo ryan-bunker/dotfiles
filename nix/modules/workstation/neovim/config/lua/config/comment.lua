@@ -1,0 +1,3 @@
+require("comment").setup({
+	ignore = "^$",
+})

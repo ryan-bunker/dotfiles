@@ -11,7 +11,7 @@ in {
     ./aerospace
     ./fuzzel.nix
     ./kitty.nix
-    ./neovim.nix
+    ./neovim
     ./pass.nix
     ./qutebrowser.nix
     ./sketchybar
@@ -52,7 +52,6 @@ in {
     programs.home-manager.enable = true;
 
     home.packages = with pkgs; [
-      alejandra.packages.${system}.default
       nerd-fonts.jetbrains-mono
       antlr
       curl
