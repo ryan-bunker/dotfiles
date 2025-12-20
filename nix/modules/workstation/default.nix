@@ -10,6 +10,7 @@ in {
   imports = [
     ./aerospace
     ./fuzzel.nix
+    ./hyprland
     ./kitty.nix
     ./neovim
     ./pass.nix
@@ -30,6 +31,7 @@ in {
     bunker-house.workstation = {
       aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       fuzzel.enable = lib.mkDefault pkgs.stdenv.isLinux;
+      hyprland.enable = lib.mkDefault pkgs.stdenv.isLinux;
       kitty.enable = lib.mkDefault true;
       neovim.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
