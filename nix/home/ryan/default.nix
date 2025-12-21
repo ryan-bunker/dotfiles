@@ -23,7 +23,7 @@
       enable = true;
       configDir = ../../ags;
       systemd.enable = true;
-      extraPackages = with ags.packages.${pkgs.system}; [
+      extraPackages = with ags.packages.${pkgs.stdenv.hostPlatform.system}; [
         battery
         hyprland
         network
