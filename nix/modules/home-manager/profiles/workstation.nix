@@ -7,24 +7,8 @@
 }: let
   cfg = config.bunker-house.workstation;
 in {
-  imports = [
-    ./aerospace
-    ./fuzzel.nix
-    ./hyprland
-    ./kitty.nix
-    ./neovim
-    ./pass.nix
-    ./qutebrowser.nix
-    ./sketchybar
-    ./spicetify.nix
-    ./tmux
-    ./vesktop.nix
-    ./wallpapers
-    ./zsh
-  ];
-
   options = {
-    bunker-house.workstation.enable = lib.mkEnableOption "sets up default workstation configuration";
+    bunker-house.workstation.enable = lib.mkEnableOption "Workstation User Profile";
   };
 
   config = lib.mkIf cfg.enable {
@@ -45,7 +29,7 @@ in {
       };
       wallpapers = {
         enable = lib.mkDefault pkgs.stdenv.isLinux;
-        wallpaperDir = ../../../wallpapers;
+        wallpaperDir = ../../../../wallpapers;
       };
       zsh = {
         enable = lib.mkDefault true;

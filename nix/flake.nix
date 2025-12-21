@@ -53,12 +53,23 @@
       };
     };
 
+    homeManagerModules = {
+      default = {...}: {
+        imports = [
+          catppuccin.homeModules.catppuccin
+          spicetify-nix.homeManagerModules.spicetify
+          inputs.ags.homeManagerModules.default
+          ./modules/home-manager
+        ];
+        _module.args = {inherit alejandra hyprland neovim-nightly-overlay spicetify-nix;};
+      };
+    };
+
     homeConfigurations = {
       ryan = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          inputs.ags.homeManagerModules.default
-          self.outputs.nixosModules.default
+          self.homeManagerModules.default
           ./home/ryan
         ];
         extraSpecialArgs = {
