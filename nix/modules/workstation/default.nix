@@ -17,9 +17,9 @@ in {
     ./qutebrowser.nix
     ./sketchybar
     ./spicetify.nix
-    ./swww.nix
     ./tmux
     ./vesktop.nix
+    ./wallpapers
     ./zsh
   ];
 
@@ -38,11 +38,14 @@ in {
       qutebrowser.enable = lib.mkDefault true;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
       spicetify.enable = lib.mkDefault true;
-      swww.enable = lib.mkDefault pkgs.stdenv.isLinux;
       tmux.enable = lib.mkDefault true;
       vesktop = {
         enable = lib.mkDefault true;
         enableRichPresence = lib.mkDefault true;
+      };
+      wallpapers = {
+        enable = lib.mkDefault pkgs.stdenv.isLinux;
+        wallpaperDir = ../../../wallpapers;
       };
       zsh = {
         enable = lib.mkDefault true;

@@ -12,6 +12,7 @@
 
   bunker-house.workstation = {
     enable = true;
+    wallpapers.targets = ["3440x1440" "1440x2560"];
   };
 
   # home.packages = with pkgs; [
