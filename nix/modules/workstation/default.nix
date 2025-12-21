@@ -105,6 +105,7 @@ in {
           diff.tool = "bc4";
           merge.tool = "bc4";
         };
+        lfs.enable = true;
       };
       jq.enable = lib.mkDefault true;
       lazygit.enable = lib.mkDefault true;
