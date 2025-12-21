@@ -183,9 +183,8 @@ in {
       EDITOR = "nvim";
     };
 
-    home.file = {
-      ".config/nvim-lazy".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/concur-dotfiles/dotfiles/neovim";
-      ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/concur-dotfiles/dotfiles/nix/modules/workstation/neovim/config";
+    xdg.configFile = {
+      nvim.source = ./config;
     };
 
     # disable catppuccin automatic styling as it is currently setup directly
