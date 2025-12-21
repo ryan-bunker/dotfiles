@@ -4,16 +4,8 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     ags = {
       url = "github:aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     alejandra = {
@@ -22,6 +14,14 @@
     };
     catppuccin = {
       url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -52,10 +52,10 @@
     homeManagerModules = {
       default = {...}: {
         imports = [
+          inputs.ags.homeManagerModules.default
           inputs.catppuccin.homeModules.catppuccin
           inputs.sops-nix.homeManagerModules.sops
           inputs.spicetify-nix.homeManagerModules.spicetify
-          inputs.ags.homeManagerModules.default
           ./modules/home-manager
         ];
         _module.args = inputs // {inherit inputs;};
