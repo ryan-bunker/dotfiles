@@ -12,9 +12,6 @@ in {
   config = lib.mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
-      # use the package from the nixos system
-      package = null;
-      portalPackage = null;
 
       settings = {
         monitor = [
