@@ -32,11 +32,6 @@
     self,
     nixpkgs,
     home-manager,
-    hyprland,
-    alejandra,
-    neovim-nightly-overlay,
-    catppuccin,
-    spicetify-nix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -45,23 +40,21 @@
     nixosModules = {
       default = {...}: {
         imports = [
-          catppuccin.homeModules.catppuccin
-          spicetify-nix.homeManagerModules.spicetify
           ./modules
         ];
-        _module.args = {inherit alejandra hyprland neovim-nightly-overlay spicetify-nix;};
+        _module.args = inputs // {inherit inputs;};
       };
     };
 
     homeManagerModules = {
       default = {...}: {
         imports = [
-          catppuccin.homeModules.catppuccin
-          spicetify-nix.homeManagerModules.spicetify
+          inputs.catppuccin.homeModules.catppuccin
+          inputs.spicetify-nix.homeManagerModules.spicetify
           inputs.ags.homeManagerModules.default
           ./modules/home-manager
         ];
-        _module.args = {inherit alejandra hyprland neovim-nightly-overlay spicetify-nix;};
+        _module.args = inputs // {inherit inputs;};
       };
     };
 
