@@ -7,6 +7,8 @@
 in {
   options.my.desktop.hyprland = {
     enable = lib.mkEnableOption "Enable hyprland and related apps";
+
+    enableTouchpad = lib.mkEnableOption "Enable touchpad and gestures support";
   };
 
   config = lib.mkIf cfg.enable {
@@ -50,7 +52,7 @@ in {
 
           follow_mouse = "1";
 
-          touchpad = {
+          touchpad = lib.mkIf cfg.enableTouchpad {
             disable_while_typing = "false";
             natural_scroll = "true";
             clickfinger_behavior = "true";
@@ -126,10 +128,9 @@ in {
           new_status = "master";
         };
 
-        gestures = {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          workspace_swipe = "on";
-        };
+        gestures = lib.mkIf cfg.enableTouchpad [
+          "3, horizontal, workspace"
+        ];
 
         misc = {
           disable_hyprland_logo = "true";
