@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.bunker-house.workstation.sketchybar;
+  cfg = config.my.desktop.sketchybar;
   homeDir = config.home.homeDirectory;
   configDir = builtins.path {
     name = "sketchybar-config";
@@ -12,7 +12,7 @@
   };
   sketchybarrcFile = "${configDir}/sketchybarrc";
 in {
-  options.bunker-house.workstation.sketchybar = {
+  options.my.desktop.sketchybar = {
     enable = lib.mkEnableOption "Enable sketchybar configuration";
   };
 

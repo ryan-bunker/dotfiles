@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: let
-  cfg = config.bunker-house.workstation.pass;
+  cfg = config.my.programs.pass;
 in {
-  options.bunker-house.workstation.pass = {
+  options.my.programs.pass = {
     enable = lib.mkEnableOption "Enable pass configuration";
 
     choosePassPackage = lib.mkOption {

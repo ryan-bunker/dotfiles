@@ -5,9 +5,9 @@
   pkgs,
   ...
 }: let
-  cfg = config.bunker-house.workstation.vesktop;
+  cfg = config.my.programs.vesktop;
 in {
-  options.bunker-house.workstation.vesktop = {
+  options.my.programs.vesktop = {
     enable = lib.mkEnableOption "Enable vesktop Discord client";
 
     enableRichPresence = lib.mkEnableOption "Enable Discord Rich Presence integration";

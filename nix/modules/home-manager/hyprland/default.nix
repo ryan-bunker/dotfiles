@@ -3,9 +3,9 @@
   config,
   ...
 }: let
-  cfg = config.bunker-house.workstation.hyprland;
+  cfg = config.my.desktop.hyprland;
 in {
-  options.bunker-house.workstation.hyprland = {
+  options.my.desktop.hyprland = {
     enable = lib.mkEnableOption "Enable hyprland and related apps";
   };
 

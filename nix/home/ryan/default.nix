@@ -10,10 +10,8 @@
   home.username = "ryan";
   home.homeDirectory = "/home/ryan";
 
-  bunker-house.workstation = {
-    enable = true;
-    wallpapers.targets = ["3440x1440" "1440x2560"];
-  };
+  my.profiles.workstation.enable = true;
+  my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
 
   # home.packages = with pkgs; [
   # ];

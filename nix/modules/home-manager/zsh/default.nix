@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.bunker-house.workstation.zsh;
+  cfg = config.my.programs.zsh;
 in {
-  options.bunker-house.workstation.zsh = {
+  options.my.programs.zsh = {
     enable = lib.mkEnableOption "ZSH configuration";
 
     oh-my-posh = {

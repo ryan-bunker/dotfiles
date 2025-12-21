@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.bunker-house.workstation.tmux;
+  cfg = config.my.programs.tmux;
   catppuccin = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "catppuccin";
     version = "unstable-2023-01-06";
@@ -16,7 +16,7 @@
     };
   };
 in {
-  options.bunker-house.workstation.tmux = {
+  options.my.programs.tmux = {
     enable = lib.mkEnableOption "Enable tmux configuration";
   };
 

@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: let
-  cfg = config.bunker-house.workstation.kitty;
+  cfg = config.my.programs.kitty;
 in {
-  options.bunker-house.workstation.kitty = {
+  options.my.programs.kitty = {
     enable = lib.mkEnableOption "Enable kitty terminal emulator";
   };
 

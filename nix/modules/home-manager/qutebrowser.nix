@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: let
-  cfg = config.bunker-house.workstation.qutebrowser;
+  cfg = config.my.programs.qutebrowser;
 in {
-  options.bunker-house.workstation.qutebrowser = {
+  options.my.programs.qutebrowser = {
     enable = lib.mkEnableOption "Enable qutebrowser app";
   };
 

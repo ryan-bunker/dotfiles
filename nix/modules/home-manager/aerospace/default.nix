@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.bunker-house.workstation.aerospace;
+  cfg = config.my.desktop.aerospace;
 in {
-  options.bunker-house.workstation.aerospace = {
+  options.my.desktop.aerospace = {
     enable = lib.mkEnableOption "Enable aerospace configuration";
   };
 
@@ -52,7 +52,7 @@ in {
         ];
 
         # Notify Sketchybar about workspace change
-        exec-on-workspace-change = lib.mkIf config.bunker-house.workstation.sketchybar.enable [
+        exec-on-workspace-change = lib.mkIf config.my.desktop.sketchybar.enable [
           "/bin/bash"
           "-c"
           "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
@@ -147,9 +147,9 @@ in {
             ctrl-alt-shift-r = "mode resize";
             alt-shift-semicolon = "mode service";
           }
-          // (lib.optionalAttrs config.bunker-house.workstation.pass.enable {
+          // (lib.optionalAttrs config.my.programs.pass.enable {
             # password picker
-            ctrl-shift-p = "exec-and-forget ${config.bunker-house.workstation.pass.choosePassPackage}/bin/choose-pass";
+            ctrl-shift-p = "exec-and-forget ${config.my.programs.pass.choosePassPackage}/bin/choose-pass";
           });
 
         workspace-to-monitor-force-assignment = {

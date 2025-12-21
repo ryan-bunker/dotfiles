@@ -3,9 +3,9 @@
   config,
   ...
 }: let
-  cfg = config.bunker-house.workstation.fuzzel;
+  cfg = config.my.desktop.fuzzel;
 in {
-  options.bunker-house.workstation.fuzzel = {
+  options.my.desktop.fuzzel = {
     enable = lib.mkEnableOption "Enable fuzzel application launcher";
   };
 

@@ -5,35 +5,38 @@
   alejandra,
   ...
 }: let
-  cfg = config.bunker-house.workstation;
+  cfg = config.my.profiles.workstation;
 in {
   options = {
-    bunker-house.workstation.enable = lib.mkEnableOption "Workstation User Profile";
+    my.profiles.workstation.enable = lib.mkEnableOption "Workstation User Profile";
   };
 
   config = lib.mkIf cfg.enable {
-    bunker-house.workstation = {
+    my.desktop = {
       aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
-      fuzzel.enable = lib.mkDefault pkgs.stdenv.isLinux;
       hyprland.enable = lib.mkDefault pkgs.stdenv.isLinux;
-      kitty.enable = lib.mkDefault true;
-      neovim.enable = lib.mkDefault true;
-      pass.enable = lib.mkDefault false;
-      qutebrowser.enable = lib.mkDefault true;
       sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
-      spicetify.enable = lib.mkDefault true;
-      tmux.enable = lib.mkDefault true;
-      vesktop = {
-        enable = lib.mkDefault true;
-        enableRichPresence = lib.mkDefault true;
-      };
       wallpapers = {
         enable = lib.mkDefault pkgs.stdenv.isLinux;
         wallpaperDir = ../../../../wallpapers;
       };
+      fuzzel.enable = lib.mkDefault pkgs.stdenv.isLinux;
+    };
+
+    my.programs = {
+      neovim.enable = lib.mkDefault true;
+      tmux.enable = lib.mkDefault true;
       zsh = {
         enable = lib.mkDefault true;
         oh-my-posh.enable = lib.mkDefault true;
+      };
+      kitty.enable = lib.mkDefault true;
+      pass.enable = lib.mkDefault false;
+      qutebrowser.enable = lib.mkDefault true;
+      spicetify.enable = lib.mkDefault true;
+      vesktop = {
+        enable = lib.mkDefault true;
+        enableRichPresence = lib.mkDefault true;
       };
     };
 

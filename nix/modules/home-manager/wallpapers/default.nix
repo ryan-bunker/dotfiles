@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.bunker-house.workstation.wallpapers;
+  cfg = config.my.desktop.wallpapers;
 
   # ---------------------------------------------------------------------------
   # 1. THE BUILDER SCRIPT (Python)
@@ -38,7 +38,7 @@ in {
   # ---------------------------------------------------------------------------
   # 4. OPTIONS
   # ---------------------------------------------------------------------------
-  options.bunker-house.workstation.wallpapers = {
+  options.my.desktop.wallpapers = {
     enable = mkEnableOption "Random wallpaper service";
 
     wallpaperDir = mkOption {

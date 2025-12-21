@@ -7,10 +7,10 @@
   spicetify-nix,
   ...
 }: let
-  cfg = config.bunker-house.workstation.spicetify;
+  cfg = config.my.programs.spicetify;
   spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.system};
 in {
-  options.bunker-house.workstation.spicetify = {
+  options.my.programs.spicetify = {
     enable = lib.mkEnableOption "Enable spicetify music player";
   };
 

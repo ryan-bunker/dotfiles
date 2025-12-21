@@ -6,7 +6,7 @@
   alejandra,
   ...
 }: let
-  cfg = config.bunker-house.workstation.neovim;
+  cfg = config.my.programs.neovim;
 
   ascii-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "ascii-nvim";
@@ -144,7 +144,7 @@
   ];
 in {
   options = {
-    bunker-house.workstation.neovim.enable = lib.mkEnableOption "Enable neovim on the workstation";
+    my.programs.neovim.enable = lib.mkEnableOption "Enable neovim on the workstation";
   };
 
   config = lib.mkIf cfg.enable {
