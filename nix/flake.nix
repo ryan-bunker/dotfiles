@@ -34,12 +34,11 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
   in {
     nixosModules = {
       default = {...}: {
         imports = [
-          ./modules
+          ./modules/nixos
         ];
         _module.args = inputs // {inherit inputs;};
       };
@@ -57,9 +56,22 @@
       };
     };
 
+    nixosConfigurations = {
+      ryan-desktop = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          self.nixosModules.default
+          ./hosts/ryan-desktop
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
+      };
+    };
+
     homeConfigurations = {
       "ryan@desktop" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = nixpkgs.legacyPackages.${system};
         modules = [
           self.homeManagerModules.default
           ./home/ryan
