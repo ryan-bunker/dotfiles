@@ -1,0 +1,13 @@
+keys:
+  - &desktop age15wkf9vdre5e8meg0pym5sju74wlmgrcsvvgcjedgtvazw7phy3pqzcmd3k
+  - &dell age1yw8vgjhe4jnktydagv9z5hpr54aa3kt04v5h9aau797tx0t2z4uql92jsu
+  - &macbook age1ayu2ja9u95gnezp32vr26tj28xnee9mjazydp8mafdj8fhsntekqrfwcp0
+
+creation_rules:
+  # Encrypt everything in the secrets folder with all keys
+  - path_regex: secrets/.*$
+    key_groups:
+      - age:
+          - *desktop
+          - *dell
+          - *macbook

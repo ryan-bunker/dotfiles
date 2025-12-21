@@ -23,6 +23,7 @@ in {
       pass.enable = lib.mkDefault false;
       qutebrowser.enable = lib.mkDefault true;
       spicetify.enable = lib.mkDefault true;
+      ssh.enable = lib.mkDefault true;
       vesktop = {
         enable = lib.mkDefault true;
         enableRichPresence = lib.mkDefault true;

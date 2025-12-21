@@ -9,7 +9,9 @@
     ./pass.nix
     ./qutebrowser.nix
     ./sketchybar
+    ./sops.nix
     ./spicetify.nix
+    ./ssh.nix
     ./tmux
     ./vesktop.nix
     ./wallpapers

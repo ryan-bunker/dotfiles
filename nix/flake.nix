@@ -24,6 +24,10 @@
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
@@ -38,6 +42,7 @@
     nixosModules = {
       default = {...}: {
         imports = [
+          inputs.sops-nix.nixosModules.sops
           ./modules/nixos
         ];
         _module.args = inputs // {inherit inputs;};
@@ -48,6 +53,7 @@
       default = {...}: {
         imports = [
           inputs.catppuccin.homeModules.catppuccin
+          inputs.sops-nix.homeManagerModules.sops
           inputs.spicetify-nix.homeManagerModules.spicetify
           inputs.ags.homeManagerModules.default
           ./modules/home-manager
@@ -77,6 +83,7 @@
           ./home/ryan
           {
             my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
+            my.programs.ssh.sopsKey = "ssh_key_desktop";
           }
         ];
         extraSpecialArgs = {
