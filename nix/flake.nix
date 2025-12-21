@@ -59,11 +59,14 @@
     };
 
     homeConfigurations = {
-      ryan = home-manager.lib.homeManagerConfiguration {
+      "ryan@desktop" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           self.homeManagerModules.default
           ./home/ryan
+          {
+            my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
+          }
         ];
         extraSpecialArgs = {
           inherit (inputs) ags;

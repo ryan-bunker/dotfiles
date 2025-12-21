@@ -10,8 +10,10 @@
   home.username = "ryan";
   home.homeDirectory = "/home/ryan";
 
-  my.profiles.workstation.enable = true;
-  my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
+  my.profiles = {
+    workstation.enable = true;
+    desktop-hyprland.enable = true;
+  };
 
   # home.packages = with pkgs; [
   # ];

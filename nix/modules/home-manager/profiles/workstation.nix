@@ -12,17 +12,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    my.desktop = {
-      aerospace.enable = lib.mkDefault pkgs.stdenv.isDarwin;
-      hyprland.enable = lib.mkDefault pkgs.stdenv.isLinux;
-      sketchybar.enable = lib.mkDefault pkgs.stdenv.isDarwin;
-      wallpapers = {
-        enable = lib.mkDefault pkgs.stdenv.isLinux;
-        wallpaperDir = ../../../../wallpapers;
-      };
-      fuzzel.enable = lib.mkDefault pkgs.stdenv.isLinux;
-    };
-
     my.programs = {
       neovim.enable = lib.mkDefault true;
       tmux.enable = lib.mkDefault true;
