@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   cfg = config.my.desktop.fuzzel;
@@ -16,29 +17,23 @@ in {
       settings = {
         main = {
           dpi-aware = "yes";
-          width = 25;
-          font = "Montserrat:size=10";
-          line-height = 15;
+          font = "Montserrat:size=16";
+          inner-pad = "14";
+          vertical-pad = "14";
           prompt = "❯   ";
           layer = "overlay";
           launch-prefix = "uwsm app -- ";
         };
-        # colors = {
-        #   background = "24273add";
-        #   text = "cad3f5ff";
-        #   match = "ed8796ff";
-        #   selection = "5b6078ff";
-        #   selection-match = "ed8796ff";
-        #   selection-text = "cad3f5ff";
-        #   border = "b7bdf8ff";
-        # };
-        # border = {
-        #   radius = 20;
-        # };
         dmenu = {
           exit-immediately-if-empty = "yes";
         };
       };
     };
+
+    # Install the Montserrat font
+    home.packages = [pkgs.montserrat];
+    # Update the font cache - without this, the font files sit in the store, but
+    # apps won't "see" them.
+    fonts.fontconfig.enable = true;
   };
 }
