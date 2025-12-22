@@ -10,7 +10,7 @@ in {
     enable = lib.mkEnableOption "Enable and configure ssh (client)";
 
     sopsKey = lib.mkOption {
-      type = types.str;
+      type = lib.types.str;
       default = "ssh_key";
       description = "Name of key in sops secrets file that contains private SSH key";
     };
@@ -19,9 +19,17 @@ in {
   config = lib.mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      addKeysToAgent = "yes";
+      enableDefaultConfig = false;
 
-      matchBlocks."*".identityFile = "${config.home.homeDirectory}/.ssh/id_ed25519";
+      matchBlocks."*" = {
+        identityFile = "${config.home.homeDirectory}/.ssh/id_ed25519";
+        # Auto-add key to agent on first use.
+        addKeysToAgent = "yes";
+        # Keep Alive - Send a "ping" to the server every 60 seconds. If the
+        # server misses 3 pings, disconnect cleanly.
+        serverAliveInterval = 60;
+        serverAliveCountMax = 3;
+      };
     };
 
     # 1. THE PRIVATE KEY (Secret)
