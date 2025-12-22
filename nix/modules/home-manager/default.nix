@@ -4,6 +4,7 @@
     ./aerospace
     ./fuzzel.nix
     ./hyprland
+    ./hyprlock.nix
     ./kitty.nix
     ./neovim
     ./pass.nix

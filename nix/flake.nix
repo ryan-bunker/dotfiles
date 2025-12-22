@@ -84,6 +84,17 @@
           {
             my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
             my.programs.ssh.sopsKey = "ssh_key_desktop";
+
+            my.desktop.hyprlock.backgrounds = [
+              {
+                monitor = "DP-1";
+                path = ../wallpapers/login_wallpaper_3440x1440.png;
+              }
+              {
+                monitor = "HDMI-A-1";
+                color = "$base";
+              }
+            ];
           }
         ];
         extraSpecialArgs = {

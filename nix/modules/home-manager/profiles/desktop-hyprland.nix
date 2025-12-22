@@ -13,6 +13,7 @@ in {
     my.desktop = {
       fuzzel.enable = lib.mkDefault true;
       hyprland.enable = lib.mkDefault true;
+      hyprlock.enable = lib.mkDefault true;
       wallpapers = {
         enable = lib.mkDefault true;
         wallpaperDir = ../../../../wallpapers;
