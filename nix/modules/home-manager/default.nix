@@ -2,6 +2,7 @@
   imports = [
     # low level modules
     ./aerospace
+    ./avizo.nix
     ./fuzzel.nix
     ./hypridle.nix
     ./hyprland.nix
