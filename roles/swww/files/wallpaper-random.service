@@ -1,9 +1,0 @@
-[Unit]
-Description=Changes the desktop wallpaper to a random image
-Requires=swww.service
-Wants=wallpaper-random.timer
-
-[Service]
-Type=oneshot
-ExecStart=%h/dotfiles/wallpapers/random.sh %h/dotfiles/wallpapers/
-
