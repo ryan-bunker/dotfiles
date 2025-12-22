@@ -17,5 +17,7 @@
 
   my.profiles.workstation.enable = true;
 
+  catppuccin.sddm.background = ../../../wallpapers/login_wallpaper_3440x1440.png;
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }
