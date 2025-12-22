@@ -24,8 +24,7 @@ in {
         ];
 
         # exec-once = [
-        #   "~/.config/hypr/autostart.sh"
-        #   # startup applications
+        #   "uwsm app -- udiskie --tray"
         #   "[workspace 1 silent] uwsm app -- qutebrowser"
         #   "[workspace 2 silent] uwsm app -- kitty"
         #   "[workspace 4 silent] uwsm app -- vesktop"
