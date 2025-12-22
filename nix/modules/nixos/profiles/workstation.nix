@@ -69,5 +69,11 @@ in {
       hyprland.enable = true;
       sddm.enable = true;
     };
+
+    catppuccin = {
+      enable = true;
+      flavor = "macchiato";
+      accent = "peach";
+    };
   };
 }

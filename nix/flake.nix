@@ -42,6 +42,7 @@
     nixosModules = {
       default = {...}: {
         imports = [
+          inputs.catppuccin.nixosModules.catppuccin
           inputs.sops-nix.nixosModules.sops
           ./modules/nixos
         ];
