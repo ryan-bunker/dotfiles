@@ -12,6 +12,7 @@ in {
   config = lib.mkIf cfg.enable {
     my.desktop = {
       fuzzel.enable = lib.mkDefault true;
+      hypridle.enable = lib.mkDefault true;
       hyprland.enable = lib.mkDefault true;
       hyprlock.enable = lib.mkDefault true;
       wallpapers = {

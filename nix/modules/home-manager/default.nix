@@ -3,6 +3,7 @@
     # low level modules
     ./aerospace
     ./fuzzel.nix
+    ./hypridle.nix
     ./hyprland
     ./hyprlock.nix
     ./kitty.nix
