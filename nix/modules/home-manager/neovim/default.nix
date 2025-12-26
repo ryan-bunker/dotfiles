@@ -143,8 +143,10 @@
     yaml
   ];
 in {
-  options = {
-    my.programs.neovim.enable = lib.mkEnableOption "Enable neovim on the workstation";
+  options.my.programs.neovim = {
+    enable = lib.mkEnableOption "Enable neovim on the workstation";
+
+    gemini.enable = lib.mkEnableOption "Include gemini-cli adapter settings for CodeCompanion plugin";
   };
 
   config = lib.mkIf cfg.enable {
@@ -154,23 +156,26 @@ in {
 
       plugins = nvim-plugins ++ treesitter-grammars;
 
-      extraPackages = with pkgs; [
-        # formatters
-        alejandra.packages.${system}.default
-        prettierd
-        stylua
-        # LSPs
-        buf
-        gopls
-        helm-ls
-        lua-language-server
-        omnisharp-roslyn
-        powershell-editor-services
-        yaml-language-server
-        # for Telescope
-        ripgrep
-        fd
-      ];
+      extraPackages = with pkgs;
+        [
+          # formatters
+          alejandra.packages.${system}.default
+          prettierd
+          stylua
+          # LSPs
+          buf
+          gopls
+          helm-ls
+          lua-language-server
+          omnisharp-roslyn
+          powershell-editor-services
+          yaml-language-server
+          # extra utilities
+          ripgrep # telescope
+          fd # telescope
+          nodejs_24 # copilot
+        ]
+        ++ lib.optional cfg.gemini.enable pkgs.gemini-cli;
     };
 
     programs.zsh = {
@@ -184,7 +189,15 @@ in {
     };
 
     xdg.configFile = {
-      nvim.source = ./config;
+      "nvim/lua".source = ./config/lua;
+      "nvim/init.lua".text = ''
+        _G.Nix = {
+          enableGemini = ${lib.boolToString cfg.gemini.enable},
+        }
+
+        require("settings")
+        require("plugins").setup()
+      '';
     };
 
     # disable catppuccin automatic styling as it is currently setup directly

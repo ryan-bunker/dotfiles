@@ -13,7 +13,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     my.programs = {
-      neovim.enable = lib.mkDefault true;
+      neovim = {
+        enable = lib.mkDefault true;
+        gemini.enable = lib.mkDefault true;
+      };
       tmux.enable = lib.mkDefault true;
       zsh = {
         enable = lib.mkDefault true;
