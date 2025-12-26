@@ -189,7 +189,7 @@ in {
     };
 
     xdg.configFile = {
-      "nvim/lua".source = ./config/lua;
+      "nvim/lua".source = ./lua;
       "nvim/init.lua".text = ''
         _G.Nix = {
           enableGemini = ${lib.boolToString cfg.gemini.enable},
