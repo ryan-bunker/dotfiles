@@ -32,7 +32,6 @@ in {
 
         env = [
           # Some default env vars.
-          "HYPRCURSOR_THEME,catppuccin-macchiato-blue-cursors"
           "HYPRCURSOR_SIZE,32"
           "XCURSOR_SIZE,32  # set for backwards compat"
           # Nvidia specific environment Variables

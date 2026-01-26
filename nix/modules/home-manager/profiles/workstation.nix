@@ -54,8 +54,10 @@ in {
 
     catppuccin = {
       enable = true;
+      cursors.enable = true;
       flavor = "macchiato";
       accent = "peach";
+      cursors.accent = "peach";
     };
 
     home.sessionPath = [
