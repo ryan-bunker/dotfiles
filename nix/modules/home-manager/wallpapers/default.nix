@@ -91,7 +91,7 @@ in {
       Service = {
         Type = "oneshot";
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.swww]}"
+          "PATH=${lib.makeBinPath [pkgs.swww pkgs.hyprland]}"
           "SWWW_TRANSITION=${cfg.transition.type}"
           "SWWW_TRANSITION_DURATION=${toString cfg.transition.duration}"
           "SWWW_TRANSITION_FPS=${toString cfg.transition.fps}"
