@@ -74,6 +74,17 @@
           inherit inputs;
         };
       };
+
+      dell-laptop = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          self.nixosModules.default
+          ./hosts/dell-laptop
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
+      };
     };
 
     homeConfigurations = {
@@ -101,6 +112,29 @@
                 color = "$base";
               }
             ];
+          }
+        ];
+        extraSpecialArgs = {
+          inherit (inputs) ags;
+        };
+      };
+
+      "ryan@laptop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        modules = [
+          self.homeManagerModules.default
+          ./home/ryan
+          {
+            my.desktop.wallpapers.targets = ["3840x2160"];
+            my.programs.ssh = {
+              sopsKey = "ssh_key_dell";
+              publicKey = ''
+                ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeZJke7UzcoOJQNCFYpNlt/7wsQe+hKQI+q/DaNAHhB ryan.bunker@gmail.com
+              '';
+            };
+
+            my.desktop.hyprland.enableTouchpad = true;
+            my.desktop.hyprlock.backgrounds = [];
           }
         ];
         extraSpecialArgs = {
