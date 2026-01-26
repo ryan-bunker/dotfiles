@@ -60,6 +60,17 @@ in {
       cursors.accent = "peach";
     };
 
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Catppuccin-GTK-Orange-Dark-Macchiato";
+        package = pkgs.magnetic-catppuccin-gtk.override {
+          accent = ["orange"];
+          tweaks = ["macchiato"];
+        };
+      };
+    };
+
     home.sessionPath = [
       "$GOPATH/bin"
       "$HOME/.local/bin"
