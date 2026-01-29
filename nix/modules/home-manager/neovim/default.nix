@@ -78,7 +78,7 @@
     nvim-lspconfig
     nvim-notify
     nvim-surround
-    nvim-treesitter
+    nvim-treesitter.withAllGrammars
     nvim-web-devicons
     plenary-nvim
     rainbow-delimiters-nvim
@@ -88,59 +88,6 @@
     vim-kitty-navigator
     vim-sleuth
     which-key-nvim
-  ];
-
-  treesitter-grammars = with pkgs.vimPlugins.nvim-treesitter-parsers; [
-    asm
-    bash
-    c
-    c_sharp
-    commonlisp
-    cpp
-    css
-    diff
-    dockerfile
-    dot
-    embedded_template
-    git_config
-    git_rebase
-    gitcommit
-    gitignore
-    go
-    gomod
-    gosum
-    gowork
-    gpg
-    hcl
-    helm
-    ini
-    jinja
-    json
-    kotlin
-    lua
-    make
-    markdown
-    markdown_inline
-    nginx
-    nix
-    pem
-    powershell
-    properties
-    proto
-    puppet
-    python
-    query
-    regex
-    ruby
-    ssh_config
-    tmux
-    toml
-    tsx
-    typescript
-    vim
-    vimdoc
-    xml
-    yaml
   ];
 in {
   options.my.programs.neovim = {
@@ -154,7 +101,7 @@ in {
       enable = true;
       package = neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-      plugins = nvim-plugins ++ treesitter-grammars;
+      plugins = nvim-plugins;
 
       extraPackages = with pkgs;
         [
