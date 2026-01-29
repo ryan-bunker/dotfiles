@@ -150,6 +150,8 @@ in {
         require("settings")
         require("plugins").setup()
       '';
+      "kitty/pass_keys.py".source = "${pkgs.vimPlugins.vim-kitty-navigator}/pass_keys.py";
+      "kitty/get_layout.py".source = "${pkgs.vimPlugins.vim-kitty-navigator}/get_layout.py";
     };
 
     # disable catppuccin automatic styling as it is currently setup directly
