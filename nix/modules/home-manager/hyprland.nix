@@ -182,6 +182,10 @@ in {
             # Scroll through existing workspaces with mainMod + scroll
             "$mainMod, mouse_down, workspace, e+1"
             "$mainMod, mouse_up, workspace, e-1"
+
+            # move workspace to prev and next monitor
+            "$mainMod SHIFT, S, movecurrentworkspacetomonitor, +1"
+            "$mainMod SHIFT, G, movecurrentworkspacetomonitor, -1"
           ]
           ++ (
             builtins.concatLists (builtins.genList (
