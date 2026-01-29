@@ -1,3 +1,4 @@
 require("blink.cmp").setup({
-	keymap = { preset = 'enter' },
+	keymap = { preset = "enter" },
+	signature = { enabled = true },
 })
