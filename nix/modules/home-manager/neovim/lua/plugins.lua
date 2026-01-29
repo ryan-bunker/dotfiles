@@ -18,6 +18,7 @@ local modules = {
 	"config.lualine",
 	"config.mini",
 	"config.neo-tree",
+	"config.neotest",
 	"config.notify",
 	"config.nvim-autopairs",
 	"config.nvim-surround",

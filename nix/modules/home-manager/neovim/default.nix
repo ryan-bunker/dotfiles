@@ -50,6 +50,42 @@
     };
   };
 
+  # This fixes a current issue where neotest can't find treesitter grammars that are package outside nvim-treesitter.
+  # See this PR for details: https://github.com/nvim-neotest/neotest/pull/577
+  neotest-fix = pkgs.vimUtils.buildVimPlugin {
+    pname = "neotest";
+    version = "2026-01-20-pr577";
+    src = pkgs.fetchFromGitHub {
+      owner = "archie-judd";
+      repo = "neotest";
+      rev = "ce51b2834f6f4e9d9a09c1047a0d1f627b13161a";
+      hash = "sha256-EpkobU9KzMpvQr+XZKy9abna1q/TZSKr469ggx+tvgk=";
+    };
+
+    dependencies = with pkgs.vimPlugins; [
+      nvim-nio
+      plenary-nvim
+      FixCursorHold-nvim
+      nvim-treesitter
+    ];
+  };
+  neotest-golang-fix = pkgs.vimUtils.buildVimPlugin {
+    pname = "neotest-golang";
+    version = "v2.7.2";
+    src = pkgs.fetchFromGitHub {
+      owner = "fredrikaverpil";
+      repo = "neotest-golang";
+      rev = "67800bdb6bee0107f478e35400ba937b438f1a4b"; # v2.7.2
+      hash = "sha256-oZWb6GsZTgclKFyDgZWWANmfPRjg0LZgFymQs2SC8Rc=";
+    };
+    dependencies = with pkgs.vimPlugins; [
+      neotest-fix
+      nvim-nio
+      plenary-nvim
+      nvim-treesitter
+    ];
+  };
+
   nvim-plugins = with pkgs.vimPlugins; [
     alpha-nvim
     ascii-nvim
@@ -62,6 +98,7 @@
     comment-nvim
     conform-nvim
     copilot-lua
+    FixCursorHold-nvim
     friendly-snippets
     gitsigns-nvim
     gopher-nvim
@@ -70,12 +107,15 @@
     lualine-nvim
     mini-nvim
     neo-tree-nvim
+    neotest-fix # TEMP: fixes neotest issue
+    neotest-golang-fix
     noice-nvim
     nvim-autopairs
     nvim-dap
     nvim-dap-ui
     nvim-dap-go
     nvim-lspconfig
+    nvim-nio
     nvim-notify
     nvim-surround
     nvim-treesitter.withAllGrammars
@@ -121,6 +161,7 @@ in {
           ripgrep # telescope
           fd # telescope
           nodejs_24 # copilot
+          gotestsum # neotest-golang
         ]
         ++ lib.optional cfg.gemini.enable pkgs.gemini-cli;
     };
