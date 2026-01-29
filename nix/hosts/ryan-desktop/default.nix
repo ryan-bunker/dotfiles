@@ -19,5 +19,9 @@
 
   catppuccin.sddm.background = ../../../wallpapers/login_wallpaper_3440x1440.png;
 
+  systemd.tmpfiles.rules = [
+    "d /data/slow 0777 root root -"
+  ];
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }
