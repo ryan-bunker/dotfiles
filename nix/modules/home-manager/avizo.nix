@@ -5,7 +5,7 @@
   catppuccin,
   ...
 }: let
-  cfg = config.my.programs.ssh;
+  cfg = config.my.desktop.avizo;
 
   flavor = config.catppuccin.flavor;
   accent = config.catppuccin.accent;
