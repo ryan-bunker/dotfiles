@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.my.profiles.desktop-hyprland;
@@ -19,6 +20,19 @@ in {
       wallpapers = {
         enable = lib.mkDefault true;
         wallpaperDir = ../../../../wallpapers;
+      };
+    };
+
+    catppuccin.cursors.enable = lib.mkDefault true;
+
+    gtk = {
+      enable = lib.mkDefault true;
+      theme = {
+        name = "Catppuccin-GTK-Orange-Dark-Macchiato";
+        package = pkgs.magnetic-catppuccin-gtk.override {
+          accent = [config.catppuccin.accent];
+          tweaks = [config.catppuccin.flavor];
+        };
       };
     };
   };

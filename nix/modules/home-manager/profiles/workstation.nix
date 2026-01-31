@@ -54,21 +54,9 @@ in {
 
     catppuccin = {
       enable = true;
-      cursors.enable = true;
       flavor = "macchiato";
       accent = "peach";
       cursors.accent = "peach";
-    };
-
-    gtk = {
-      enable = true;
-      theme = {
-        name = "Catppuccin-GTK-Orange-Dark-Macchiato";
-        package = pkgs.magnetic-catppuccin-gtk.override {
-          accent = ["orange"];
-          tweaks = ["macchiato"];
-        };
-      };
     };
 
     home.sessionPath = [
