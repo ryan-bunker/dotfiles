@@ -16,6 +16,10 @@
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +48,7 @@
       default = {...}: {
         imports = [
           inputs.catppuccin.nixosModules.catppuccin
+          inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
           ./modules/nixos
         ];
@@ -86,6 +91,22 @@
           inherit inputs;
         };
       };
+
+      kube-1 = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          self.nixosModules.default
+          ./hosts/kube/kube-1.nix
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
+      };
+    };
+
+    checks.${system}.homelabTest = import ./tests/homelab-cluster.nix {
+      pkgs = nixpkgs.legacyPackages.${system};
+      inherit self;
     };
 
     homeConfigurations = {
