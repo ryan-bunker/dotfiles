@@ -105,7 +105,7 @@ in {
         label = [
           # TIME
           {
-            monitor = "DP-1";
+            monitor = (builtins.head cfg.backgrounds).monitor;
             text = "cmd[update:30000] echo \"$(date +\"%R\")\"";
             color = "$text";
             font_size = 45;
@@ -117,7 +117,7 @@ in {
 
           # DATE
           {
-            monitor = "DP-1";
+            monitor = (builtins.head cfg.backgrounds).monitor;
             text = "cmd[update:43200000] echo \"$(date +\"%A, %d %B %Y\")\"";
             color = "$text";
             font_size = 12;
@@ -130,7 +130,7 @@ in {
 
         # USER AVATAR
         image = {
-          monitor = "DP-1";
+          monitor = (builtins.head cfg.backgrounds).monitor;
           path = "~/.face";
           size = 100;
           border_color = "$accent";
@@ -141,7 +141,7 @@ in {
 
         # INPUT FIELD
         input-field = {
-          monitor = "DP-1";
+          monitor = (builtins.head cfg.backgrounds).monitor;
           size = "225, 45";
           outline_thickness = 4;
           dots_size = "0.3";

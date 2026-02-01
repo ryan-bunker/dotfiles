@@ -135,7 +135,12 @@
             };
 
             my.desktop.hyprland.enableTouchpad = true;
-            my.desktop.hyprlock.backgrounds = [];
+            my.desktop.hyprlock.backgrounds = [
+              {
+                monitor = "eDP-1";
+                path = ../wallpapers/login_wallpaper_3840x2160.png;
+              }
+            ];
           }
         ];
         extraSpecialArgs = {
