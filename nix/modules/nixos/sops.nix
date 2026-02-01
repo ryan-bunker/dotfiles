@@ -7,6 +7,6 @@
     age.sshKeyPaths = [];
 
     # ENABLE Manual Key File
-    age.keyFile = "/var/lib/sops-nix/key.txt";
+    age.keyFile = "/var/lib/sops-nix/keys.txt";
   };
 }
