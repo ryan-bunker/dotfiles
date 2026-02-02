@@ -101,7 +101,7 @@ in {
     };
 
     programs.oh-my-posh = {
-      enable = true;
+      enable = cfg.oh-my-posh.enable;
       settings = builtins.fromTOML (builtins.unsafeDiscardStringContext (builtins.readFile ./oh-my-posh.toml));
     };
   };
