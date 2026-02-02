@@ -13,11 +13,9 @@ in {
   config = lib.mkIf cfg.enable {
     programs.aerospace = {
       enable = true;
+      launchd.enable = true;
 
-      userSettings = {
-        # Start at AeroSpace login
-        start-at-login = true;
-
+      settings = {
         # Set padding values
         accordion-padding = 30;
         gaps = {
