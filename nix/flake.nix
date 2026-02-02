@@ -97,6 +97,17 @@
         modules = [
           self.nixosModules.default
           ./hosts/kube/kube-1.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ryan = {
+              imports = [
+                self.homeManagerModules.default
+                ./home/ryan/server.nix
+              ];
+            };
+          }
         ];
         specialArgs = {
           inherit inputs;

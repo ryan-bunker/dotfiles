@@ -8,7 +8,8 @@ pkgs.testers.nixosTest {
 
   nodes = {
     kube-1 = {config, ...}: {
-      imports = [self.nixosModules.default ../hosts/kube/kube-1.nix];
+      imports = self.nixosConfigurations.kube-1._module.args.modules;
+
       virtualisation.memorySize = 4096;
       virtualisation.sharedDirectories.sops-age-key = {
         source = "/home/ryan/.config/sops/age";
