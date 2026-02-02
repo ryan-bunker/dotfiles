@@ -114,27 +114,7 @@
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [
           self.homeManagerModules.default
-          ./home/ryan
-          {
-            my.desktop.wallpapers.targets = ["3440x1440" "1440x2560"];
-            my.programs.ssh = {
-              sopsKey = "ssh_key_desktop";
-              publicKey = ''
-                ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINtZ8rdN4bP15DEbGFaL5K0lq9jQus0Ya/WMiZLg38v4 ryan.bunker@gmail.com
-              '';
-            };
-
-            my.desktop.hyprlock.backgrounds = [
-              {
-                monitor = "DP-1";
-                path = ../wallpapers/login_wallpaper_3440x1440.png;
-              }
-              {
-                monitor = "HDMI-A-1";
-                color = "$base";
-              }
-            ];
-          }
+          ./home/ryan/desktop.nix
         ];
         extraSpecialArgs = {
           inherit (inputs) ags;
@@ -145,24 +125,7 @@
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [
           self.homeManagerModules.default
-          ./home/ryan
-          {
-            my.desktop.wallpapers.targets = ["3840x2160"];
-            my.programs.ssh = {
-              sopsKey = "ssh_key_dell";
-              publicKey = ''
-                ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeZJke7UzcoOJQNCFYpNlt/7wsQe+hKQI+q/DaNAHhB ryan.bunker@gmail.com
-              '';
-            };
-
-            my.desktop.hyprland.enableTouchpad = true;
-            my.desktop.hyprlock.backgrounds = [
-              {
-                monitor = "eDP-1";
-                path = ../wallpapers/login_wallpaper_3840x2160.png;
-              }
-            ];
-          }
+          ./home/ryan/laptop.nix
         ];
         extraSpecialArgs = {
           inherit (inputs) ags;
