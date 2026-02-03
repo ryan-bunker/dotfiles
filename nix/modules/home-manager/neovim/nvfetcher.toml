@@ -1,0 +1,23 @@
+# Use src.git for ascii-nvim because it has no GitHub Releases
+[ascii-nvim]
+src.git = "https://github.com/MaximilianLloyd/ascii.nvim"
+fetch.github = "MaximilianLloyd/ascii.nvim"
+
+[gopher-nvim]
+src.github = "olexsmir/gopher.nvim"
+fetch.github = "olexsmir/gopher.nvim"
+
+[reactive-nvim]
+src.github = "rasulomaroff/reactive.nvim"
+fetch.github = "rasulomaroff/reactive.nvim"
+
+# Fixes neotest issue (PR #577)
+# Use src.manual to strictly pin the commit and skip version checks
+[neotest-fix]
+src.manual = "ce51b2834f6f4e9d9a09c1047a0d1f627b13161a"
+fetch.github = "archie-judd/neotest"
+
+# Use src.manual to strictly pin the commit
+[neotest-golang-fix]
+src.github = "fredrikaverpil/neotest-golang"
+fetch.github = "fredrikaverpil/neotest-golang"

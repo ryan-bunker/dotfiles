@@ -8,60 +8,30 @@
 }: let
   cfg = config.my.programs.neovim;
 
-  ascii-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "ascii-nvim";
-    version = "2025-12-03";
-    dontBuild = true;
+  # import nvfetcher sources
+  sources = pkgs.callPackage ./_sources/generated.nix {};
 
-    # Use a fetcher to get source code
-    src = pkgs.fetchFromGitHub {
-      owner = "MaximilianLloyd";
-      repo = "ascii.nvim";
-      rev = "70783fea66e99525221e52dce3b3489c05354181";
-      hash = "sha256-2CE03Lvyn7Ta8yd5pR6ZXGiXAyYtVxYPynUmhHATqG8=";
-    };
+  # helper to build plugins from sources
+  buildPlugin = name: overrides:
+    pkgs.vimUtils.buildVimPlugin ({
+        pname = name;
+        inherit (sources.${name}) version src;
+        dontBuild = true;
+      }
+      // overrides);
 
+  ascii-nvim = buildPlugin "ascii-nvim" {
     dependencies = [pkgs.vimPlugins.nui-nvim];
   };
 
-  gopher-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "gopher-nvim";
-    version = "2025-12-03";
+  gopher-nvim = buildPlugin "gopher-nvim" {};
 
-    # Use a fetcher to get source code
-    src = pkgs.fetchFromGitHub {
-      owner = "olexsmir";
-      repo = "gopher.nvim";
-      rev = "4a2384ade8005affb4a35951efff4dfd2295600e";
-      hash = "sha256-Vm+7egZRep3LMElYiP2zSUZHRoBgraiJ0etyMiQlHTs=";
-    };
-  };
-
-  reactive-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "reactive-nvim";
-    version = "2025-12-03";
-
-    # Use a fetcher to get source code
-    src = pkgs.fetchFromGitHub {
-      owner = "rasulomaroff";
-      repo = "reactive.nvim";
-      rev = "e0a22a42811ca1e7aa7531f931c55619aad68b5d";
-      hash = "sha256-ox26LQIkNNutdh7OUMER2uveFhykgMRxvGoQ0nIRkkk=";
-    };
-  };
+  reactive-nvim = buildPlugin "reactive-nvim" {};
 
   # This fixes a current issue where neotest can't find treesitter grammars that are package outside nvim-treesitter.
   # See this PR for details: https://github.com/nvim-neotest/neotest/pull/577
-  neotest-fix = pkgs.vimUtils.buildVimPlugin {
+  neotest-fix = buildPlugin "neotest-fix" {
     pname = "neotest";
-    version = "2026-01-20-pr577";
-    src = pkgs.fetchFromGitHub {
-      owner = "archie-judd";
-      repo = "neotest";
-      rev = "ce51b2834f6f4e9d9a09c1047a0d1f627b13161a";
-      hash = "sha256-EpkobU9KzMpvQr+XZKy9abna1q/TZSKr469ggx+tvgk=";
-    };
-
     dependencies = with pkgs.vimPlugins; [
       nvim-nio
       plenary-nvim
@@ -69,15 +39,8 @@
       nvim-treesitter
     ];
   };
-  neotest-golang-fix = pkgs.vimUtils.buildVimPlugin {
+  neotest-golang-fix = buildPlugin "neotest-golang-fix" {
     pname = "neotest-golang";
-    version = "v2.7.2";
-    src = pkgs.fetchFromGitHub {
-      owner = "fredrikaverpil";
-      repo = "neotest-golang";
-      rev = "67800bdb6bee0107f478e35400ba937b438f1a4b"; # v2.7.2
-      hash = "sha256-oZWb6GsZTgclKFyDgZWWANmfPRjg0LZgFymQs2SC8Rc=";
-    };
     dependencies = with pkgs.vimPlugins; [
       neotest-fix
       nvim-nio
