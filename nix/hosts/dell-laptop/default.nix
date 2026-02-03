@@ -15,6 +15,8 @@
 
   networking.hostName = "dell-laptop"; # Define your hostname.
 
+  nixpkgs.config.allowUnfree = true;
+
   my.profiles.workstation.enable = true;
 
   catppuccin.sddm.background = ../../../wallpapers/login_wallpaper_3840x2160.png;

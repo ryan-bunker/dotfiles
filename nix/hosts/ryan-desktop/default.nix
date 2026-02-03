@@ -15,6 +15,8 @@
 
   networking.hostName = "ryan-desktop"; # Define your hostname.
 
+  nixpkgs.config.allowUnfree = true;
+
   my.profiles.workstation.enable = true;
 
   catppuccin.sddm.background = ../../../wallpapers/login_wallpaper_3440x1440.png;
