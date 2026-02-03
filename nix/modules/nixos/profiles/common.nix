@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   config,
   pkgs,
@@ -12,10 +13,23 @@
 
   time.timeZone = "US/Central";
 
-  # Allow installing unfree packages.
-  # nixpkgs.config.allowUnfree = true;
-  nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
+  nix = {
+    channel.enable = false;
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    settings.experimental-features = ["nix-command" "flakes"];
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "delete-older-than 7d";
+      persistent = false;
+    };
+
+    optimise = {
+      automatic = true;
+      dates = ["weekly"];
+    };
   };
 
   # TODO: move this to a separate module
