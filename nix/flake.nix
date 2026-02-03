@@ -43,7 +43,38 @@
     nixpkgs,
     home-manager,
     ...
-  } @ inputs: {
+  } @ inputs: let
+    # helper for creating kube server configuration
+    mkKube = name:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          self.nixosModules.default
+          ./hosts/kube/${name}.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ryan = {
+              imports = [
+                self.homeManagerModules.default
+                ./home/ryan/server.nix
+              ];
+            };
+          }
+        ];
+      };
+
+    # helper to import tests and pass the flake's self/inputs
+    mkTest = file:
+      import file {
+        inherit self;
+        pkgs = nixpkgs.legacyPackages.${system};
+      };
+  in {
     nixosModules = {
       default = {...}: {
         imports = [
@@ -92,32 +123,17 @@
         };
       };
 
-      kube-1 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          self.nixosModules.default
-          ./hosts/kube/kube-1.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ryan = {
-              imports = [
-                self.homeManagerModules.default
-                ./home/ryan/server.nix
-              ];
-            };
-          }
-        ];
-        specialArgs = {
-          inherit inputs;
-        };
-      };
+      kube-1 = mkKube "kube-1";
+      kube-2 = mkKube "kube-2";
+      kube-3 = mkKube "kube-3";
     };
 
-    checks.${system}.homelabTest = import ./tests/homelab-cluster.nix {
-      pkgs = nixpkgs.legacyPackages.${system};
-      inherit self;
+    checks.${system} = {
+      ssh-test = mkTest ./tests/ssh-connectivity.nix;
+      # homelabTest = import ./tests/homelab-cluster.nix {
+      #   pkgs = nixpkgs.legacyPackages.${system};
+      #   inherit self;
+      # };
     };
 
     homeConfigurations = {

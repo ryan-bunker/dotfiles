@@ -1,10 +1,10 @@
 {pkgs, ...}: {
   networking = {
-    hostName = "kube-1";
+    hostName = "kube-2";
     domain = "dev.thebunker.house";
     interfaces.eth1.ipv4.addresses = [
       {
-        address = "192.168.1.100";
+        address = "192.168.1.101";
         prefixLength = 24;
       }
     ];
