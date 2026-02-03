@@ -5,6 +5,8 @@
   pkgs,
   ...
 }: {
+  imports = [./ryan.nix];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot.enable = true;
@@ -31,7 +33,6 @@
       dates = ["weekly"];
     };
   };
-
 
   # setup zsh as the default system shell - enabling it here is required so it functions properly
   # full configuration happens as part of home-manager

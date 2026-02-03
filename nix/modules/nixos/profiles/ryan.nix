@@ -5,7 +5,7 @@
 }: {
   users.users.ryan = {
     isNormalUser = true;
-    uid = 1000; # Ensure consistent UID across all Bunker nodes
+    uid = 1000;
     extraGroups = ["wheel" "networkmanager" "video"];
     shell = pkgs.zsh;
     hashedPasswordFile = config.sops.secrets.my_password.path;
