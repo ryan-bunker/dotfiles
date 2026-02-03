@@ -58,12 +58,6 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.ryan = {
-              imports = [
-                self.homeManagerModules.default
-                ./home/ryan/server.nix
-              ];
-            };
           }
         ];
       };

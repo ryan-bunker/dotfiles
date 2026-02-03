@@ -1,4 +1,5 @@
 {
+  self,
   lib,
   config,
   pkgs,
@@ -19,6 +20,13 @@ in {
     environment.systemPackages = with pkgs; [
       vim
     ];
+
+    home-manager.users.ryan = {
+      imports = [
+        self.homeManagerModules.default
+        ../../../home/ryan/server.nix
+      ];
+    };
 
     boot.kernel.sysctl = {
       "fs.protected_fifos" = 2;
