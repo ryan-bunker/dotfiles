@@ -39,9 +39,7 @@
     nixpkgs,
     home-manager,
     ...
-  } @ inputs: let
-    system = "x86_64-linux";
-  in {
+  } @ inputs: {
     nixosModules = {
       default = {...}: {
         imports = [
@@ -68,7 +66,7 @@
 
     nixosConfigurations = {
       ryan-desktop = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         modules = [
           self.nixosModules.default
           ./hosts/ryan-desktop
@@ -79,7 +77,7 @@
       };
 
       dell-laptop = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         modules = [
           self.nixosModules.default
           ./hosts/dell-laptop
@@ -92,7 +90,7 @@
 
     homeConfigurations = {
       "ryan@desktop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [
           self.homeManagerModules.default
           ./home/ryan
@@ -123,7 +121,7 @@
       };
 
       "ryan@laptop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [
           self.homeManagerModules.default
           ./home/ryan
