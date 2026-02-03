@@ -3,6 +3,7 @@
   config,
   pkgs,
   alejandra,
+  nixpkgs,
   ...
 }: let
   cfg = config.my.profiles.workstation;
@@ -65,8 +66,11 @@ in {
       "$HOME/.krew/bin"
     ];
     home.sessionVariables = {
+      NIX_PATH = "nixpkgs=${nixpkgs.outPath}:\${NIX_PATH}";
       GOPATH = "$HOME/go";
     };
+
+    nix.registry.nixpkgs.flake = nixpkgs;
 
     programs = {
       bash.enable = lib.mkDefault true;
