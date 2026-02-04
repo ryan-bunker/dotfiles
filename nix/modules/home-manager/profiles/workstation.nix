@@ -73,6 +73,7 @@ in {
     nix.registry.nixpkgs.flake = nixpkgs;
 
     programs = {
+      atuin.enable = lib.mkDefault true;
       bash.enable = lib.mkDefault true;
       bat.enable = lib.mkDefault true;
       eza = {
