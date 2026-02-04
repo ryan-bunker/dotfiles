@@ -92,8 +92,12 @@ local servers = {
 		},
 	},
 }
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 for name, opt in pairs(servers) do
+	-- inject blink capabilities into each server config
+	opt.capabilities = vim.tbl_deep_extend("force", capabilities, opt.capabilities or {})
+
 	vim.lsp.config(name, opt)
 	vim.lsp.enable(name)
 end
