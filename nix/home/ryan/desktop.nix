@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   ags,
@@ -30,10 +31,11 @@
   };
 
   my.programs.ssh = {
-    sopsKey = "ssh_key_desktop";
-    publicKey = ''
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINtZ8rdN4bP15DEbGFaL5K0lq9jQus0Ya/WMiZLg38v4 ryan.bunker@gmail.com
-    '';
+    publicKeyFile = ../../../secrets/keys/desktop/public;
+    privateKey = {
+      sopsFile = ../../../secrets/keys/desktop/private;
+      format = "binary";
+    };
   };
 
   programs = {

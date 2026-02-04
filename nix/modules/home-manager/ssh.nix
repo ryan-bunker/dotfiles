@@ -9,15 +9,18 @@ in {
   options.my.programs.ssh = {
     enable = lib.mkEnableOption "Enable and configure ssh (client)";
 
-    sopsKey = lib.mkOption {
-      type = lib.types.str;
-      default = "ssh_key";
-      description = "Name of key in sops secrets file that contains private SSH key";
+    publicKeyFile = lib.mkOption {
+      type = lib.types.path;
+      description = "Path to the public key file (e.g. ./keys/desktop.pub)";
     };
 
-    publicKey = lib.mkOption {
-      type = lib.types.str;
-      description = "Public key contents to write to ssh configuration";
+    privateKey = lib.mkOption {
+      type = lib.types.attrs;
+      default = {};
+      description = ''
+        Configuration for the private key secret.
+        Example: { sopsFile = ./private; format = "binary"; }
+      '';
     };
   };
 
@@ -37,17 +40,16 @@ in {
       };
     };
 
-    # 1. THE PRIVATE KEY (Secret)
-    sops.secrets.ssh_key = {
-      key = cfg.sopsKey;
-      # Explicitly tell sops-nix where to place the decrypted file
-      path = "${config.home.homeDirectory}/.ssh/id_ed25519";
-      mode = "0600";
-    };
+    # install private key - take the user's definition and force the destination path
+    sops.secrets.ssh_key =
+      cfg.privateKey
+      // {
+        # Explicitly tell sops-nix where to place the decrypted file
+        path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+        mode = "0600";
+      };
 
-    # 2. THE PUBLIC KEY (Not Secret)
-    # Since this isn't sensitive, just write it as a standard file.
-    # This ensures 'ssh-copy-id' or other tools can find the .pub file.
-    home.file.".ssh/id_ed25519.pub".text = cfg.publicKey;
+    # install the public key
+    home.file.".ssh/id_ed25519.pub".source = cfg.publicKeyFile;
   };
 }

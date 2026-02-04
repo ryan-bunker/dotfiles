@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   ...
@@ -10,7 +11,10 @@
     shell = pkgs.zsh;
     hashedPasswordFile = config.sops.secrets.my_password.path;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINtZ8rdN4bP15DEbGFaL5K0lq9jQus0Ya/WMiZLg38v4 ryan.bunker@gmail.com"
+      lib.fileContents
+      ../../../../secrets/keys/desktop/public
+      lib.fileContents
+      ../../../../secrets/keys/laptop/public
     ];
   };
 

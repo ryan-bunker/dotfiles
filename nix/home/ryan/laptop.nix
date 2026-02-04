@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   ags,
@@ -27,10 +28,11 @@
   };
 
   my.programs.ssh = {
-    sopsKey = "ssh_key_dell";
-    publicKey = ''
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeZJke7UzcoOJQNCFYpNlt/7wsQe+hKQI+q/DaNAHhB ryan.bunker@gmail.com
-    '';
+    publicKeyFile = ../../../secrets/keys/laptop/public;
+    privateKey = {
+      sopsFile = ../../../secrets/keys/laptop/private;
+      format = "binary";
+    };
   };
 
   programs = {
