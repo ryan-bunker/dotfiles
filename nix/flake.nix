@@ -47,7 +47,7 @@
     # helper for creating kube server configuration
     mkKube = name:
       nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
         };
@@ -66,7 +66,7 @@
     mkTest = file:
       import file {
         inherit self;
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
       };
   in {
     nixosModules = {
@@ -122,7 +122,7 @@
       kube-3 = mkKube "kube-3";
     };
 
-    checks.${system} = {
+    checks."x86_64-linux" = {
       ssh-test = mkTest ./tests/ssh-connectivity.nix;
       # homelabTest = import ./tests/homelab-cluster.nix {
       #   pkgs = nixpkgs.legacyPackages.${system};
