@@ -15,9 +15,6 @@
     desktop-hyprland.enable = true;
   };
 
-  # home.packages = with pkgs; [
-  # ];
-
   programs = {
     ags = {
       enable = true;
@@ -31,11 +28,6 @@
         wireplumber
       ];
     };
-
-    # qutebrowser = {
-    #   searchEngines = {
-    #   };
-    # };
   };
 
   home.stateVersion = "24.05"; # Please read the comment before changing.
