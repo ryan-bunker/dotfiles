@@ -87,6 +87,8 @@
     rainbow-delimiters-nvim
     reactive-nvim
     telescope-nvim
+    telescope-ui-select-nvim
+    telescope-fzf-native-nvim
     todo-comments-nvim
     vim-kitty-navigator
     vim-sleuth
