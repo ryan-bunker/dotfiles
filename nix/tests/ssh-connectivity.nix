@@ -3,21 +3,41 @@
   self,
   ...
 }: let
-  mkKube = name: {config, ...}: {
+  testPrivateKey = ''
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+    QyNTUxOQAAACCOJLp6v8tizFtNLVPGombvxKtpeKLcbX7wTZNK1eF+jQAAAJjoK7n66Cu5
+    +gAAAAtzc2gtZWQyNTUxOQAAACCOJLp6v8tizFtNLVPGombvxKtpeKLcbX7wTZNK1eF+jQ
+    AAAEAXHQEo6J1/Ybca52ge1EduvHyFEYeAJ5UWbgv/yErbo44kunq/y2LMW00tU8aiZu/E
+    q2l4otxtfvBNk0rV4X6NAAAAFXJ5YW4uYnVua2VyQGdtYWlsLmNvbQ==
+    -----END OPENSSH PRIVATE KEY-----
+  '';
+  testPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII4kunq/y2LMW00tU8aiZu/Eq2l4otxtfvBNk0rV4X6N ryan.bunker@gmail.com";
+
+  mkKube = name: {
+    config,
+    lib,
+    ...
+  }: {
     imports = self.nixosConfigurations.${name}._module.args.modules;
-    virtualisation.memorySize = 4096;
-    virtualisation.sharedDirectories.sops-age-key = {
-      source = "/home/ryan/.config/sops/age";
-      target = "/var/lib/sops-nix";
+    users.users.ryan = {
+      hashedPasswordFile = lib.mkForce "";
+      openssh.authorizedKeys.keys = lib.mkForce [testPublicKey];
     };
+    virtualisation.memorySize = 4096;
   };
 in
   pkgs.testers.nixosTest {
     name = "homelab-cluster-test";
 
     nodes = {
-      bastion = {...}: {
+      bastion = {pkgs, ...}: {
         environment.systemPackages = [pkgs.openssh];
+        systemd.tmpfiles.rules = [
+          # Type  Path                    Mode User Group Age Argument
+          "d      /root/.ssh              0700 root root  -   -"
+          "C      /root/.ssh/id_ed25519   0600 root root  -   ${pkgs.writeText "test-key" testPrivateKey}"
+        ];
       };
 
       kube-1 = mkKube "kube-1";
@@ -31,10 +51,6 @@ in
       # Ensure bastion is ready
       bastion.wait_for_unit("network.target")
 
-      # 1. Generate a key on the bastion
-      bastion.succeed("mkdir -p ~/.ssh && ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N '''")
-      public_key = bastion.succeed("cat ~/.ssh/id_ed25519.pub")
-
       def check_ssh(node, ip_address):
         node.wait_for_unit("multi-user.target")
 
@@ -45,11 +61,6 @@ in
         )
 
         node.wait_for_unit("sshd.service")
-
-        # 2. Put the public key on the node (simulating deployment)
-        node.succeed("mkdir -p /home/ryan/.ssh && chmod 700 /home/ryan/.ssh")
-        node.succeed(f"echo '{public_key}' > /home/ryan/.ssh/authorized_keys")
-        node.succeed("chown -R ryan:users /home/ryan/.ssh && chmod 600 /home/ryan/.ssh/authorized_keys")
 
         # 3. Test the connection from bastion to the node's static IP
         hostname = node.succeed("hostname").strip()
