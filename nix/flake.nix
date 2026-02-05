@@ -54,7 +54,6 @@
         modules = [
           self.nixosModules.default
           ./hosts/kube/${name}.nix
-          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -75,6 +74,7 @@
           inputs.catppuccin.nixosModules.catppuccin
           inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
+          home-manager.nixosModules.home-manager
           ./modules/nixos
         ];
         _module.args = inputs // {inherit inputs;};

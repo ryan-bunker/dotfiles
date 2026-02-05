@@ -7,6 +7,9 @@
     ./ssh.nix
     ./storage.nix
 
+    # users
+    ./users
+
     # profiles
     ./profiles
   ];
