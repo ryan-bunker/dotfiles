@@ -36,5 +36,15 @@ in {
       flavor = "macchiato";
       accent = "peach";
     };
+
+    services.btrfs.autoScrub = {
+      enable = true;
+      # default to weekly for workstations
+      interval = lib.mkDefault "weekly";
+      fileSystems = ["/"];
+    };
+
+    # ensure the btrfs scrub doesn't kill the battery on laptops
+    systemd.services.btrfs-scrub-root.unitConfig.ConditionACPower = true;
   };
 }

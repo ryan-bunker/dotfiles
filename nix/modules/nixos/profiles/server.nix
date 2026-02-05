@@ -28,6 +28,12 @@ in {
       ];
     };
 
+    services.btrfs.autoScrub = {
+      enable = true;
+      interval = lib.mkDefault "weekly";
+      fileSystems = ["/"];
+    };
+
     boot.kernel.sysctl = {
       "fs.protected_fifos" = 2;
       "fs.protected_regular" = 2;
