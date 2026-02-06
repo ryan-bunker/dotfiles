@@ -19,10 +19,8 @@ in {
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets."passwords/ryan".path;
       openssh.authorizedKeys.keys = [
-        lib.fileContents
-        ../../../../secrets/keys/desktop/public
-        lib.fileContents
-        ../../../../secrets/keys/laptop/public
+        (lib.fileContents ../../../../secrets/keys/desktop/public)
+        (lib.fileContents ../../../../secrets/keys/laptop/public)
       ];
     };
 
