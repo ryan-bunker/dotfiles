@@ -73,7 +73,11 @@ in {
     nix.registry.nixpkgs.flake = nixpkgs;
 
     programs = {
-      atuin.enable = lib.mkDefault true;
+      atuin = {
+        enable = lib.mkDefault true;
+        flags = ["--disable-up-arrow"];
+        daemon.enable = true;
+      };
       bash.enable = lib.mkDefault true;
       bat.enable = lib.mkDefault true;
       eza = {
