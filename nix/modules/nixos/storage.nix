@@ -34,7 +34,7 @@ in {
                   priority = 1;
                   name = "ESP";
                   start = "1M";
-                  end = "128M";
+                  end = "512M";
                   type = "EF00";
                   content = {
                     type = "filesystem";
@@ -46,21 +46,26 @@ in {
                   size = "100%";
                   content = {
                     type = "btrfs";
-                    extraArgs = ["--force"];
+                    extraArgs = ["--force" "-L" "NIXOS"];
 
                     # Subvolumes must set a mountpoint in order to
                     # be mounted unless their parent is mounted
                     subvolumes = {
-                      "/rootfs" = {
+                      "/root" = {
                         mountpoint = "/";
+                        mountOptions = ["compress=zstd"];
                       };
                       "/home" = {
-                        mountOptions = ["compress=zstd"];
                         mountpoint = "/home";
+                        mountOptions = ["compress=zstd"];
                       };
                       "/nix" = {
-                        mountOptions = ["compress=zstd" "noatime"];
                         mountpoint = "/nix";
+                        mountOptions = ["compress=zstd" "noatime"];
+                      };
+                      "/persist" = {
+                        mountpoint = "/persist";
+                        mountOptions = ["compress=zstd" "noatime"];
                       };
                     };
                   };

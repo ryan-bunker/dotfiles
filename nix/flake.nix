@@ -24,6 +24,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    impermanence.url = "github:nix-community/impermanence";
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -73,6 +74,7 @@
         imports = [
           inputs.catppuccin.nixosModules.catppuccin
           inputs.disko.nixosModules.disko
+          inputs.impermanence.nixosModules.impermanence
           inputs.sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
           ./modules/nixos
