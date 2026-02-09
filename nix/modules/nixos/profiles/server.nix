@@ -14,6 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     my.storage.enable = true;
     my.services.ssh.enable = true;
+    my.system.impermanence.enable = true;
 
     boot.supportedFilesystems = ["nfs"];
 
