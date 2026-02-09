@@ -17,7 +17,10 @@
     channel.enable = false;
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     registry.nixpkgs.flake = inputs.nixpkgs;
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["root" "@wheel"];
+    };
 
     gc = {
       automatic = true;
