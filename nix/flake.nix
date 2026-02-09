@@ -54,6 +54,7 @@
         };
         modules = [
           self.nixosModules.default
+          ./hosts/kube/hardware-configuration.nix
           ./hosts/kube/${name}.nix
           {
             home-manager.useGlobalPkgs = true;
@@ -68,6 +69,8 @@
         inherit self;
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
       };
+
+    lab = import ./lab.nix {pkgs = nixpkgs.legacyPackages."x86_64-linux";};
   in {
     nixosModules = {
       default = {...}: {
@@ -122,6 +125,18 @@
       kube-1 = mkKube "kube-1";
       kube-2 = mkKube "kube-2";
       kube-3 = mkKube "kube-3";
+
+      lab-kube-1 = mkKube "lab-kube-1";
+    };
+
+    apps."x86_64-linux" = {
+      lab-kube-1 = {
+        type = "app";
+        program = "${lab.mkLabNode {
+          name = "kube-1";
+          macSuffix = "01";
+        }}/bin/run-kube-1";
+      };
     };
 
     checks."x86_64-linux" = {
