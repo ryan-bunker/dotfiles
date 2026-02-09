@@ -5,3 +5,6 @@ roles/tmux/files/tmux/plugins/*
 !roles/tmux/files/tmux/plugins/tpm
 
 roles/neovim/files/nvim/lazy-lock.json
+
+lab/
+extra-files/
