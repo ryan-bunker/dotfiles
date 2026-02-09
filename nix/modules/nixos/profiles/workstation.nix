@@ -31,6 +31,10 @@ in {
       sddm.enable = true;
     };
 
+    my.system = {
+      virtualisation.enable = true;
+    };
+
     catppuccin = {
       enable = true;
       flavor = "macchiato";

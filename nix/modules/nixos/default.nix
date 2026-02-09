@@ -7,6 +7,7 @@
     ./sops.nix
     ./ssh.nix
     ./storage.nix
+    ./virtualisation.nix
 
     # users
     ./users

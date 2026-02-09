@@ -15,7 +15,9 @@ in {
       isNormalUser = true;
       home = "/home/ryan";
       uid = 1000;
-      extraGroups = ["wheel" "networkmanager" "video"];
+      extraGroups =
+        ["wheel" "networkmanager" "video" "libvirtd" "kvm"]
+        ++ lib.optionals config.my.system.virtualisation.enable ["libvirtd" "kvm"];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets."passwords/ryan".path;
       openssh.authorizedKeys.keys = [
