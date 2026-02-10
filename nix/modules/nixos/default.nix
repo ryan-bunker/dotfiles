@@ -3,6 +3,7 @@
     # low level modules
     ./hyprland.nix
     ./impermanence.nix
+    ./kubernetes.nix
     ./sddm
     ./secure-boot.nix
     ./sops.nix

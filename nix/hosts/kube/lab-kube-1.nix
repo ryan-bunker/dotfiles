@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   networking = {
     hostName = "kube-1";
     domain = "dev.thebunker.house";
@@ -15,6 +19,13 @@
 
   my.profiles.server.enable = true;
   my.storage.mainDisk = "/dev/vda";
+
+  my.services.kubernetes = {
+    enable = true;
+    role = "server";
+    clusterInit = true;
+    tokenFile = config.sops.secrets.k3s_token.path;
+  };
 
   system.stateVersion = "24.11";
 }

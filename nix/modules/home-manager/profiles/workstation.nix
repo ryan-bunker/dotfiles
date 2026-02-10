@@ -42,6 +42,7 @@ in {
       antlr
       curl
       dua
+      kubectl
       libxml2
       luajit
       lynx
