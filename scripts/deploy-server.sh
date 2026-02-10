@@ -3,6 +3,7 @@
 set -eou pipefail
 
 TARGET_HOST=${TARGET_HOST:-192.168.122.27}
+TARGET_SYSTEM=${TARGET_SYSTEM:-lab-kube-1}
 
 # 1. Generate a temporary key locally
 DISK_KEY=$(mktemp)
@@ -42,7 +43,7 @@ echo "Keys generated and staged successfully."
 # 3. Install (The Clean Way)
 # --disk-encryption-keys <remote_path> <local_path>
 nix run github:nix-community/nixos-anywhere -- \
-	--flake ./nix#lab-kube-1 \
+	--flake ./nix#${TARGET_SYSTEM} \
 	--extra-files "$MY_FILES" \
 	--disk-encryption-keys /tmp/disk.key "$DISK_KEY" \
 	--no-reboot \

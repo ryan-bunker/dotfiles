@@ -132,6 +132,7 @@
       kube-3 = mkKube "kube-3";
 
       lab-kube-1 = mkKube "lab-kube-1";
+      lab-kube-2 = mkKube "lab-kube-2";
     };
 
     apps."x86_64-linux" = {
@@ -141,6 +142,14 @@
           name = "kube-1";
           macSuffix = "01";
         }}/bin/run-kube-1";
+      };
+
+      lab-kube-2 = {
+        type = "app";
+        program = "${lab.mkLabNode {
+          name = "kube-2";
+          macSuffix = "02";
+        }}/bin/run-kube-2";
       };
     };
 
