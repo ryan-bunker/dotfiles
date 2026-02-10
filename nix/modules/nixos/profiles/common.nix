@@ -20,6 +20,12 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
       trusted-users = ["root" "@wheel"];
+      substituters = [
+        "https://lanzaboote.cachix.org"
+      ];
+      trusted-public-keys = [
+        "lanzaboote.cachix.org-1:6PMh+l2xgdSuXngTmkB6F5rGc8ttjaAZwp5hCuD8j5s="
+      ];
     };
 
     gc = {

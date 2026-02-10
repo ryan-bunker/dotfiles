@@ -45,27 +45,36 @@ in {
                 root = {
                   size = "100%";
                   content = {
-                    type = "btrfs";
-                    extraArgs = ["--force" "-L" "NIXOS"];
+                    type = "luks";
+                    name = "crypted";
+                    initrdUnlock = true;
+                    passwordFile = "/tmp/disk.key";
+                    settings = {
+                      allowDiscards = true; # Good for SSDs
+                    };
+                    content = {
+                      type = "btrfs";
+                      extraArgs = ["--force" "-L" "NIXOS"];
 
-                    # Subvolumes must set a mountpoint in order to
-                    # be mounted unless their parent is mounted
-                    subvolumes = {
-                      "/root" = {
-                        mountpoint = "/";
-                        mountOptions = ["compress=zstd"];
-                      };
-                      "/home" = {
-                        mountpoint = "/home";
-                        mountOptions = ["compress=zstd"];
-                      };
-                      "/nix" = {
-                        mountpoint = "/nix";
-                        mountOptions = ["compress=zstd" "noatime"];
-                      };
-                      "/persist" = {
-                        mountpoint = "/persist";
-                        mountOptions = ["compress=zstd" "noatime"];
+                      # Subvolumes must set a mountpoint in order to
+                      # be mounted unless their parent is mounted
+                      subvolumes = {
+                        "/root" = {
+                          mountpoint = "/";
+                          mountOptions = ["compress=zstd"];
+                        };
+                        "/home" = {
+                          mountpoint = "/home";
+                          mountOptions = ["compress=zstd"];
+                        };
+                        "/nix" = {
+                          mountpoint = "/nix";
+                          mountOptions = ["compress=zstd" "noatime"];
+                        };
+                        "/persist" = {
+                          mountpoint = "/persist";
+                          mountOptions = ["compress=zstd" "noatime"];
+                        };
                       };
                     };
                   };

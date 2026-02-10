@@ -2,7 +2,7 @@
   networking = {
     hostName = "kube-1";
     domain = "dev.thebunker.house";
-    interfaces.ens3.ipv4.addresses = [
+    interfaces.enp0s2.ipv4.addresses = [
       {
         address = "192.168.122.100";
         prefixLength = 24;

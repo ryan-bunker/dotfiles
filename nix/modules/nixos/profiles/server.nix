@@ -14,9 +14,15 @@ in {
   config = lib.mkIf cfg.enable {
     my.storage.enable = true;
     my.services.ssh.enable = true;
-    my.system.impermanence.enable = true;
+    my.system = {
+      impermanence.enable = true;
+      secure-boot.enable = true;
+    };
 
     boot.supportedFilesystems = ["nfs"];
+
+    boot.kernelParams = ["console=ttyS0,115200n8"];
+    boot.loader.timeout = 5; # Give time to see the menu
 
     environment.systemPackages = with pkgs; [
       vim

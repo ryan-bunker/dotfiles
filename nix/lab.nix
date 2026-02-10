@@ -18,11 +18,8 @@
   });
 
   labIso = "${labIsoConfig.config.system.build.isoImage}/iso/${labIsoConfig.config.system.build.isoImage.name}";
-  # # Pin the installer ISO
-  # iso = pkgs.fetchurl {
-  #   url = "https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso";
-  #   sha256 = "sha256-Uq1b/K+2PEt/W3E5WvOXfDqpikda3ZglIYrF4FfzP9g=";
-  # };
+
+  ovmf = pkgs.OVMFFull;
 in rec {
   mkLabNode = {
     name,
@@ -41,17 +38,32 @@ in rec {
       LAB_DIR="./lab/${name}"
       mkdir -p "$LAB_DIR"
 
+      # Setup TPM State & Socket
+      # We need a directory for the TPM chip's memory and a socket for QEMU to talk to it.
+      TPM_DIR="$LAB_DIR/tpm"
+      TPM_SOCK="$TPM_DIR/swtpm-sock"
+      mkdir -p "$TPM_DIR"
+
+      # Check if swtpm is already running for this VM, if not, start it.
+      if ! pgrep -f "swtpm socket --tmpstate dir=$TPM_DIR" > /dev/null; then
+        echo "Starting TPM 2.0 Emulator..."
+        ${pkgs.swtpm}/bin/swtpm socket \
+          --tpmstate dir="$TPM_DIR" \
+          --ctrl type=unixio,path="$TPM_SOCK" \
+          --tpm2 \
+          --daemon
+      fi
+
       VARS_IMG="$LAB_DIR/OVMF_VARS.fd"
 
-      # 1. Setup UEFI Vars
+      # 1. Setup UEFI Vars (Copying from the Secure Boot package)
       if [ ! -f "$VARS_IMG" ]; then
-        cp ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd "$VARS_IMG"
+        cp ${ovmf.fd}/FV/OVMF_VARS.fd "$VARS_IMG"
         chmod +w "$VARS_IMG"
       fi
 
       # 2. Generate Disk Flags dynamically
       DISK_FLAGS=""
-
       ${pkgs.lib.concatMapStringsSep "\n" (disk: ''
           DISK_PATH="$LAB_DIR/${disk.name}.qcow2"
           if [ ! -f "$DISK_PATH" ]; then
@@ -68,11 +80,16 @@ in rec {
       # 3. Launch QEMU with dynamic disk flags
       ${pkgs.qemu}/bin/qemu-system-x86_64 \
         -name ${name} \
+        -machine q35,smm=on,accel=kvm \
         -enable-kvm \
+        -global driver=cfi.pflash01,property=secure,value=on \
         -m ${toString ram} \
         -smp ${toString cores} \
         -cpu host \
-        -drive if=pflash,format=raw,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
+        -chardev socket,id=chrtpm,path="$TPM_SOCK" \
+        -tpmdev emulator,id=tpm0,chardev=chrtpm \
+        -device tpm-tis,tpmdev=tpm0 \
+        -drive if=pflash,format=raw,readonly=on,file=${ovmf.fd}/FV/OVMF_CODE.fd \
         -drive if=pflash,format=raw,file="$VARS_IMG" \
         $DISK_FLAGS \
         -drive file=${labIso},media=cdrom,readonly=on \
