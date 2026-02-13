@@ -45,6 +45,7 @@ in {
       libxml2
       luajit
       lynx
+      podman # The podman HM module does not support aarch64-darwin but the package does, so install it directly here
       powershell
       tree
       unixtools.watch
