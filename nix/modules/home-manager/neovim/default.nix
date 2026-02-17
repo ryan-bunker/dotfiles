@@ -78,6 +78,7 @@
     nvim-dap
     nvim-dap-ui
     nvim-dap-go
+    nvim-lint
     nvim-lspconfig
     nvim-nio
     nvim-notify
