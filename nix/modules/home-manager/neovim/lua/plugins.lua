@@ -22,6 +22,7 @@ local modules = {
 	"config.notify",
 	"config.nvim-autopairs",
 	"config.nvim-surround",
+	"config.pane-navigate",
 	"config.rainbow-delimiters",
 	"config.reactive",
 	"config.telescope",

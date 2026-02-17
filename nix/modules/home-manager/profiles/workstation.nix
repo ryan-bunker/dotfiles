@@ -32,6 +32,7 @@ in {
         enable = lib.mkDefault true;
         enableRichPresence = lib.mkDefault true;
       };
+      wezterm.enable = lib.mkDefault true;
     };
 
     # Let Home Manager install and manage itself.

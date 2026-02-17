@@ -3,7 +3,7 @@
 source "$CONFIG_DIR/icons.sh"
 
 case "$1" in
-"Terminal" | "Alacritty" | "kitty")
+"Terminal" | "Alacritty" | "kitty" | "WezTerm")
   RESULT=$ICON_TERM
 	if grep -q "btop" <<< $2;
   then

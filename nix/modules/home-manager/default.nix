@@ -18,6 +18,7 @@
     ./tmux
     ./vesktop.nix
     ./wallpapers
+    ./wezterm
     ./zsh
 
     # profiles

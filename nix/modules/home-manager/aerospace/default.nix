@@ -43,8 +43,8 @@ in {
           "workspace 4"
           "layout h_accordion"
           "exec-and-forget open -a qutebrowser.app -n"
-          "exec-and-forget open -a kitty.app -n --args --single-instance"
-          "exec-and-forget open -a kitty.app -n --args --single-instance --title 'Scratch Terminal'"
+          "exec-and-forget open -a wezterm.app -n --args start --always-new-process"
+          "exec-and-forget open -a kitty.app -n --args --single-instance --title 'Scratch Terminal'" # TODO: switch to wezterm
           "exec-and-forget open -a Slack.app -n"
           "exec-and-forget open -a Vesktop.app -n" # Discord
         ];
@@ -177,12 +177,13 @@ in {
           }
           {
             "if" = {
-              app-id = "net.kovidgoyal.kitty";
+              app-id = "com.github.wez.wezterm";
               during-aerospace-startup = true;
             };
             run = ["move-node-to-workspace 2"];
           }
           {
+            # TODO: switch to wezterm
             "if" = {
               app-id = "net.kovidgoyal.kitty";
               window-title-regex-substring = "Scratch Terminal";

@@ -150,7 +150,7 @@ in {
 
         bind =
           [
-            "$mainMod, T, exec, uwsm app -- kitty"
+            "$mainMod, T, exec, uwsm app -- wezterm"
             "$mainMod, Q, killactive,"
             "CTRL $mainMod, Q, exec, uwsm stop"
             "$mainMod, E, exec, uwsm app -- qutebrowser"

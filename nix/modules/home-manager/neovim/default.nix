@@ -69,6 +69,7 @@
     leap-nvim
     lualine-nvim
     mini-nvim
+    Navigator-nvim # pane navigation for WezTerm
     neo-tree-nvim
     neotest-fix # TEMP: fixes neotest issue
     neotest-golang-fix
