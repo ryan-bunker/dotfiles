@@ -60,7 +60,7 @@ case "$1" in
 "Microsoft Teams (work or school)" | "Microsoft Teams")
   RESULT=$ICON_APP_TEAMS
   ;;
-"Discord")
+"Discord" | "Vesktop")
   RESULT=$ICON_APP_DISCORD
   ;;
 "Messages" | "Telegram")
