@@ -82,6 +82,7 @@ local servers = {
 	lua_ls = {},
 	omnisharp = {},
 	powershell_es = {},
+	terraformls = {},
 	yaml_ls = {
 		settings = {
 			yaml = {

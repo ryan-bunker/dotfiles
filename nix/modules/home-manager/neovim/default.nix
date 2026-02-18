@@ -115,6 +115,7 @@ in {
           alejandra.packages.${system}.default
           prettierd
           stylua
+          terraform # needed for "terraform fmt" command
           # LSPs
           buf
           gopls
@@ -122,6 +123,7 @@ in {
           lua-language-server
           omnisharp-roslyn
           powershell-editor-services
+          terraform-ls
           yaml-language-server
           # extra utilities
           ripgrep # telescope
