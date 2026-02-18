@@ -28,7 +28,7 @@ in {
         }
 
         -- 3. Load the external config file from the Nix store
-        local main_module = dofile("/Users/I845798/concur-dotfiles/dotfiles/nix/modules/home-manager/wezterm/main.lua")
+        local main_module = dofile("${./main.lua}")
 
         -- 4. Execute the function and return the config to wezterm
         return main_module(nix_options)
