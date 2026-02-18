@@ -17,9 +17,9 @@ in {
       settings = {
         main = {
           dpi-aware = "yes";
-          font = "Montserrat:size=16";
-          inner-pad = "14";
-          vertical-pad = "14";
+          font = "Montserrat:size=11";
+          inner-pad = "8";
+          vertical-pad = "8";
           prompt = "❯   ";
           layer = "overlay";
           launch-prefix = "uwsm app -- ";
