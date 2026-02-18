@@ -79,7 +79,7 @@ in {
 
       networking.firewall.extraCommands = ''
         # limit ssh traffic to local network
-        iptables -I INPUT -s 192.168.0.0/16 -m state --state NEW -p tcp --dport 22 -j ACCEPT
+        iptables -I INPUT -s 10.17.0.0/24 -m state --state NEW -p tcp --dport 22 -j ACCEPT
       '';
 
       services.fail2ban = {

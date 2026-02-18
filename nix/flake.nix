@@ -33,6 +33,10 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -134,6 +138,42 @@
       lab-kube-1 = mkKube "lab-kube-1";
       lab-kube-2 = mkKube "lab-kube-2";
     };
+
+    packages."x86_64-linux" = {
+      labInstallerIso = inputs.nixos-generators.outputs.nixosGenerate {
+        system = "x86_64-linux";
+        format = "install-iso";
+        modules = [
+          ({
+            lib,
+            pkgs,
+            ...
+          }: {
+            # Enable serial console for 'virsh console'
+            boot.kernelParams = ["console=ttyS0,115200n8"];
+            boot.loader.timeout = lib.mkForce 0;
+            users.users.root.openssh.authorizedKeys.keys = [
+              (lib.fileContents ../secrets/keys/desktop/public)
+              (lib.fileContents ../secrets/keys/laptop/public)
+            ];
+            services.openssh.enable = true;
+            networking.hostName = "lab-installer";
+          })
+        ];
+      };
+    };
+
+    devShells."x86_64-linux".default = let
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+    in
+      pkgs.mkShell {
+        buildInputs = [
+          pkgs.terraform
+        ];
+      };
 
     apps."x86_64-linux" = {
       lab-kube-1 = {

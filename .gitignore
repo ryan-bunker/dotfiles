@@ -8,3 +8,8 @@ roles/neovim/files/nvim/lazy-lock.json
 
 lab/
 extra-files/
+
+**/.terraform/*
+*.tfstate
+*.tfstate.backup
+*.tfvars
