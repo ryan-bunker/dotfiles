@@ -43,6 +43,7 @@ in {
       antlr
       curl
       dua
+      freecad
       kubectl
       libxml2
       luajit
