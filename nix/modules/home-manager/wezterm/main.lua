@@ -89,13 +89,19 @@ return function(nix_options)
 	config.freetype_render_target = "HorizontalLcd"
 	config.freetype_load_target = "HorizontalLcd"
 
+	-- default to RESIZE on macos
+	config.window_decorations = "RESIZE"
+	if wezterm.target_triple:find("linux") then
+		-- Hyprland handles the borders and resizing
+		config.window_decorations = "NONE"
+	end
+
 	config.window_padding = {
 		left = "12pt",
 		right = "12pt",
 		top = "8pt",
 		bottom = "8pt",
 	}
-	config.window_decorations = "RESIZE"
 	config.window_background_opacity = 0.9
 	config.macos_window_background_blur = 12
 	config.default_cursor_style = "BlinkingBar"
