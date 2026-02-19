@@ -77,8 +77,6 @@
         inherit self;
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
       };
-
-    lab = import ./lab.nix {pkgs = nixpkgs.legacyPackages."x86_64-linux";};
   in {
     nixosModules = {
       default = {...}: {
@@ -175,30 +173,8 @@
         ];
       };
 
-    apps."x86_64-linux" = {
-      lab-kube-1 = {
-        type = "app";
-        program = "${lab.mkLabNode {
-          name = "kube-1";
-          macSuffix = "01";
-        }}/bin/run-kube-1";
-      };
-
-      lab-kube-2 = {
-        type = "app";
-        program = "${lab.mkLabNode {
-          name = "kube-2";
-          macSuffix = "02";
-        }}/bin/run-kube-2";
-      };
-    };
-
     checks."x86_64-linux" = {
       ssh-test = mkTest ./tests/ssh-connectivity.nix;
-      # homelabTest = import ./tests/homelab-cluster.nix {
-      #   pkgs = nixpkgs.legacyPackages.${system};
-      #   inherit self;
-      # };
     };
 
     homeConfigurations = {
