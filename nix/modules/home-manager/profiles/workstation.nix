@@ -24,6 +24,7 @@ in {
         oh-my-posh.enable = lib.mkDefault true;
       };
       kitty.enable = lib.mkDefault true;
+      opencode.enable = lib.mkDefault true;
       pass.enable = lib.mkDefault false;
       qutebrowser.enable = lib.mkDefault true;
       spicetify.enable = lib.mkDefault true;

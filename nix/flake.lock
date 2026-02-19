@@ -569,21 +569,17 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "gitignore": "gitignore",
-        "nixpkgs": [
+    "nixpkgs_2": {
           "lanzaboote",
           "nixpkgs"
         ]
       },
-      "locked": {
-        "lastModified": 1765016596,
-        "narHash": "sha256-rhSqPNxDVow7OQKi4qS5H8Au0P4S3AYbawBSmJNUtBQ=",
-        "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "rev": "548fc44fca28a5e81c5d6b846e555e6b9c2a5a3c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cachix",
+        "lastModified": 1766070988,
+        "narHash": "sha256-G/WVghka6c4bAzMhTwT2vjLccg/awmHkdKSd2JrycLc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c6245e83d836d0433170a16eb185cefe0572f8b8",
+        "owner": "NixOS",
         "repo": "pre-commit-hooks.nix",
         "type": "github"
       }
@@ -607,7 +603,7 @@
         "lastModified": 1763662255,
         "narHash": "sha256-4bocaOyLa3AfiS8KrWjZQYu+IAta05u3gYZzZ6zXbT0=",
         "owner": "pyproject-nix",
-        "repo": "build-system-pkgs",
+        "ref": "nixos-unstable",
         "rev": "042904167604c681a090c07eb6967b4dd4dae88c",
         "type": "github"
       },
@@ -619,7 +615,7 @@
     },
     "pyproject-nix": {
       "inputs": {
-        "nixpkgs": [
+        "repo": "nixpkgs",
           "nixhelm",
           "nixpkgs"
         ]
@@ -635,9 +631,6 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "ags": "ags",

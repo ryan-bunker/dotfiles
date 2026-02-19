@@ -9,6 +9,7 @@
     ./hyprlock.nix
     ./kitty.nix
     ./neovim
+    ./opencode.nix
     ./pass.nix
     ./qutebrowser.nix
     ./sketchybar
