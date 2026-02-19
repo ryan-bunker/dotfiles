@@ -6,8 +6,7 @@ roles/tmux/files/tmux/plugins/*
 
 roles/neovim/files/nvim/lazy-lock.json
 
-lab/
-extra-files/
+/extra-files/
 
 **/.terraform/*
 *.tfstate
