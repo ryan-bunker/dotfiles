@@ -1,8 +1,9 @@
-# This file is maintained automatically by "terraform init".
+# This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.terraform.io/dmacvicar/libvirt" {
-  version = "0.9.2"
+provider "registry.opentofu.org/dmacvicar/libvirt" {
+  version     = "0.9.2"
+  constraints = "0.9.2"
   hashes = [
     "h1:MBE8yrUIR7bGW861aAueWTxudZvRD83rKi0SQT1qji4=",
     "zh:4471f1c89189c11b9c1aa772a65401fdad0f1ca65842d7fc22847f590a5d1438",

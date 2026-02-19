@@ -45,6 +45,10 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    terranix = {
+      url = "github:terranix/terranix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -138,38 +142,80 @@
     };
 
     packages."x86_64-linux" = {
-      labInstallerIso = inputs.nixos-generators.outputs.nixosGenerate {
+      labInstallerIso = let
+        iso = inputs.nixos-generators.outputs.nixosGenerate {
+          system = "x86_64-linux";
+          format = "install-iso";
+          modules = [
+            ({
+              lib,
+              pkgs,
+              ...
+            }: {
+              # Enable serial console for 'virsh console'
+              boot.kernelParams = ["console=ttyS0,115200n8"];
+              boot.loader.timeout = lib.mkForce 0;
+              users.users.root.openssh.authorizedKeys.keys = [
+                (lib.fileContents ../secrets/keys/desktop/public)
+                (lib.fileContents ../secrets/keys/laptop/public)
+              ];
+              services.openssh.enable = true;
+              networking.hostName = "lab-installer";
+            })
+          ];
+        };
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      in
+        pkgs.runCommand "lab-installer-iso-stable" {} ''
+          mkdir -p $out/iso
+          ln -s ${iso}/iso/*.iso $out/iso/installer.iso
+        '';
+
+      lab_tf = inputs.terranix.lib.terranixConfiguration {
         system = "x86_64-linux";
-        format = "install-iso";
         modules = [
-          ({
-            lib,
-            pkgs,
-            ...
-          }: {
-            # Enable serial console for 'virsh console'
-            boot.kernelParams = ["console=ttyS0,115200n8"];
-            boot.loader.timeout = lib.mkForce 0;
-            users.users.root.openssh.authorizedKeys.keys = [
-              (lib.fileContents ../secrets/keys/desktop/public)
-              (lib.fileContents ../secrets/keys/laptop/public)
-            ];
-            services.openssh.enable = true;
-            networking.hostName = "lab-installer";
-          })
+          ./terranix/lab.nix
+          ({...}: {my.lab.nixos-iso = self.outputs.packages.x86_64-linux.labInstallerIso;})
         ];
       };
     };
 
-    devShells."x86_64-linux".default = let
-      pkgs = import nixpkgs {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
+    apps."x86_64-linux" = let
+      opentofu = nixpkgs.legacyPackages.x86_64-linux.opentofu;
+      mkTfApp = {
+        action,
+        tfConfig,
+        path,
+      }: {
+        type = "app";
+        program = toString (nixpkgs.legacyPackages.x86_64-linux.writers.writeBash "${action}" ''
+          mkdir -p ${path}
+          if [[ -e "${path}/main.tf.json" ]]; then rm -f "${path}/main.tf.json"; fi
+          cp ${tfConfig} "${path}/main.tf.json" \
+            && ${opentofu}/bin/tofu -chdir=${path} init \
+            && ${opentofu}/bin/tofu -chdir=${path} ${action}
+        '');
       };
+    in {
+      tf.lab.apply = mkTfApp {
+        action = "apply";
+        tfConfig = self.outputs.packages.x86_64-linux.lab_tf;
+        path = "terraform/lab";
+      };
+      tf.lab.destroy = mkTfApp {
+        action = "destroy";
+        tfConfig = self.outputs.packages.x86_64-linux.lab_tf;
+        path = "terraform/lab";
+      };
+    };
+
+    devShells."x86_64-linux".default = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
       pkgs.mkShell {
         buildInputs = [
-          pkgs.terraform
+          inputs.nixidy.packages."x86_64-linux".default
+          pkgs.opentofu
         ];
       };
 

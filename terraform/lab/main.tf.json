@@ -1,0 +1,146 @@
+{
+  "provider": {
+    "libvirt": {
+      "uri": "qemu:///system"
+    }
+  },
+  "resource": {
+    "libvirt_domain": {
+      "k8s_nodes": {
+        "count": 1,
+        "cpu": {
+          "mode": "host-passthrough"
+        },
+        "devices": {
+          "consoles": [
+            {
+              "target_port": "0",
+              "target_type": "serial",
+              "type": "pty"
+            }
+          ],
+          "disks": [
+            {
+              "source": {
+                "volume": {
+                  "pool": "${libvirt_pool.lab_pool.name}",
+                  "volume": "${libvirt_volume.k8s_disk[count.index].name}"
+                }
+              },
+              "target": {
+                "bus": "virtio",
+                "dev": "vda"
+              }
+            },
+            {
+              "device": "cdrom",
+              "read_only": true,
+              "source": {
+                "file": {
+                  "file": "/nix/store/f9x4wzdl8f92bfdkr2xkg1n9icdgs3ak-lab-installer-iso-stable/iso/installer.iso"
+                }
+              },
+              "target": {
+                "bus": "sata",
+                "dev": "sda"
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "spice": {
+                "auto_port": true
+              }
+            }
+          ],
+          "interfaces": [
+            {
+              "model": {
+                "type": "virtio"
+              },
+              "source": {
+                "network": {
+                  "network": "${libvirt_network.lab_net.name}"
+                }
+              }
+            }
+          ]
+        },
+        "features": {
+          "acpi": true
+        },
+        "memory": 4096,
+        "memory_unit": "MiB",
+        "name": "k8s-node-${count.index}",
+        "os": {
+          "boot_devices": [
+            {
+              "dev": "hd"
+            }
+          ],
+          "firmware": "efi",
+          "loader": "/run/libvirt/nix-ovmf/edk2-x86_64-secure-code.fd",
+          "nvram": {
+            "template": "/run/libvirt/nix-ovmf/edk2-i386-vars.fd"
+          },
+          "type": "hvm",
+          "type_arch": "x86_64",
+          "type_machine": "q35"
+        },
+        "type": "kvm",
+        "vcpu": 2
+      }
+    },
+    "libvirt_network": {
+      "lab_net": {
+        "autostart": true,
+        "domain": {
+          "name": "dev.thebunker.house"
+        },
+        "forward": {
+          "mode": "nat"
+        },
+        "ips": [
+          {
+            "address": "10.17.0.1",
+            "dhcp": {
+              "ranges": [
+                {
+                  "end": "10.17.0.250",
+                  "start": "10.17.0.100"
+                }
+              ]
+            },
+            "prefix": 24
+          }
+        ],
+        "name": "homelab-internal"
+      }
+    },
+    "libvirt_pool": {
+      "lab_pool": {
+        "name": "homelab-pool",
+        "target": {
+          "path": "/var/lib/libvirt/images/terraform-lab"
+        },
+        "type": "dir"
+      }
+    },
+    "libvirt_volume": {
+      "k8s_disk": {
+        "capacity": 21474836480,
+        "count": 3,
+        "name": "k8s-node-disk-${count.index}.qcow2",
+        "pool": "${libvirt_pool.lab_pool.name}"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "libvirt": {
+        "source": "dmacvicar/libvirt",
+        "version": "0.9.2"
+      }
+    }
+  }
+}
