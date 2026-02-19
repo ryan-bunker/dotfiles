@@ -21,6 +21,7 @@ local modules = {
 	"config.neotest",
 	"config.notify",
 	"config.nvim-autopairs",
+	"config.nvim-lint",
 	"config.nvim-surround",
 	"config.pane-navigate",
 	"config.rainbow-delimiters",
