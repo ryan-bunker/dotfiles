@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  charts,
   ...
 }: let
   cfg = config.my.k3s.longhorn;
@@ -12,12 +13,7 @@ in {
     createNamespace = true;
 
     helm.releases.metallb = {
-      chart = lib.helm.downloadHelmChart {
-        repo = "https://charts.longhorn.io";
-        chart = "longhorn";
-        version = "1.9.1";
-        chartHash = "sha256-jDI7vHl0QNAgFEgAdPf8HoG7OcnRED3QNMSN+tFoxaI=";
-      };
+      chart = charts.longhorn.longhorn;
       values = {
         defaultBackupStore = {
           backupTarget = "s3://bunker-house-backups@dummyregion/dev/longhorn-backups";
@@ -53,16 +49,4 @@ in {
       };
     };
   };
-
-  # config.kubernetes.resources.ipaddresspools."default-pool" = {
-  #   metadata = {
-  #     namespace = "metallb-system";
-  #     labels = {
-  #       managed-by = "nixidy";
-  #     };
-  #   };
-  #   spec.addresses = [
-  #     "192.168.1.200-192.168.1.250" # Your McKinney home network range
-  #   ];
-  # };
 }

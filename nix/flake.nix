@@ -37,6 +37,10 @@
       url = "github:arnarg/nixidy";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixhelm = {
+      url = "github:farcaller/nixhelm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -147,6 +151,8 @@
 
     nixidyEnvs."x86_64-linux" = inputs.nixidy.lib.mkEnvs {
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      extraSpecialArgs.generators = inputs.nixidy.packages.x86_64-linux.generators;
+      charts = inputs.nixhelm.chartsDerivations.x86_64-linux;
       envs = {
         dev.modules = [./modules/nixidy ./k3s/dev.nix];
       };
@@ -154,26 +160,6 @@
 
     packages."x86_64-linux" = {
       nixidy = inputs.nixidy.packages."x86_64-linux".default;
-      generators.metallb = inputs.nixidy.packages."x86_64-linux".generators.fromChartCRD {
-        name = "metallb";
-        chartAttrs = {
-          repo = "https://metallb.github.io/metallb";
-          chart = "metallb";
-          version = "0.14.8";
-          chartHash = "sha256-CHf0YnutvnItwZtFf3+3mhcfRDoSADl/6ovDoRHqwLM=";
-        };
-        crds = ["IPAddressPool" "L2Advertisement"];
-      };
-      generators.longhorn = inputs.nixidy.packages."x86_64-linux".generators.fromChartCRD {
-        name = "longhorn";
-        chartAttrs = {
-          repo = "https://charts.longhorn.io";
-          chart = "longhorn";
-          version = "1.9.1";
-          chartHash = "sha256-jDI7vHl0QNAgFEgAdPf8HoG7OcnRED3QNMSN+tFoxaI=";
-        };
-        crds = ["RecurringJob"];
-      };
       labInstallerIso = let
         iso = inputs.nixos-generators.outputs.nixosGenerate {
           system = "x86_64-linux";

@@ -1,13 +1,9 @@
-{
+{...}: {
   nixidy.target = {
     repository = "https://github.com/ryan-bunker/dotfiles.git";
     branch = "ryan-home";
     rootPath = "./nix/k3s/manifests/dev";
   };
-
-  nixidy.applicationImports = [
-    ../modules/nixidy/generated
-  ];
 
   # # Define the nginx application
   # applications.nginx = {

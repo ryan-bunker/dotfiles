@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  charts,
   ...
 }: let
   cfg = config.my.k3s.metallb;
@@ -12,12 +13,7 @@ in {
     createNamespace = true;
 
     helm.releases.metallb = {
-      chart = lib.helm.downloadHelmChart {
-        repo = "https://metallb.github.io/metallb";
-        chart = "metallb";
-        version = "0.14.8";
-        chartHash = "sha256-CHf0YnutvnItwZtFf3+3mhcfRDoSADl/6ovDoRHqwLM=";
-      };
+      chart = charts.metallb.metallb;
     };
 
     resources."metallb.io"."v1beta1" = {
@@ -30,16 +26,4 @@ in {
       };
     };
   };
-
-  # config.kubernetes.resources.ipaddresspools."default-pool" = {
-  #   metadata = {
-  #     namespace = "metallb-system";
-  #     labels = {
-  #       managed-by = "nixidy";
-  #     };
-  #   };
-  #   spec.addresses = [
-  #     "192.168.1.200-192.168.1.250" # Your McKinney home network range
-  #   ];
-  # };
 }
