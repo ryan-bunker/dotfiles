@@ -59,15 +59,20 @@
 
       cpu.mode = "host-passthrough";
 
-      features.acpi = true;
+      features = {
+        acpi = true;
+        smm.state = "on";
+      };
 
       os = {
-        firmware = "efi";
         type = "hvm";
         type_arch = "x86_64";
         type_machine = "q35";
         loader = "${pkgs.OVMFFull.fd}/FV/OVMF_CODE.fd";
-        nvram.template = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
+        loader_readonly = "yes";
+        loader_type = "pflash";
+        nv_ram.nv_ram = "/var/lib/libvirt/qemu/nvram/k8s-node-\${count.index}_VARS.fd";
+        nv_ram.template = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
         boot_devices = [{dev = "hd";}];
       };
 

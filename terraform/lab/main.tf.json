@@ -67,7 +67,10 @@
           ]
         },
         "features": {
-          "acpi": true
+          "acpi": true,
+          "smm": {
+            "state": "on"
+          }
         },
         "memory": 4096,
         "memory_unit": "MiB",
@@ -78,10 +81,12 @@
               "dev": "hd"
             }
           ],
-          "firmware": "efi",
-          "loader": "/run/libvirt/nix-ovmf/edk2-x86_64-secure-code.fd",
-          "nvram": {
-            "template": "/run/libvirt/nix-ovmf/edk2-i386-vars.fd"
+          "loader": "/nix/store/w5js59mhavjhigmwcni6hj5f36ihqyd1-OVMF-202511-fd/FV/OVMF_CODE.fd",
+          "loader_readonly": "yes",
+          "loader_type": "pflash",
+          "nv_ram": {
+            "nv_ram": "/var/lib/libvirt/qemu/nvram/k8s-node-${count.index}_VARS.fd",
+            "template": "/nix/store/w5js59mhavjhigmwcni6hj5f36ihqyd1-OVMF-202511-fd/FV/OVMF_VARS.fd"
           },
           "type": "hvm",
           "type_arch": "x86_64",
