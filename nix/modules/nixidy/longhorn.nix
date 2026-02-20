@@ -39,8 +39,8 @@ in {
         cron = "0 4 * * *";
         task = "backup";
         groups = ["default"];
-        retain = "3";
-        concurrency = "2";
+        retain = 3;
+        concurrency = 2;
       };
     };
 

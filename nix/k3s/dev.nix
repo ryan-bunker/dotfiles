@@ -6,7 +6,7 @@
   };
 
   nixidy.applicationImports = [
-    ../generated
+    ../modules/nixidy/generated
   ];
 
   # # Define the nginx application
