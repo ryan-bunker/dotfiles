@@ -18,7 +18,7 @@ in {
 
     resources."metallb.io"."v1beta1" = {
       IPAddressPool."default-pool" = {
-        spec.addresses = ["192.168.122.192/26"];
+        spec.addresses = ["10.17.0.64/27"];
       };
 
       L2Advertisement."default-pool" = {
