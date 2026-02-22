@@ -49,7 +49,7 @@
     };
 
     resource.libvirt_domain.k8s_nodes = {
-      count = 1;
+      count = 3;
       name = "k8s-node-\${count.index}";
 
       type = "kvm";
