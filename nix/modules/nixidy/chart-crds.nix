@@ -11,7 +11,7 @@
     inherit name chart crds;
   }}";
 
-  charts = {
+  genCharts = {
     longhorn = {
       chart = charts.longhorn.longhorn;
       crds = ["RecurringJob"];
@@ -22,5 +22,5 @@
     };
   };
 in {
-  nixidy.applicationImports = lib.attrsets.mapAttrsToList mkCRDs charts;
+  nixidy.applicationImports = lib.attrsets.mapAttrsToList mkCRDs genCharts;
 }
