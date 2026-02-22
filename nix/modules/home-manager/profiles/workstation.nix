@@ -90,6 +90,7 @@ in {
         icons = "auto";
       };
       fzf.enable = lib.mkDefault true;
+      gemini-cli.enable = lib.mkDefault true;
       gh.enable = lib.mkDefault true;
       git = {
         enable = lib.mkDefault true;
