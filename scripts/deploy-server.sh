@@ -4,6 +4,7 @@ set -eou pipefail
 
 TARGET_HOST=${TARGET_HOST:-192.168.122.27}
 TARGET_SYSTEM=${TARGET_SYSTEM:-lab-kube-1}
+FINAL_IP=${FINAL_IP:-10.17.0.10}
 
 # 1. Generate a temporary key locally
 DISK_KEY=$(mktemp)
@@ -54,29 +55,66 @@ ssh-keygen -R ${TARGET_HOST}
 
 # 4. The Critical TPM Enrollment (Still Required)
 echo "Enrolling TPM..."
-scp "$DISK_KEY" root@${TARGET_HOST}:/tmp/luks-key
 ssh root@${TARGET_HOST} "bash -s" << 'EOF'
 	set -e
 
 	# Enroll Secure Boot
-	echo "Enrolling keys..."
+	echo "Enrolling Secure Boot keys..."
 	nixos-enter --root /mnt -- sbctl enroll-keys --yes-this-might-brick-my-machine
+
+	# Enroll TPM for LUKS automatic unlocking
+	echo "Enrolling TPM with LUKS key..."
+	# Copy the key into the new system's /tmp so nixos-enter can see it.
+	cp /tmp/disk.key /mnt/tmp/disk.key
+
+	# Run cryptenroll inside the new system. It will see the key at /tmp/disk.key.
+	nixos-enter --root /mnt -- systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs="" /dev/disk/by-partlabel/disk-main-root --unlock-key-file=/tmp/disk.key
+
+	# Clean up the key from the new system's /tmp
+	rm /mnt/tmp/disk.key
 
 	# Add a simple recovery password ('secret')
 	# We use the master key to authorize this addition.
 	# Use 'printf' to avoid newline issues.
 	echo "Adding recovery password..."
 	printf "secret" | cryptsetup luksAddKey \
-		--key-file=/tmp/luks-key \
+		--key-file=/tmp/disk.key \
 		/dev/disk/by-partlabel/disk-main-root -
-
-	# Clean up keys from disk
-	echo "Cleaning up disk key..."
-	rm /tmp/luks-key
 
 	echo "Rebooting..."
 	reboot
 EOF
+
+# 5. Post-Reboot Security Hardening
+echo "Waiting for server to reboot..."
+# Loop until SSH is available
+while ! ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no ryan@${FINAL_IP} "true" >/dev/null 2>&1; do
+	echo "Waiting for SSH..."
+	sleep 5
+done
+
+echo "Server is back online. Re-enrolling TPM with PCR 7 for Secure Boot protection..."
+# We use the recovery password ('secret') to authorize the change.
+# This binds the key to the *current* Secure Boot state (PCR 7).
+# We use -t to allocate a TTY so sudo can ask for a password interactively.
+ssh -t ryan@${FINAL_IP} "
+	set -e
+	PASSWORD='secret'
+	# Create a secure temp file for the password
+	touch /tmp/pw_file
+	chmod 600 /tmp/pw_file
+	echo -n \"\$PASSWORD\" > /tmp/pw_file
+
+	echo 'Enrolling TPM with PCR 7... (You may be asked for your sudo password)'
+	sudo systemd-cryptenroll /dev/disk/by-partlabel/disk-main-root \
+		--wipe-slot=tpm2 \
+		--tpm2-device=auto \
+		--tpm2-pcrs=7 \
+		--unlock-key-file=/tmp/pw_file
+
+	# Clean up
+	rm /tmp/pw_file
+"
 
 # Cleanup
 rm "$DISK_KEY"

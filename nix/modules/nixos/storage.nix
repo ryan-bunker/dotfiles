@@ -21,6 +21,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    # Ensure TPM modules are available in initrd for unlocking
+    boot.initrd.availableKernelModules = ["tpm_crb" "tpm_tis"];
+
     disko.devices = {
       disk =
         {
@@ -51,6 +54,7 @@ in {
                     passwordFile = "/tmp/disk.key";
                     settings = {
                       allowDiscards = true; # Good for SSDs
+                      crypttabExtraOpts = ["tpm2-device=auto"];
                     };
                     content = {
                       type = "btrfs";

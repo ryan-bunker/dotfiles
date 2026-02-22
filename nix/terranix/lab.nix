@@ -76,6 +76,16 @@
         boot_devices = [{dev = "hd";}];
       };
 
+      devices.tpms = [
+        {
+          backend = {
+            emulator = {
+              version = "2.0";
+            };
+          };
+        }
+      ];
+
       devices.disks = [
         {
           source.volume = {
