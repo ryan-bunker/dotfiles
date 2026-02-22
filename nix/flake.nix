@@ -234,6 +234,7 @@
         buildInputs = [
           inputs.nixidy.packages."x86_64-linux".default
           pkgs.opentofu
+          pkgs.go-task
         ];
       };
 
