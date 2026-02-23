@@ -80,7 +80,7 @@ NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
 	--flake ./nix#${TARGET_SYSTEM} \
 	--extra-files "$MY_FILES" \
 	--disk-encryption-keys /tmp/disk.key "$DISK_KEY" \
-	--no-reboot \
+	--phases kexec,disko,install \
 	root@${TARGET_HOST}
 
 # clear any cached SSH keys for the installer IP
