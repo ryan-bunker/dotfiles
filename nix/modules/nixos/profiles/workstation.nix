@@ -50,5 +50,20 @@ in {
 
     # ensure the btrfs scrub doesn't kill the battery on laptops
     systemd.services.btrfs-scrub-root.unitConfig.ConditionACPower = true;
+
+    programs.ssh.knownHosts = {
+      "lab-kube-1" = {
+        hostNames = ["lab-kube-1" "10.17.0.10"];
+        publicKey = (lib.fileContents ../../../../secrets/keys/lab-kube-1/ssh_host_ed25519_key.pub) + "\n" + (lib.fileContents ../../../../secrets/keys/lab-kube-1/ssh_host_rsa_key.pub);
+      };
+      "lab-kube-2" = {
+        hostNames = ["lab-kube-2" "10.17.0.11"];
+        publicKey = (lib.fileContents ../../../../secrets/keys/lab-kube-2/ssh_host_ed25519_key.pub) + "\n" + (lib.fileContents ../../../../secrets/keys/lab-kube-2/ssh_host_rsa_key.pub);
+      };
+      "lab-kube-3" = {
+        hostNames = ["lab-kube-3" "10.17.0.12"];
+        publicKey = (lib.fileContents ../../../../secrets/keys/lab-kube-3/ssh_host_ed25519_key.pub) + "\n" + (lib.fileContents ../../../../secrets/keys/lab-kube-3/ssh_host_rsa_key.pub);
+      };
+    };
   };
 }
