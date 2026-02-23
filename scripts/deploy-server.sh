@@ -73,17 +73,12 @@ ssh root@${TARGET_HOST} "bash -s" << 'EOF'
 	# Clean up the key from the new system's /tmp
 	rm /mnt/tmp/disk.key
 
-	# Add a simple recovery password ('secret')
-	# We use the master key to authorize this addition.
-	# Use 'printf' to avoid newline issues.
-	echo "Adding recovery password..."
-	printf "secret" | cryptsetup luksAddKey \
-		--key-file=/tmp/disk.key \
-		/dev/disk/by-partlabel/disk-main-root -
-
 	echo "Rebooting..."
 	reboot
 EOF
+
+# clear any cached host keys for the new system
+ssh-keygen -R ${FINAL_IP}
 
 # 5. Post-Reboot Security Hardening
 echo "Waiting for server to reboot..."
@@ -94,26 +89,23 @@ while ! ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no ryan@${FINAL_IP} "tr
 done
 
 echo "Server is back online. Re-enrolling TPM with PCR 7 for Secure Boot protection..."
-# We use the recovery password ('secret') to authorize the change.
-# This binds the key to the *current* Secure Boot state (PCR 7).
-# We use -t to allocate a TTY so sudo can ask for a password interactively.
+# Copy the disk key to the server to authorize the enrollment
+# We use cat | ssh because SFTP is disabled on the hardened server
+# We use chmod u=rw,go= to secure the key file immediately, avoiding cryptenroll warnings
+cat "$DISK_KEY" | ssh -o StrictHostKeyChecking=no ryan@${FINAL_IP} "cat > /tmp/disk.key && chmod u=rw,go= /tmp/disk.key"
+
+# Enroll with the key file
 ssh -t ryan@${FINAL_IP} "
 	set -e
-	PASSWORD='secret'
-	# Create a secure temp file for the password
-	touch /tmp/pw_file
-	chmod 600 /tmp/pw_file
-	echo -n \"\$PASSWORD\" > /tmp/pw_file
-
 	echo 'Enrolling TPM with PCR 7... (You may be asked for your sudo password)'
 	sudo systemd-cryptenroll /dev/disk/by-partlabel/disk-main-root \
 		--wipe-slot=tpm2 \
 		--tpm2-device=auto \
 		--tpm2-pcrs=7 \
-		--unlock-key-file=/tmp/pw_file
+		--unlock-key-file=/tmp/disk.key
 
 	# Clean up
-	rm /tmp/pw_file
+	rm /tmp/disk.key
 "
 
 # Cleanup
