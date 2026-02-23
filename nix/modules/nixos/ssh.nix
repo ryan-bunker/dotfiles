@@ -4,10 +4,19 @@
   ...
 }: let
   cfg = config.my.services.ssh;
-  imp = config.my.system.impermanence;
 in {
   options.my.services.ssh = {
     enable = lib.mkEnableOption "Enable SSH server services";
+    hostKeys = {
+      ed25519 = lib.mkOption {
+        type = lib.types.attrs;
+        description = "Sops secret configuration for the ED25519 host key (e.g. { sopsFile = ...; format = ...; })";
+      };
+      rsa = lib.mkOption {
+        type = lib.types.attrs;
+        description = "Sops secret configuration for the RSA host key (e.g. { sopsFile = ...; format = ...; })";
+      };
+    };
   };
 
   config = lib.mkMerge [
@@ -15,6 +24,19 @@ in {
     ## MAIN SSH CONFIG
     ##########
     (lib.mkIf cfg.enable {
+      sops.secrets = {
+        ssh_host_ed25519_key =
+          cfg.hostKeys.ed25519
+          // {
+            path = "/etc/ssh/ssh_host_ed25519_key";
+          };
+        ssh_host_rsa_key =
+          cfg.hostKeys.rsa
+          // {
+            path = "/etc/ssh/ssh_host_rsa_key";
+          };
+      };
+
       services.openssh = {
         enable = true;
         allowSFTP = false;
@@ -92,20 +114,6 @@ in {
       environment.systemPackages = [
         config.services.openssh.package
       ];
-    })
-
-    ##########
-    ## IMPERMANENCE INTEGRATION
-    ##########
-    (lib.mkIf (cfg.enable && imp.enable) {
-      environment.persistence."${imp.persistPath}" = {
-        files = [
-          "/etc/ssh/ssh_host_ed25519_key"
-          "/etc/ssh/ssh_host_ed25519_key.pub"
-          "/etc/ssh/ssh_host_rsa_key"
-          "/etc/ssh/ssh_host_rsa_key.pub"
-        ];
-      };
     })
   ];
 }

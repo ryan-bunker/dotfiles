@@ -43,7 +43,8 @@ echo "Keys generated and staged successfully."
 
 # 3. Install (The Clean Way)
 # --disk-encryption-keys <remote_path> <local_path>
-nix run github:nix-community/nixos-anywhere -- \
+NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+	nix run github:nix-community/nixos-anywhere -- \
 	--flake ./nix#${TARGET_SYSTEM} \
 	--extra-files "$MY_FILES" \
 	--disk-encryption-keys /tmp/disk.key "$DISK_KEY" \
@@ -55,7 +56,7 @@ ssh-keygen -R ${TARGET_HOST}
 
 # 4. The Critical TPM Enrollment (Still Required)
 echo "Enrolling TPM..."
-ssh root@${TARGET_HOST} "bash -s" << 'EOF'
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${TARGET_HOST} "bash -s" << 'EOF'
 	set -e
 
 	# Enroll Secure Boot
@@ -77,9 +78,6 @@ ssh root@${TARGET_HOST} "bash -s" << 'EOF'
 	reboot
 EOF
 
-# clear any cached host keys for the new system
-ssh-keygen -R ${FINAL_IP}
-
 # 5. Post-Reboot Security Hardening
 echo "Waiting for server to reboot..."
 # Loop until SSH is available
@@ -92,7 +90,7 @@ echo "Server is back online. Re-enrolling TPM with PCR 7 for Secure Boot protect
 # Copy the disk key to the server to authorize the enrollment
 # We use cat | ssh because SFTP is disabled on the hardened server
 # We use chmod u=rw,go= to secure the key file immediately, avoiding cryptenroll warnings
-cat "$DISK_KEY" | ssh -o StrictHostKeyChecking=no ryan@${FINAL_IP} "cat > /tmp/disk.key && chmod u=rw,go= /tmp/disk.key"
+cat "$DISK_KEY" | ssh ryan@${FINAL_IP} "cat > /tmp/disk.key && chmod u=rw,go= /tmp/disk.key"
 
 # Enroll with the key file
 ssh -t ryan@${FINAL_IP} "
