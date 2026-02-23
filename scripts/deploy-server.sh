@@ -3,9 +3,15 @@
 set -eou pipefail
 
 # --- Configuration ---
-TARGET_HOST=${TARGET_HOST:-192.168.122.27}
-TARGET_SYSTEM=${TARGET_SYSTEM:-lab-kube-1}
-FINAL_IP=${FINAL_IP:-10.17.0.10}
+if [ "$#" -ne 3 ]; then
+	echo "Usage: $0 <TARGET_HOST> <TARGET_SYSTEM> <FINAL_IP>"
+	echo "Example: $0 192.168.122.27 lab-kube-1 10.17.0.10"
+	exit 1
+fi
+
+TARGET_HOST=$1
+TARGET_SYSTEM=$2
+FINAL_IP=$3
 
 # --- Styling & Helpers ---
 BOLD='\033[1m'
@@ -69,7 +75,6 @@ mkdir -p "${MY_FILES}/var/lib"
 cp -r "${MY_FILES}/persist/var/lib/sbctl" "${MY_FILES}/var/lib/"
 
 log "$ICON_INSTALL" "Starting NixOS installation on ${TARGET_HOST}..."
-# --disk-encryption-keys <remote_path> <local_path>
 NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
 	nix run github:nix-community/nixos-anywhere -- \
 	--flake ./nix#${TARGET_SYSTEM} \
