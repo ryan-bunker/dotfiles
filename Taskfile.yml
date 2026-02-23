@@ -3,8 +3,17 @@
 version: "3"
 
 tasks:
-  reset-lab:
-    dir: terraform/lab
+  lab-up:
+    desc: Bring lab VMs up and online
     cmds:
-      - tofu destroy -auto-approve
-      - tofu apply -auto-approve
+      - scripts/up.sh
+
+  lab-down:
+    desc: Shut down lab VMs
+    cmds:
+      - scripts/down.sh
+
+  lab-destroy:
+    desc: Shut down and remove lab VM and infrastructure
+    cmds:
+      - scripts/down.sh --destroy
