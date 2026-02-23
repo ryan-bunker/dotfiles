@@ -12,3 +12,6 @@ roles/neovim/files/nvim/lazy-lock.json
 *.tfstate
 *.tfstate.backup
 *.tfvars
+
+/lab-kube-config
+/result
