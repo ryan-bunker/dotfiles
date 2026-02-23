@@ -147,6 +147,7 @@
 
       lab-kube-1 = mkKube "lab-kube-1";
       lab-kube-2 = mkKube "lab-kube-2";
+      lab-kube-3 = mkKube "lab-kube-3";
     };
 
     nixidyEnvs."x86_64-linux" = inputs.nixidy.lib.mkEnvs {
