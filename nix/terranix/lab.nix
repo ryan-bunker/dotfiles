@@ -3,10 +3,42 @@
   config,
   pkgs,
   ...
-}: {
-  options.my.lab.nixos-iso = lib.mkOption {
-    type = lib.types.package;
-    description = "Path to ISO to use as installer for nixos machines";
+}: let
+  cfg = config.my.lab;
+in {
+  options.my.lab = {
+    nixos-iso = lib.mkOption {
+      type = lib.types.package;
+      description = "Path to ISO to use as installer for nixos machines";
+    };
+
+    domain = lib.mkOption {
+      type = lib.types.str;
+      description = "The DNS domain name for the virtual network.";
+    };
+    gateway = lib.mkOption {
+      type = lib.types.str;
+      description = "The gateway IP address for the virtual network.";
+    };
+    prefixLength = lib.mkOption {
+      type = lib.types.int;
+      default = 24;
+      description = "The prefix length for the virtual network subnet.";
+    };
+    dhcp_range = {
+      start = lib.mkOption {
+        type = lib.types.str;
+        description = "The start of the DHCP IP range.";
+      };
+      end = lib.mkOption {
+        type = lib.types.str;
+        description = "The end of the DHCP IP range.";
+      };
+    };
+    mainDisk = lib.mkOption {
+      type = lib.types.str;
+      description = "The device name for the primary disk.";
+    };
   };
 
   config = {
@@ -20,15 +52,15 @@
       name = "homelab-internal";
       autostart = true;
       forward.mode = "nat";
-      domain.name = "dev.thebunker.house";
+      domain.name = cfg.domain;
       ips = [
         {
-          address = "10.17.0.1";
-          prefix = 24;
+          address = cfg.gateway;
+          prefix = cfg.prefixLength;
           dhcp.ranges = [
             {
-              start = "10.17.0.100";
-              end = "10.17.0.250";
+              start = cfg.dhcp_range.start;
+              end = cfg.dhcp_range.end;
             }
           ];
         }
@@ -55,6 +87,7 @@
       type = "kvm";
       vcpu = 2;
       memory = 4096;
+
       memory_unit = "MiB";
 
       cpu.mode = "host-passthrough";
@@ -93,7 +126,7 @@
             pool = "\${libvirt_pool.lab_pool.name}";
           };
           target = {
-            dev = "vda";
+            dev = lib.lists.last (lib.strings.splitString "/" cfg.mainDisk);
             bus = "virtio";
           };
         }

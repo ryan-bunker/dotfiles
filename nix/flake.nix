@@ -65,23 +65,8 @@
     home-manager,
     ...
   } @ inputs: let
-    # helper for creating kube server configuration
-    mkKube = name:
-      nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          self.nixosModules.default
-          ./hosts/kube/hardware-configuration.nix
-          ./hosts/kube/${name}.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-        ];
-      };
+    # Import the central data file for environments and nodes
+    environments = import ./environments.nix;
 
     # helper to import tests and pass the flake's self/inputs
     mkTest = file:
@@ -118,37 +103,64 @@
       };
     };
 
-    nixosConfigurations = {
-      ryan-desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          self.nixosModules.default
-          ./hosts/ryan-desktop
-        ];
-        specialArgs = {
-          inherit inputs;
+    nixosConfigurations = let
+      # Generic helper to build a single Kubernetes node configuration
+      mkKubeNode = {
+        hostName,
+        envCfg,
+        nodeCfg,
+      }:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {inherit envCfg nodeCfg;};
+          modules = [
+            self.nixosModules.default
+            ./hosts/kube
+            {
+              networking.hostName = hostName;
+
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+          ];
+        };
+
+      mkEnv = envCfg:
+        inputs.nixpkgs.lib.mapAttrs (name: node:
+          mkKubeNode {
+            hostName = name;
+            envCfg = envCfg;
+            nodeCfg = node;
+          })
+        envCfg.nodes;
+    in
+      # Map over environments to get a list of node sets, then flatten/merge them into one set
+      inputs.nixpkgs.lib.foldl' (acc: set: acc // set) {} (
+        inputs.nixpkgs.lib.mapAttrsToList (name: env: mkEnv env) environments
+      )
+      // {
+        ryan-desktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            self.nixosModules.default
+            ./hosts/ryan-desktop
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+
+        dell-laptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            self.nixosModules.default
+            ./hosts/dell-laptop
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
         };
       };
-
-      dell-laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          self.nixosModules.default
-          ./hosts/dell-laptop
-        ];
-        specialArgs = {
-          inherit inputs;
-        };
-      };
-
-      kube-1 = mkKube "kube-1";
-      kube-2 = mkKube "kube-2";
-      kube-3 = mkKube "kube-3";
-
-      lab-kube-1 = mkKube "lab-kube-1";
-      lab-kube-2 = mkKube "lab-kube-2";
-      lab-kube-3 = mkKube "lab-kube-3";
-    };
 
     nixidyEnvs."x86_64-linux" = inputs.nixidy.lib.mkEnvs {
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
@@ -194,7 +206,14 @@
         system = "x86_64-linux";
         modules = [
           ./terranix/lab.nix
-          ({...}: {my.lab.nixos-iso = self.outputs.packages.x86_64-linux.labInstallerIso;})
+          ({...}: {
+            my.lab = {
+              inherit (environments.lab) domain;
+              inherit (environments.lab.network) gateway prefixLength dhcp_range;
+              nixos-iso = self.outputs.packages.x86_64-linux.labInstallerIso;
+              mainDisk = environments.lab.defaultMainDisk;
+            };
+          })
         ];
       };
     };

@@ -7,11 +7,51 @@
 }: let
   cfg = config.my.profiles.server;
 in {
-  options = {
-    my.profiles.server.enable = lib.mkEnableOption "Server Machine Profile";
+  options.my.profiles.server = {
+    enable = lib.mkEnableOption "Server Machine Profile";
+
+    domain = lib.mkOption {
+      type = lib.types.str;
+      description = "The domain name for the server.";
+    };
+    interface = lib.mkOption {
+      type = lib.types.str;
+      description = "The primary network interface.";
+    };
+    ip = lib.mkOption {
+      type = lib.types.str;
+      description = "The static IP address for the server.";
+    };
+    prefixLength = lib.mkOption {
+      type = lib.types.int;
+      default = 24;
+      description = "The subnet prefix length.";
+    };
+    gateway = lib.mkOption {
+      type = lib.types.str;
+      description = "The default gateway address.";
+    };
+    nameservers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = ["1.1.1.1"];
+      description = "List of DNS nameservers.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    networking = {
+      domain = cfg.domain;
+      interfaces.${cfg.interface}.ipv4.addresses = [
+        {
+          address = cfg.ip;
+          prefixLength = cfg.prefixLength;
+        }
+      ];
+      defaultGateway = cfg.gateway;
+      nameservers = cfg.nameservers;
+      useDHCP = false;
+    };
+
     my.storage.enable = true;
     my.services.ssh.enable = true;
     my.system = {
