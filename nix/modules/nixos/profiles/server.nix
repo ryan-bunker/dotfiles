@@ -22,6 +22,10 @@ in {
       type = lib.types.str;
       description = "The static IP address for the server.";
     };
+    network = lib.mkOption {
+      type = lib.types.str;
+      description = "The subnet prefix.";
+    };
     prefixLength = lib.mkOption {
       type = lib.types.int;
       default = 24;
@@ -53,7 +57,10 @@ in {
     };
 
     my.storage.enable = true;
-    my.services.ssh.enable = true;
+    my.services.ssh = {
+      enable = true;
+      network = "${cfg.network}/${toString cfg.prefixLength}";
+    };
     my.system = {
       impermanence.enable = true;
       secure-boot.enable = true;

@@ -15,6 +15,7 @@
     inherit (envCfg.network) gateway nameservers prefixLength;
     inherit (nodeCfg) ip;
     interface = nodeCfg.interface or envCfg.defaultInterface;
+    network = envCfg.network.prefix;
   };
   my.storage.mainDisk = nodeCfg.mainDisk or envCfg.defaultMainDisk;
 
