@@ -9,6 +9,7 @@
         start = "10.17.0.100";
         end = "10.17.0.250";
       };
+      metallb_range = "10.17.0.64/27";
       nameservers = ["1.1.1.1"];
     };
     defaultInterface = "enp1s0";

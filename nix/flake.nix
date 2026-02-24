@@ -164,7 +164,10 @@
 
     nixidyEnvs."x86_64-linux" = inputs.nixidy.lib.mkEnvs {
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      extraSpecialArgs.generators = inputs.nixidy.packages.x86_64-linux.generators;
+      extraSpecialArgs = {
+        generators = inputs.nixidy.packages.x86_64-linux.generators;
+        envCfg = environments.lab;
+      };
       charts = inputs.nixhelm.chartsDerivations.x86_64-linux;
       envs = {
         dev.modules = [./modules/nixidy ./k3s/dev.nix];

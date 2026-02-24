@@ -1,9 +1,11 @@
-{...}: {
+{envCfg, ...}: {
   nixidy.target = {
     repository = "https://github.com/ryan-bunker/dotfiles.git";
     branch = "ryan-home";
     rootPath = "./nix/k3s/manifests/dev";
   };
+
+  my.k3s.metallb.addresses = envCfg.network.metallb_range;
 
   # # Define the nginx application
   # applications.nginx = {
