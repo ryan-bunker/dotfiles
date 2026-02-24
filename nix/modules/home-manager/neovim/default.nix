@@ -49,6 +49,31 @@
     ];
   };
 
+  # Override tree-sitter to a newer version that's compatible with nvim-treesitter
+  tree-sitter-v26 = pkgs.rustPlatform.buildRustPackage {
+    pname = "tree-sitter";
+    version = "0.26.5";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "tree-sitter";
+      repo = "tree-sitter";
+      rev = "v0.26.5";
+      hash = "sha256-tnZ8VllRRYPL8UhNmrda7IjKSeFmmOnW/2/VqgJFLgU=";
+    };
+
+    cargoHash = "sha256-EU8kdG2NT3NvrZ1AqvaJPLpDQQwUhYG3Gj5TAjPYRsY=";
+
+    # Disable tests - they fail in the nix sandbox
+    doCheck = false;
+
+    meta = {
+      description = "A parser generator tool and an incremental parsing library";
+      homepage = "https://tree-sitter.github.io/tree-sitter";
+      license = pkgs.lib.licenses.mit;
+      mainProgram = "tree-sitter";
+    };
+  };
+
   nvim-plugins = with pkgs.vimPlugins; [
     alpha-nvim
     ascii-nvim
@@ -130,6 +155,7 @@ in {
           fd # telescope
           nodejs_24 # copilot
           gotestsum # neotest-golang
+          tree-sitter-v26 # tree-sitter CLI for nvim-treesitter
         ]
         ++ lib.optional cfg.gemini.enable pkgs.gemini-cli;
     };
