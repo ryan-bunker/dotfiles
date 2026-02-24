@@ -8,12 +8,13 @@
 }: let
   cfg = config.my.profiles.workstation;
 in {
-  options = {
-    my.profiles.workstation.enable = lib.mkEnableOption "Workstation User Profile";
+  options.my.profiles.workstation = {
+    enable = lib.mkEnableOption "Workstation User Profile";
   };
 
   config = lib.mkIf cfg.enable {
     my.programs = {
+      freecad.enable = lib.mkDefault true;
       neovim = {
         enable = lib.mkDefault true;
         gemini.enable = lib.mkDefault true;
@@ -44,7 +45,6 @@ in {
       antlr
       curl
       dua
-      freecad
       kubectl
       libxml2
       luajit

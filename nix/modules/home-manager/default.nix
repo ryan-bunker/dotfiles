@@ -3,6 +3,7 @@
     # low level modules
     ./aerospace
     ./avizo.nix
+    ./freecad.nix
     ./fuzzel.nix
     ./hypridle.nix
     ./hyprland.nix
