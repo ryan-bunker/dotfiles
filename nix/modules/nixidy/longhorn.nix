@@ -12,7 +12,7 @@ in {
     namespace = "longhorn-system";
     createNamespace = true;
 
-    helm.releases.metallb = {
+    helm.releases.longhorn = {
       chart = charts.longhorn.longhorn;
       values = {
         defaultBackupStore = {
