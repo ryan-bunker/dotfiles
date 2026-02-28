@@ -4,6 +4,14 @@ keys:
   - &macbook age1ayu2ja9u95gnezp32vr26tj28xnee9mjazydp8mafdj8fhsntekqrfwcp0
 
 creation_rules:
+  - path_regex: secrets/k8s/.*$
+    encrypted_suffix: Templates
+    key_groups:
+      - age:
+          - *desktop
+          - *dell
+          - *macbook
+
   # Encrypt everything in the secrets folder with all keys
   - path_regex: secrets/.*$
     key_groups:

@@ -12,6 +12,10 @@
   }}";
 
   genCharts = {
+    sops = {
+      chart = charts.isindir.sops-secrets-operator;
+      crds = ["SopsSecret"];
+    };
     longhorn = {
       chart = charts.longhorn.longhorn;
       crds = ["RecurringJob"];

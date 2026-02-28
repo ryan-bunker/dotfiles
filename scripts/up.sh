@@ -140,6 +140,28 @@ else
     log "$ICON_SKIP" "Kubeconfig already exists."
 fi
 
+export KUBECONFIG=$(pwd)/$KUBE_CONFIG
+
+# 5. Inject SOPS Key
+if [ -f ~/.config/sops/age/keys.txt ]; then
+    log "$ICON_KEY" "Injecting SOPS age key into cluster..."
+    # Ensure namespace exists (it's also in manifests, but we need it for the secret now)
+    kubectl create namespace sops-system --dry-run=client -o yaml | kubectl apply -f - >/dev/null
+
+    kubectl create secret generic sops-age \
+        --namespace=sops-system \
+        --from-file=keys.txt=$HOME/.config/sops/age/keys.txt \
+        --dry-run=client -o yaml | kubectl apply -f - >/dev/null
+    log "$ICON_CHECK" "SOPS key injected."
+else
+    warn "SOPS key not found at ~/.config/sops/age/keys.txt. Secret decryption will fail!"
+fi
+
+# 6. Apply Workloads
+log "$ICON_K8S" "Applying Kubernetes workloads via Nixidy..."
+nixidy apply ./nix#dev >/dev/null
+log "$ICON_CHECK" "Workloads applied."
+
 echo ""
 success "Lab environment is UP!"
 echo -e "${BOLD}To access the cluster, run:${RESET}"
