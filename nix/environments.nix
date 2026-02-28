@@ -10,6 +10,7 @@
         end = "10.17.0.250";
       };
       metallb_range = "10.17.0.64/27";
+      pihole_ip = "10.17.0.64";
       nameservers = ["1.1.1.1"];
     };
     defaultInterface = "enp1s0";

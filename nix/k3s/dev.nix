@@ -7,6 +7,13 @@
 
   my.k3s.metallb.addresses = envCfg.network.metallb_range;
 
+  my.k3s.pihole = {
+    domain = envCfg.domain;
+    ip = envCfg.network.pihole_ip;
+    reverseCidr = "${envCfg.network.prefix}/${toString envCfg.network.prefixLength}";
+    reverseTarget = envCfg.network.gateway;
+  };
+
   # # Define the nginx application
   # applications.nginx = {
   #   # Deploy to the "nginx" namespace
