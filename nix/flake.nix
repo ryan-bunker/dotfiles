@@ -176,6 +176,39 @@
 
     packages."x86_64-linux" = {
       nixidy = inputs.nixidy.packages."x86_64-linux".default;
+
+      proxmoxBaseIso = let
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      in
+        pkgs.fetchurl {
+          url = "https://enterprise.proxmox.com/iso/proxmox-ve_9.1-1.iso";
+          hash = "sha256-bY9a/HjAxmgS1ycs3nyLmL5+tUQBzrBFQA2wXrWubSI=";
+        };
+
+      proxmoxAnswerToml = let
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      in
+        pkgs.writeText "answer.toml" ''
+          [global]
+          keyboard = "en-us"
+          country = "us"
+          fqdn = "proxmox.${environments.lab.domain}"
+          mailto = "admin@${environments.lab.domain}"
+          timezone = "America/Chicago"
+          root_password_hashed = "__ROOT_PASSWORD_HASH__"
+
+          [network]
+          source = "from-answer"
+          cidr = "${environments.lab.network.fixed_ips.proxmox}/${toString environments.lab.network.prefixLength}"
+          gateway = "${environments.lab.network.gateway}"
+          dns = "${builtins.elemAt environments.lab.network.nameservers 0}"
+          filter.ID_NET_NAME = "en*"
+
+          [disk-setup]
+          filesystem = "ext4"
+          disk_list = ["vda"]
+        '';
+
       labInstallerIso = let
         iso = inputs.nixos-generators.outputs.nixosGenerate {
           system = "x86_64-linux";
@@ -222,14 +255,15 @@
     };
 
     apps."x86_64-linux" = let
-      opentofu = nixpkgs.legacyPackages.x86_64-linux.opentofu;
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      opentofu = pkgs.opentofu;
       mkTfApp = {
         action,
         tfConfig,
         path,
       }: {
         type = "app";
-        program = toString (nixpkgs.legacyPackages.x86_64-linux.writers.writeBash "${action}" ''
+        program = toString (pkgs.writers.writeBash "${action}" ''
           mkdir -p ${path}
           if [[ -e "${path}/main.tf.json" ]]; then rm -f "${path}/main.tf.json"; fi
           cp ${tfConfig} "${path}/main.tf.json" \
@@ -237,7 +271,58 @@
             && ${opentofu}/bin/tofu -chdir=${path} ${action}
         '');
       };
+      
+      buildProxmoxIsoScript = pkgs.writeShellApplication {
+        name = "build-proxmox-iso";
+        runtimeInputs = [ pkgs.sops pkgs.proxmox-auto-install-assistant pkgs.xorriso ];
+        text = ''
+          set -eou pipefail
+
+          BOLD='\033[1m'
+          GREEN='\033[0;32m'
+          BLUE='\033[0;34m'
+          YELLOW='\033[1;33m'
+          RESET='\033[0m'
+
+          log() { echo -e "''${BOLD}''${BLUE}[*]''${RESET} $1"; }
+          success() { echo -e "''${BOLD}''${GREEN}[+]''${RESET} $1"; }
+          warn() { echo -e "''${BOLD}''${YELLOW}[!]''${RESET} $1"; }
+
+          BASE_ISO="${self.packages.x86_64-linux.proxmoxBaseIso}"
+          TEMPLATE_FILE="${self.packages.x86_64-linux.proxmoxAnswerToml}"
+
+          log "Decrypting password hash from SOPS..."
+          if ! [ -f "secrets/passwords.yaml" ]; then
+            warn "secrets/passwords.yaml not found. Please run this from the project root."
+            exit 1
+          fi
+          HASH=$(sops -d --extract '["passwords"]["ryan"]' secrets/passwords.yaml)
+
+          log "Preparing staging directory..."
+          STAGING_DIR=$(mktemp -d)
+          trap 'rm -rf "$STAGING_DIR"' EXIT
+
+          log "Injecting decrypted hash into answer.toml..."
+          sed "s|__ROOT_PASSWORD_HASH__|$HASH|g" "$TEMPLATE_FILE" > "$STAGING_DIR/answer.toml"
+
+          log "Copying base ISO to writable staging area..."
+          cp "$BASE_ISO" "$STAGING_DIR/base.iso"
+          chmod +w "$STAGING_DIR/base.iso"
+
+          log "Running proxmox-auto-install-assistant..."
+          proxmox-auto-install-assistant prepare-iso "$STAGING_DIR/base.iso" \
+            --fetch-from iso \
+            --answer-file "$STAGING_DIR/answer.toml" \
+            --output ./proxmox-custom-installer.iso
+
+          success "Custom Proxmox ISO successfully built at: ./proxmox-custom-installer.iso"
+        '';
+      };
     in {
+      build-proxmox-iso = {
+        type = "app";
+        program = "${buildProxmoxIsoScript}/bin/build-proxmox-iso";
+      };
       tf.lab.apply = mkTfApp {
         action = "apply";
         tfConfig = self.outputs.packages.x86_64-linux.lab_tf;

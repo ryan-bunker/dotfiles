@@ -103,6 +103,131 @@
         },
         "type": "kvm",
         "vcpu": 2
+      },
+      "proxmox": {
+        "cpu": {
+          "mode": "host-passthrough"
+        },
+        "devices": {
+          "consoles": [
+            {
+              "target_port": "0",
+              "target_type": "serial",
+              "type": "pty"
+            }
+          ],
+          "disks": [
+            {
+              "source": {
+                "volume": {
+                  "pool": "${libvirt_pool.lab_pool.name}",
+                  "volume": "${libvirt_volume.proxmox_root.name}"
+                }
+              },
+              "target": {
+                "bus": "virtio",
+                "dev": "vda"
+              }
+            },
+            {
+              "source": {
+                "volume": {
+                  "pool": "${libvirt_pool.lab_pool.name}",
+                  "volume": "${libvirt_volume.proxmox_data[0].name}"
+                }
+              },
+              "target": {
+                "bus": "virtio",
+                "dev": "vdb"
+              }
+            },
+            {
+              "source": {
+                "volume": {
+                  "pool": "${libvirt_pool.lab_pool.name}",
+                  "volume": "${libvirt_volume.proxmox_data[1].name}"
+                }
+              },
+              "target": {
+                "bus": "virtio",
+                "dev": "vdc"
+              }
+            },
+            {
+              "source": {
+                "volume": {
+                  "pool": "${libvirt_pool.lab_pool.name}",
+                  "volume": "${libvirt_volume.proxmox_data[2].name}"
+                }
+              },
+              "target": {
+                "bus": "virtio",
+                "dev": "vdd"
+              }
+            },
+            {
+              "device": "cdrom",
+              "source": {
+                "file": {
+                  "file": "${abspath(path.module)}/../../proxmox-custom-installer.iso"
+                }
+              },
+              "target": {
+                "bus": "sata",
+                "dev": "sda"
+              }
+            }
+          ],
+          "graphics": [
+            {
+              "spice": {
+                "auto_port": true
+              }
+            }
+          ],
+          "interfaces": [
+            {
+              "model": {
+                "type": "virtio"
+              },
+              "source": {
+                "network": {
+                  "network": "${libvirt_network.lab_net.name}"
+                }
+              }
+            }
+          ],
+          "videos": [
+            {
+              "model": {
+                "heads": 1,
+                "primary": "yes",
+                "type": "virtio"
+              }
+            }
+          ]
+        },
+        "features": {
+          "acpi": true
+        },
+        "memory": 4096,
+        "memory_unit": "MiB",
+        "name": "proxmox-server",
+        "os": {
+          "boot_devices": [
+            {
+              "dev": "hd"
+            },
+            {
+              "dev": "cdrom"
+            }
+          ],
+          "type": "hvm",
+          "type_arch": "x86_64",
+          "type_machine": "q35"
+        },
+        "type": "kvm",
+        "vcpu": 2
       }
     },
     "libvirt_network": {
@@ -145,6 +270,17 @@
         "capacity": 21474836480,
         "count": 3,
         "name": "k8s-node-disk-${count.index}.qcow2",
+        "pool": "${libvirt_pool.lab_pool.name}"
+      },
+      "proxmox_data": {
+        "capacity": 10737418240,
+        "count": 3,
+        "name": "proxmox-data-${count.index}.qcow2",
+        "pool": "${libvirt_pool.lab_pool.name}"
+      },
+      "proxmox_root": {
+        "capacity": 21474836480,
+        "name": "proxmox-root.qcow2",
         "pool": "${libvirt_pool.lab_pool.name}"
       }
     }

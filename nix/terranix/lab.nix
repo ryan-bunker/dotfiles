@@ -158,5 +158,101 @@ in {
 
       devices.graphics = [{spice.auto_port = true;}];
     };
+
+    resource.libvirt_volume.proxmox_root = {
+      name = "proxmox-root.qcow2";
+      pool = "\${libvirt_pool.lab_pool.name}";
+      capacity = 21474836480; # 40GB
+    };
+
+    resource.libvirt_volume.proxmox_data = {
+      count = 3;
+      name = "proxmox-data-\${count.index}.qcow2";
+      pool = "\${libvirt_pool.lab_pool.name}";
+      capacity = 10737418240; # 10GB
+    };
+
+    resource.libvirt_domain.proxmox = {
+      name = "proxmox-server";
+      type = "kvm";
+      vcpu = 2;
+      memory = 4096;
+      memory_unit = "MiB";
+      cpu.mode = "host-passthrough";
+
+      os = {
+        type = "hvm";
+        type_arch = "x86_64";
+        type_machine = "q35";
+        boot_devices = [
+          {dev = "hd";}
+          {dev = "cdrom";}
+        ];
+      };
+
+      features = {
+        acpi = true;
+      };
+
+      devices.disks =
+        [
+          {
+            source.volume = {
+              volume = "\${libvirt_volume.proxmox_root.name}";
+              pool = "\${libvirt_pool.lab_pool.name}";
+            };
+            target = {
+              dev = "vda";
+              bus = "virtio";
+            };
+          }
+        ]
+        ++ (builtins.genList (i: {
+            source.volume = {
+              volume = "\${libvirt_volume.proxmox_data[${toString i}].name}";
+              pool = "\${libvirt_pool.lab_pool.name}";
+            };
+            target = {
+              dev = "vd${builtins.substring i 1 "bcdefg"}";
+              bus = "virtio";
+            };
+          })
+          3)
+        ++ [
+          {
+            source.file.file = "\${abspath(path.module)}/../../proxmox-custom-installer.iso";
+            device = "cdrom";
+            target = {
+              dev = "sda";
+              bus = "sata";
+            };
+          }
+        ];
+
+      devices.interfaces = [
+        {
+          source.network.network = "\${libvirt_network.lab_net.name}";
+          model.type = "virtio";
+        }
+      ];
+
+      devices.consoles = [
+        {
+          type = "pty";
+          target_port = "0";
+          target_type = "serial";
+        }
+      ];
+
+      devices.graphics = [{spice.auto_port = true;}];
+
+      devices.videos = [
+        {
+          model.type = "virtio";
+          model.heads = 1;
+          model.primary = "yes";
+        }
+      ];
+    };
   };
 }

@@ -5,6 +5,9 @@
       prefix = "10.17.0.0";
       prefixLength = 24;
       gateway = "10.17.0.1";
+      fixed_ips = {
+        proxmox = "10.17.0.20";
+      };
       dhcp_range = {
         start = "10.17.0.100";
         end = "10.17.0.250";
