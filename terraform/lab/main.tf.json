@@ -37,7 +37,7 @@
               "read_only": true,
               "source": {
                 "file": {
-                  "file": "/nix/store/f9x4wzdl8f92bfdkr2xkg1n9icdgs3ak-lab-installer-iso-stable/iso/installer.iso"
+                  "file": "/nix/store/hfqjjb6w27sxfz7b9n8553kb7280zwlh-lab-installer-iso-stable/iso/installer.iso"
                 }
               },
               "target": {
@@ -90,12 +90,12 @@
               "dev": "hd"
             }
           ],
-          "loader": "/nix/store/w5js59mhavjhigmwcni6hj5f36ihqyd1-OVMF-202511-fd/FV/OVMF_CODE.fd",
+          "loader": "/nix/store/mslw4gpd6acm4i8sq0cwr16qlnn1f3i1-OVMF-202511-fd/FV/OVMF_CODE.fd",
           "loader_readonly": "yes",
           "loader_type": "pflash",
           "nv_ram": {
             "nv_ram": "/var/lib/libvirt/qemu/nvram/k8s-node-${count.index}_VARS.fd",
-            "template": "/nix/store/w5js59mhavjhigmwcni6hj5f36ihqyd1-OVMF-202511-fd/FV/OVMF_VARS.fd"
+            "template": "/nix/store/mslw4gpd6acm4i8sq0cwr16qlnn1f3i1-OVMF-202511-fd/FV/OVMF_VARS.fd"
           },
           "type": "hvm",
           "type_arch": "x86_64",
@@ -197,6 +197,9 @@
               }
             }
           ],
+          "iommu": {
+            "model": "virtio"
+          },
           "videos": [
             {
               "model": {
@@ -208,7 +211,8 @@
           ]
         },
         "features": {
-          "acpi": true
+          "acpi": true,
+          "apic": {}
         },
         "memory": 4096,
         "memory_unit": "MiB",

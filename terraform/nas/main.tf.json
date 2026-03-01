@@ -1,0 +1,98 @@
+{
+  "provider": {
+    "proxmox": {
+      "endpoint": "https://10.17.0.20:8006/",
+      "insecure": true
+    }
+  },
+  "resource": {
+    "proxmox_virtual_environment_file": {
+      "nixos_iso": {
+        "content_type": "iso",
+        "datastore_id": "local",
+        "node_name": "proxmox",
+        "source_file": {
+          "path": "/nix/store/hfqjjb6w27sxfz7b9n8553kb7280zwlh-lab-installer-iso-stable/iso/installer.iso"
+        }
+      }
+    },
+    "proxmox_virtual_environment_vm": {
+      "nas": {
+        "bios": "ovmf",
+        "boot_order": [
+          "scsi1",
+          "scsi0"
+        ],
+        "cdrom": {
+          "file_id": "${proxmox_virtual_environment_file.nixos_iso.id}",
+          "interface": "scsi1"
+        },
+        "cpu": {
+          "cores": 2,
+          "type": "host"
+        },
+        "disk": [
+          {
+            "datastore_id": "local-lvm",
+            "file_format": "raw",
+            "interface": "scsi0",
+            "size": 20
+          },
+          {
+            "datastore_id": "",
+            "file_format": "raw",
+            "interface": "scsi2",
+            "path_in_datastore": "/dev/vdb"
+          },
+          {
+            "datastore_id": "",
+            "file_format": "raw",
+            "interface": "scsi3",
+            "path_in_datastore": "/dev/vdc"
+          },
+          {
+            "datastore_id": "",
+            "file_format": "raw",
+            "interface": "scsi4",
+            "path_in_datastore": "/dev/vdd"
+          }
+        ],
+        "efi_disk": {
+          "type": "4m"
+        },
+        "machine": "q35",
+        "memory": {
+          "dedicated": 2048
+        },
+        "name": "nas",
+        "network_device": {
+          "bridge": "vmbr0",
+          "model": "virtio"
+        },
+        "node_name": "proxmox",
+        "operating_system": {
+          "type": "l26"
+        },
+        "serial_device": [
+          {
+            "device": "socket"
+          }
+        ],
+        "tpm_state": {
+          "version": "v2.0"
+        },
+        "vga": {
+          "type": "virtio"
+        }
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "proxmox": {
+        "source": "bpg/proxmox",
+        "version": "0.97.1"
+      }
+    }
+  }
+}

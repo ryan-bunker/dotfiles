@@ -207,6 +207,10 @@
           [disk-setup]
           filesystem = "ext4"
           disk_list = ["vda"]
+
+          [first-boot]
+          source = "from-iso"
+          ordering = "fully-up"
         '';
 
       labInstallerIso = let
@@ -252,6 +256,19 @@
           })
         ];
       };
+
+      nas_tf = inputs.terranix.lib.terranixConfiguration {
+        system = "x86_64-linux";
+        modules = [
+          ./terranix/nas.nix
+          ({...}: {
+            my.nas = {
+              nixos-iso = self.outputs.packages.x86_64-linux.labInstallerIso;
+              proxmox_endpoint = "https://${environments.lab.network.fixed_ips.proxmox}:8006/";
+            };
+          })
+        ];
+      };
     };
 
     apps."x86_64-linux" = let
@@ -271,10 +288,10 @@
             && ${opentofu}/bin/tofu -chdir=${path} ${action}
         '');
       };
-      
+
       buildProxmoxIsoScript = pkgs.writeShellApplication {
         name = "build-proxmox-iso";
-        runtimeInputs = [ pkgs.sops pkgs.proxmox-auto-install-assistant pkgs.xorriso ];
+        runtimeInputs = [pkgs.sops pkgs.proxmox-auto-install-assistant pkgs.xorriso];
         text = ''
           set -eou pipefail
 
@@ -305,6 +322,16 @@
           log "Injecting decrypted hash into answer.toml..."
           sed "s|__ROOT_PASSWORD_HASH__|$HASH|g" "$TEMPLATE_FILE" > "$STAGING_DIR/answer.toml"
 
+          log "Creating first-boot script for VFIO IOMMU workaround..."
+          cat << 'EOF' > "$STAGING_DIR/first-boot.sh"
+          #!/usr/bin/env bash
+          echo "Applying nested virtualization VFIO interrupt workaround..."
+          echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe.conf
+          update-initramfs -u -k all
+          EOF
+
+          chmod +x "$STAGING_DIR/first-boot.sh"
+
           log "Copying base ISO to writable staging area..."
           cp "$BASE_ISO" "$STAGING_DIR/base.iso"
           chmod +w "$STAGING_DIR/base.iso"
@@ -313,6 +340,7 @@
           proxmox-auto-install-assistant prepare-iso "$STAGING_DIR/base.iso" \
             --fetch-from iso \
             --answer-file "$STAGING_DIR/answer.toml" \
+            --on-first-boot "$STAGING_DIR/first-boot.sh" \
             --output ./proxmox-custom-installer.iso
 
           success "Custom Proxmox ISO successfully built at: ./proxmox-custom-installer.iso"

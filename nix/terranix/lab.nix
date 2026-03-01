@@ -192,6 +192,7 @@ in {
 
       features = {
         acpi = true;
+        apic = {};
       };
 
       devices.disks =
@@ -235,6 +236,8 @@ in {
           model.type = "virtio";
         }
       ];
+
+      devices.iommu.model = "virtio";
 
       devices.consoles = [
         {
