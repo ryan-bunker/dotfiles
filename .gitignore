@@ -15,3 +15,4 @@ roles/neovim/files/nvim/lazy-lock.json
 
 /lab-kube-config
 /result
+/proxmox-custom-installer.iso
