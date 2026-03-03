@@ -51,6 +51,8 @@ in {
     # ensure the btrfs scrub doesn't kill the battery on laptops
     systemd.services.btrfs-scrub-root.unitConfig.ConditionACPower = true;
 
+    boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
     programs.ssh.knownHosts = {
       "lab-kube-1" = {
         hostNames = ["lab-kube-1" "10.17.0.10"];
