@@ -139,6 +139,15 @@
         inputs.nixpkgs.lib.mapAttrsToList (name: env: mkEnv env) environments
       )
       // {
+        nas = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {envCfg = environments.lab;};
+          modules = [
+            self.nixosModules.default
+            ./hosts/nas
+          ];
+        };
+
         ryan-desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

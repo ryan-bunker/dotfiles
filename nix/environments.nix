@@ -32,6 +32,12 @@
         serverAddr = "https://10.17.0.10:6443";
       };
     };
+    nas = {
+      ip = "10.17.0.21";
+      interface = "ens18";
+      mainDisk = "/dev/sda";
+      data_disks = ["/dev/sdb" "/dev/sdc" "/dev/sdd"];
+    };
   };
   # prod = {
   #   domain = "thebunker.house";

@@ -4,6 +4,7 @@
     ./hyprland.nix
     ./impermanence.nix
     ./kubernetes.nix
+    ./nfs.nix
     ./sddm
     ./secure-boot.nix
     ./sops.nix

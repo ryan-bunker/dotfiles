@@ -54,6 +54,7 @@
   environment.systemPackages = with pkgs; [
     btrfs-progs
     git
+    nfs-utils
     vim
     wget
   ];
