@@ -53,8 +53,10 @@
 
   environment.systemPackages = with pkgs; [
     btrfs-progs
+    dig
     git
     nfs-utils
+    traceroute
     vim
     wget
   ];
