@@ -24,6 +24,10 @@
       chart = charts.metallb.metallb;
       crds = ["IPAddressPool" "L2Advertisement"];
     };
+    cert-manager = {
+      chart = charts.jetstack.cert-manager;
+      crds = ["Issuer" "Certificate"];
+    };
   };
 in {
   nixidy.applicationImports = lib.attrsets.mapAttrsToList mkCRDs genCharts;
