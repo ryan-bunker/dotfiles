@@ -1,6 +1,6 @@
 {
   lab = {
-    domain = "dev.thebunker.house";
+    domain = "10-17-0-65.nip.io";
     network = {
       prefix = "10.17.0.0";
       prefixLength = 24;
