@@ -7,6 +7,8 @@
 
   my.k3s.metallb.addresses = envCfg.network.metallb_range;
 
+  my.k3s.longhorn.baseDomain = envCfg.domain;
+
   my.k3s.pihole = {
     domain = envCfg.domain;
     ip = envCfg.network.pihole_ip;

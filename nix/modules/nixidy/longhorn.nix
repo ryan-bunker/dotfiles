@@ -6,7 +6,12 @@
 }: let
   cfg = config.my.k3s.longhorn;
 in {
-  options.my.k3s.longhorn = {};
+  options.my.k3s.longhorn = {
+    baseDomain = lib.mkOption {
+      type = lib.types.str;
+      description = "Base domain for longhorn dashboard";
+    };
+  };
 
   config.applications.longhorn = {
     namespace = "longhorn-system";
@@ -21,7 +26,7 @@ in {
         };
         ingress = {
           enabled = "true";
-          host = "longhorn.dev.thebunker.house";
+          host = "longhorn.${cfg.baseDomain}";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure";
             "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-system-traefik-dashboard-auth@kubernetescrd";
