@@ -14,6 +14,7 @@
       };
       metallb_range = "10.17.0.64/27";
       pihole_ip = "10.17.0.64";
+      traefik_ip = "10.17.0.65";
       nameservers = ["1.1.1.1"];
     };
     defaultInterface = "enp1s0";

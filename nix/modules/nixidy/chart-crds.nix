@@ -28,6 +28,10 @@
       chart = charts.jetstack.cert-manager;
       crds = ["Issuer" "Certificate"];
     };
+    traefik = {
+      chart = charts.traefik.traefik;
+      crds = ["Middleware"];
+    };
   };
 in {
   nixidy.applicationImports = lib.attrsets.mapAttrsToList mkCRDs genCharts;

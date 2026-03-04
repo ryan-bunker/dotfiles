@@ -7,5 +7,6 @@
     ./metallb.nix
     ./pihole.nix
     ./sops.nix
+    ./traefik.nix
   ];
 }

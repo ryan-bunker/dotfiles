@@ -19,6 +19,11 @@
     share = "/k8s-volumes";
   };
 
+  my.k3s.traefik = {
+    ip = envCfg.network.traefik_ip;
+    baseDomain = envCfg.domain;
+  };
+
   # # Define the nginx application
   # applications.nginx = {
   #   # Deploy to the "nginx" namespace
