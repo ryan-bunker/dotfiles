@@ -30,7 +30,7 @@ in {
       theme = {
         name = "Catppuccin-GTK-Orange-Dark-Macchiato";
         package = pkgs.magnetic-catppuccin-gtk.override {
-          accent = ["orange"];
+          accent = [config.catppuccin.accent];
           tweaks = [config.catppuccin.flavor];
         };
       };
