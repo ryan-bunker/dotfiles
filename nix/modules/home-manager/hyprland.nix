@@ -14,6 +14,8 @@ in {
   config = lib.mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
+      package = null;
+      portalPackage = null;
 
       settings = {
         monitor = [
@@ -135,15 +137,15 @@ in {
         };
 
         windowrule = [
-          "workspace 4 silent,class:vesktop"
+          "workspace 4 silent, match:class ^vesktop$"
         ];
 
         layerrule = [
-          "blur,launcher"
-          "blur,ags-status-bar"
-          "ignorezero,ags-status-bar"
-          "blur,notifications"
-          "ignorezero,notifications"
+          "blur on, match:namespace ^launcher$"
+          "blur on, match:namespace ^ags-status-bar$"
+          "ignore_alpha 0, match:namespace ^ags-status-bar$"
+          "blur on, match:namespace ^notifications$"
+          "ignore_alpha 0, match:namespace ^notifications$"
         ];
 
         "$mainMod" = "ALT";
