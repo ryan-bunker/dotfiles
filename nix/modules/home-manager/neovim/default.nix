@@ -63,6 +63,8 @@
 
     cargoHash = "sha256-EU8kdG2NT3NvrZ1AqvaJPLpDQQwUhYG3Gj5TAjPYRsY=";
 
+    nativeBuildInputs = [pkgs.rustPlatform.bindgenHook];
+
     # Disable tests - they fail in the nix sandbox
     doCheck = false;
 
