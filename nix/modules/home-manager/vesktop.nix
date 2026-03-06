@@ -10,7 +10,7 @@
   # Temporary fix for vesktop build issue on Darwin
   # TODO: Remove once PR #489725 is merged
   # https://github.com/NixOS/nixpkgs/pull/489725
-  vesktop-fixed = pkgs.vesktop.overrideAttrs (oldAttrs: {
+  vesktop-fixed = pkgs.vesktop.overrideAttrs (oldAttrs: lib.optionalAttrs pkgs.stdenv.isDarwin {
     # Remove the postConfigure hook that sets CSC_IDENTITY_AUTO_DISCOVERY
     postConfigure = "";
 
@@ -22,9 +22,9 @@
       pnpm exec electron-builder \
         --dir \
         -c.asarUnpack="**/*.node" \
-        -c.electronDist=${if pkgs.stdenv.hostPlatform.isDarwin then "." else pkgs.electron.dist} \
+        -c.electronDist="." \
         -c.electronVersion=${pkgs.electron.version} \
-        ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin "-c.mac.identity=null"}
+        -c.mac.identity=null
 
       runHook postBuild
     '';
