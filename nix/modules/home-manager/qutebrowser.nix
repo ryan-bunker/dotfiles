@@ -11,6 +11,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    home.sessionVariables = {
+      # Without this set qutebrowser falls back to vulkan renderer and hangs on
+      # startup (see https://github.com/qutebrowser/qutebrowser/issues/8927)
+      QTWEBENGINE_FORCE_USE_GBM = "1";
+    };
+
     programs.qutebrowser = {
       enable = true;
 

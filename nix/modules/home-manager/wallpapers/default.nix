@@ -77,13 +77,13 @@ in {
   # 5. CONFIGURATION
   # ---------------------------------------------------------------------------
   config = mkIf cfg.enable {
-    # Ensure swww is available
-    services.swww.enable = true;
+    # Ensure awww is available
+    services.awww.enable = true;
 
     systemd.user.services.wallpaper-random = {
       Unit = {
         Description = "Changes the desktop wallpaper to a random image";
-        Requires = "swww.service";
+        Requires = "awww.service";
         After = [config.wayland.systemd.target];
         PartOf = [config.wayland.systemd.target];
         Wants = "wallpaper-random.timer";
@@ -91,10 +91,10 @@ in {
       Service = {
         Type = "oneshot";
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.swww pkgs.hyprland]}"
-          "SWWW_TRANSITION=${cfg.transition.type}"
-          "SWWW_TRANSITION_DURATION=${toString cfg.transition.duration}"
-          "SWWW_TRANSITION_FPS=${toString cfg.transition.fps}"
+          "PATH=${lib.makeBinPath [pkgs.awww pkgs.hyprland]}"
+          "AWWW_TRANSITION=${cfg.transition.type}"
+          "AWWW_TRANSITION_DURATION=${toString cfg.transition.duration}"
+          "AWWW_TRANSITION_FPS=${toString cfg.transition.fps}"
         ];
         ExecStart = "${runtimeScript}/bin/set-random-wallpaper ${processedWallpapers}";
       };

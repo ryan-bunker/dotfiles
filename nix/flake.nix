@@ -392,6 +392,7 @@
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         modules = [
           self.homeManagerModules.default
+          {nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlays.default];}
           ./home/ryan/desktop.nix
         ];
         extraSpecialArgs = {

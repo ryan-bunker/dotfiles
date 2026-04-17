@@ -132,7 +132,6 @@ in {
   config = lib.mkIf cfg.enable {
     programs.neovim = {
       enable = true;
-      package = neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
       plugins = nvim-plugins;
 

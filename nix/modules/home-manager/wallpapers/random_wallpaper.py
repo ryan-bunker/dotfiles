@@ -61,4 +61,4 @@ for monitor in monitors:
     full_path = os.path.join(directory, choice)
 
     print(f"Setting {name} to {choice} ({w}x{h})")
-    subprocess.run(["swww", "img", "--outputs", name, full_path], check=True)
+    subprocess.run(["awww", "img", "--outputs", name, full_path], check=True)
