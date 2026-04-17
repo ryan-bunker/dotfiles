@@ -92,6 +92,7 @@ in {
       };
       fzf.enable = lib.mkDefault true;
       gemini-cli.enable = lib.mkDefault true;
+      gemini-cli.settings.security.auth.selectedType = "oauth-personal";
       gh.enable = lib.mkDefault true;
       git = {
         enable = lib.mkDefault true;
