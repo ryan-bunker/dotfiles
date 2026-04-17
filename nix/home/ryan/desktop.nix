@@ -17,7 +17,7 @@
   };
 
   my.desktop = {
-    wallpapers.target = ["3440x1440" "1440x2560"];
+    wallpapers.targets = ["3440x1440" "1440x2560"];
     hyprlock.backgrounds = [
       {
         monitor = "DP-1";
