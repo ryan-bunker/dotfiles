@@ -26,6 +26,16 @@ in {
       nvidiaSettings = true;
     };
 
+    programs.steam = {
+      enable = true;
+      extraCompatPackages = [pkgs.proton-ge-bin];
+    };
+    programs.steam.gamescopeSession.enable = true;
+    environment.systemPackages = with pkgs; [
+      mangohud
+    ];
+    programs.gamemode.enable = true;
+
     my.desktop = {
       hyprland.enable = true;
       sddm.enable = true;
