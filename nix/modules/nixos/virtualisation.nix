@@ -44,42 +44,5 @@ in {
         "/var/lib/qemu"
       ];
     };
-
-    # Ensure Default Network is Active
-    # This automatically defines and starts the default network if it's missing.
-    systemd.services.libvirt-default-network = {
-      description = "Ensure Libvirt Default Network is Active";
-      after = ["libvirtd.service"];
-      requires = ["libvirtd.service"];
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
-      script = ''
-        # Check if 'default' network exists
-        if ! ${pkgs.libvirt}/bin/virsh net-info default > /dev/null 2>&1; then
-          # Define it if missing (using the standard XML)
-          ${pkgs.libvirt}/bin/virsh net-define ${pkgs.writeText "default.xml" ''
-          <network>
-            <name>default</name>
-            <bridge name='virbr0'/>
-            <forward mode='nat'/>
-            <ip address='192.168.122.1' netmask='255.255.255.0'>
-              <dhcp>
-                <range start='192.168.122.2' end='192.168.122.254'/>
-              </dhcp>
-            </ip>
-          </network>
-        ''}
-        fi
-
-        # Ensure it is active and autostarted
-        if ! ${pkgs.libvirt}/bin/virsh net-info default | grep -q "Active: yes"; then
-          ${pkgs.libvirt}/bin/virsh net-start default
-        fi
-        ${pkgs.libvirt}/bin/virsh net-autostart default
-      '';
-    };
   };
 }
