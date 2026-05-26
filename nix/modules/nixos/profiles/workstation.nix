@@ -63,6 +63,9 @@ in {
 
     boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
+    # needed for Spotify cover art to show up
+    services.gvfs.enable = true;
+
     programs.ssh.knownHosts = {
       "lab-kube-1" = {
         hostNames = ["lab-kube-1" "10.17.0.10"];

@@ -17,6 +17,7 @@
   };
 
   my.desktop = {
+    ags.enable = true;
     wallpapers.targets = ["3440x1440" "1440x2560"];
     hyprlock.backgrounds = [
       {
@@ -35,21 +36,6 @@
     privateKey = {
       sopsFile = ../../../secrets/keys/desktop/private;
       format = "binary";
-    };
-  };
-
-  programs = {
-    ags = {
-      enable = true;
-      configDir = ../../ags;
-      systemd.enable = true;
-      extraPackages = with ags.packages.${pkgs.stdenv.hostPlatform.system}; [
-        battery
-        hyprland
-        network
-        tray
-        wireplumber
-      ];
     };
   };
 

@@ -2,6 +2,7 @@
   imports = [
     # low level modules
     ./aerospace
+    ./ags
     ./avizo.nix
     ./freecad.nix
     ./fuzzel.nix
